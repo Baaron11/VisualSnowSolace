@@ -8,6 +8,7 @@
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
+internal import Combine
 #endif
 
 struct QuickReliefView: View {
