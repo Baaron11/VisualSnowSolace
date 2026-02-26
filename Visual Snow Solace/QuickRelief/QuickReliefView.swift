@@ -16,7 +16,13 @@ struct QuickReliefView: View {
     @Environment(NoiseGenerator.self) private var noise
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
 
+    @AppStorage("visualStatic.showVisualStatic") private var showVisualStatic = false
+    @AppStorage("visualStatic.grainSpeed") private var grainSpeed = 1.0
+    @AppStorage("visualStatic.grainContrast") private var grainContrast = 0.5
+    @AppStorage("visualStatic.hueRotation") private var hueRotation = 0.0
+
     @State private var isActive = false
+    @State private var visualStaticActiveOnStart = false
     @State private var currentPhaseIndex = 0
     @State private var phaseElapsed: TimeInterval = 0
     @State private var sessionTime: TimeInterval = 0
@@ -41,14 +47,16 @@ struct QuickReliefView: View {
     var body: some View {
         @Bindable var noise = noise
 
-        VStack(spacing: 24) {
-            if isActive {
-                activeView(noise: noise)
-            } else {
-                idleView
+        ScrollView {
+            VStack(spacing: 24) {
+                if isActive {
+                    activeView(noise: noise)
+                } else {
+                    idleView
+                }
             }
+            .padding()
         }
-        .padding()
         .navigationTitle("Quick Relief")
         .onDisappear {
             stopRelief()
@@ -77,6 +85,18 @@ struct QuickReliefView: View {
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
+
+            // Visual Static toggle
+            Toggle("Visual Static", isOn: $showVisualStatic)
+                .accessibilityLabel("Show visual static")
+
+            if showVisualStatic {
+                VisualStaticView(
+                    grainSpeed: $grainSpeed,
+                    grainContrast: $grainContrast,
+                    hueRotation: $hueRotation
+                )
+            }
 
             Spacer()
 
@@ -153,6 +173,15 @@ struct QuickReliefView: View {
                     .accessibilityLabel("Noise volume, \(Int(noise.volume * 100)) percent")
             }
 
+            // Visual static during session
+            if visualStaticActiveOnStart {
+                VisualStaticView(
+                    grainSpeed: $grainSpeed,
+                    grainContrast: $grainContrast,
+                    hueRotation: $hueRotation
+                )
+            }
+
             // Stop button
             Button {
                 stopRelief()
@@ -202,6 +231,9 @@ struct QuickReliefView: View {
         noise.noiseType = .brown
         noise.volume = 0.5
         noise.start()
+
+        // Enable visual static if toggle is on
+        visualStaticActiveOnStart = showVisualStatic
 
         // Start breathing
         isActive = true
