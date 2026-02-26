@@ -8,9 +8,6 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State private var showComingSoonAlert = false
-    @State private var comingSoonFeature = ""
-
     private let columns = [
         GridItem(.flexible(), spacing: 16),
         GridItem(.flexible(), spacing: 16),
@@ -32,23 +29,17 @@ struct HomeView: View {
                     }
                     .accessibilityLabel("Static noise audio")
 
-                    // Visual Training — disabled / coming soon
-                    Button {
-                        comingSoonFeature = "Visual Training"
-                        showComingSoonAlert = true
-                    } label: {
-                        TileView(title: "Visual Training", icon: "eye.trianglebadge.exclamationmark", enabled: false)
+                    // Visual Training tile
+                    NavigationLink(destination: VisualTrainingMenuView()) {
+                        TileView(title: "Visual Training", icon: "eye.trianglebadge.exclamationmark", enabled: true)
                     }
-                    .accessibilityLabel("Visual Training, coming soon")
+                    .accessibilityLabel("Visual Training exercises")
 
-                    // Research — disabled / coming soon
-                    Button {
-                        comingSoonFeature = "Research"
-                        showComingSoonAlert = true
-                    } label: {
-                        TileView(title: "Research", icon: "book.pages", enabled: false)
+                    // Research tile
+                    NavigationLink(destination: ResearchView()) {
+                        TileView(title: "Research", icon: "book.pages", enabled: true)
                     }
-                    .accessibilityLabel("Research, coming soon")
+                    .accessibilityLabel("Research papers")
                 }
                 .padding()
             }
@@ -60,11 +51,6 @@ struct HomeView: View {
                             .accessibilityLabel("Settings")
                     }
                 }
-            }
-            .alert("Coming in Phase 2", isPresented: $showComingSoonAlert) {
-                Button("OK", role: .cancel) {}
-            } message: {
-                Text("\(comingSoonFeature) will be available in a future update.")
             }
         }
     }
