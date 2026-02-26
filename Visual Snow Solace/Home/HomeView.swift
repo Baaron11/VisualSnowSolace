@@ -35,6 +35,12 @@ struct HomeView: View {
                     }
                     .accessibilityLabel("Visual Training exercises")
 
+                    // Symptom Simulator tile
+                    NavigationLink(destination: SymptomSimulatorView()) {
+                        TileView(title: "Simulator", icon: "sparkles.rectangle.stack", enabled: true)
+                    }
+                    .accessibilityLabel("Symptom Simulator")
+
                     // Research tile
                     NavigationLink(destination: ResearchView()) {
                         TileView(title: "Research", icon: "book.pages", enabled: true)

@@ -15,6 +15,7 @@ struct LogEntry: Identifiable, Codable {
     var severity: Int = 5
     var triggers: String = ""
     var notes: String = ""
+    var simulatorPresetName: String? = nil
 }
 
 // MARK: - Log Store
@@ -128,6 +129,13 @@ private struct LogEntryRow: View {
                     .lineLimit(2)
                     .accessibilityLabel("Notes: \(entry.notes)")
             }
+
+            if let presetName = entry.simulatorPresetName, !presetName.isEmpty {
+                Label(presetName, systemImage: "sparkles.rectangle.stack")
+                    .font(.caption2)
+                    .foregroundStyle(.tint)
+                    .accessibilityLabel("Simulator preset: \(presetName)")
+            }
         }
         .padding(.vertical, 4)
         .accessibilityElement(children: .combine)
@@ -168,6 +176,7 @@ private struct AddEntrySheet: View {
     @State private var severity: Double = 5
     @State private var triggers = ""
     @State private var notes = ""
+    @State private var simulatorPresetName = ""
 
     var body: some View {
         NavigationStack {
@@ -194,6 +203,11 @@ private struct AddEntrySheet: View {
                         .lineLimit(3...6)
                         .accessibilityLabel("Notes text field")
                 }
+
+                Section("Simulator Preset") {
+                    TextField("Preset name (optional)", text: $simulatorPresetName)
+                        .accessibilityLabel("Simulator preset name, optional")
+                }
             }
             .navigationTitle("New Entry")
             .toolbar {
@@ -206,7 +220,8 @@ private struct AddEntrySheet: View {
                         let entry = LogEntry(
                             severity: Int(severity),
                             triggers: triggers,
-                            notes: notes
+                            notes: notes,
+                            simulatorPresetName: simulatorPresetName.isEmpty ? nil : simulatorPresetName
                         )
                         store.add(entry)
                         dismiss()
