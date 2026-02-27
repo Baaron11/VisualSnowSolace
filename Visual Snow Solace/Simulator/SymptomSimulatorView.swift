@@ -108,8 +108,8 @@ struct SymptomGalleryView: View {
                 DisclaimerFooter()
                     .padding(.bottom, 8)
             }
-            .padding(.horizontal, 16)
         }
+        .padding(.horizontal, 16)
         .navigationTitle("Symptoms")
     }
 
@@ -128,7 +128,6 @@ struct SymptomGalleryView: View {
         .background(Color.orange.opacity(0.15), in: RoundedRectangle(cornerRadius: 10))
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Disclaimer: For educational purposes only. Not a diagnostic tool. Consult your clinician.")
-        .padding(.horizontal, 0)
     }
 
     // MARK: - Section Header
@@ -162,7 +161,6 @@ private struct SymptomCard: View {
                     imagePlaceholder(name: name)
                 }
             }
-            .frame(height: 160)
 
             Text(description)
                 .font(.body)
@@ -174,7 +172,7 @@ private struct SymptomCard: View {
             RoundedRectangle(cornerRadius: 16)
                 .strokeBorder(.quaternary, lineWidth: 1)
         )
-        .padding(.horizontal, 0)
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 
     @ViewBuilder
@@ -184,7 +182,7 @@ private struct SymptomCard: View {
             Image(uiImage: uiImage)
                 .resizable()
                 .scaledToFill()
-                .frame(maxWidth: .infinity, maxHeight: 160)
+                .frame(maxWidth: .infinity, minHeight: 160, maxHeight: 160)
                 .clipShape(RoundedRectangle(cornerRadius: 10))
         } else {
             placeholder
@@ -197,7 +195,7 @@ private struct SymptomCard: View {
     private var placeholder: some View {
         RoundedRectangle(cornerRadius: 10)
             .fill(.secondary.opacity(0.15))
-            .frame(maxWidth: .infinity, maxHeight: 160)
+            .frame(maxWidth: .infinity, minHeight: 160, maxHeight: 160)
             .overlay {
                 VStack(spacing: 4) {
                     Image(systemName: "photo")
@@ -228,6 +226,7 @@ private struct TextOnlySymptomCard: View {
         }
         .padding(16)
         .background(.secondary.opacity(0.07), in: RoundedRectangle(cornerRadius: 16))
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
