@@ -11,6 +11,7 @@ import SwiftUI
 import AVFoundation
 #if canImport(UIKit)
 import UIKit
+internal import Combine
 #endif
 
 // MARK: - Target Type
