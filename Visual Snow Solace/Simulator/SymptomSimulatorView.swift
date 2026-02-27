@@ -19,31 +19,35 @@ struct SymptomGalleryView: View {
 
                 SymptomCard(
                     title: "Visual Snow",
-                    imageNames: ["symptom_visual_snow_1", "symptom_visual_snow_2"],
+                    imageNames: ["static1", "static2"],
                     description: "Visual snow appears as a persistent flickering static overlaid on your entire visual field — similar to the noise on an old television. It is present in all lighting conditions and does not go away when you close your eyes. For some, it appears as fine colored dots; for others, as a dense black-and-white grain."
                 )
 
                 SymptomCard(
                     title: "Palinopsia (Afterimages)",
-                    imageNames: ["symptom_palinopsia_1", "symptom_palinopsia_2"],
+                    imageNames: ["afterimage1", "afterimage2"],
                     description: "Palinopsia causes visual images to persist or recur after the original stimulus is gone. This includes trailing afterimages that follow moving objects, and static afterimages that linger after looking at a bright or high-contrast object. It can range from mild (brief trailing) to severe (prolonged ghost images)."
                 )
 
                 SymptomCard(
+                    title: "Double Vision (Diplopia)",
+                    imageNames: ["double1", "double2"],
+                    description: "Diplopia causes a single object to appear as two overlapping or separated images. In VSS this may occur as a persistent or intermittent symptom, and can affect one eye (monocular) or both eyes together (binocular). It can make reading, screen use, and driving significantly more difficult."
+                )
+
+                TextOnlySymptomCard(
                     title: "Photophobia (Light Sensitivity)",
-                    imageNames: ["symptom_photophobia_1", "symptom_photophobia_2"],
                     description: "Photophobia is an extreme sensitivity or intolerance to light. Ordinary indoor lighting, screens, or sunlight may feel painful or overwhelming. Bright lights can trigger or worsen other VSS symptoms. Many people with VSS find fluorescent and LED lighting particularly difficult."
                 )
 
-                SymptomCard(
+                TextOnlySymptomCard(
                     title: "Nyctalopia (Night Blindness / Poor Night Vision)",
-                    imageNames: ["symptom_nyctalopia_1", "symptom_nyctalopia_2"],
                     description: "Nyctalopia in VSS refers to difficulty adapting to low-light environments. The visual snow effect often intensifies significantly in darkness, and contrast sensitivity is reduced. Night driving, dim restaurants, and dark rooms can be especially challenging."
                 )
 
                 SymptomCard(
                     title: "Entoptic Phenomena (Floaters)",
-                    imageNames: ["symptom_entoptic_1", "symptom_entoptic_2"],
+                    imageNames: ["floaters1", "floaters2"],
                     description: "Entoptic phenomena are visual effects that originate within the eye itself. In VSS this commonly includes floaters (moving shadows or threads), blue field entoptic phenomenon (tiny bright dots darting along the visual field in bright light), and self-light of the eye (patterns seen in complete darkness)."
                 )
 
@@ -201,6 +205,26 @@ private struct SymptomCard: View {
                         .foregroundStyle(.gray)
                 }
             }
+    }
+}
+
+// MARK: - Text-Only Symptom Card
+
+private struct TextOnlySymptomCard: View {
+    let title: String
+    let description: String
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text(title)
+                .font(.title3.bold())
+
+            Text(description)
+                .font(.body)
+                .foregroundStyle(.secondary)
+        }
+        .padding()
+        .background(.secondary.opacity(0.07), in: RoundedRectangle(cornerRadius: 16))
     }
 }
 

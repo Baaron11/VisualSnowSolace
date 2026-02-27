@@ -23,24 +23,6 @@ struct VisualTrainingMenuView: View {
                     )
                 }
                 .accessibilityLabel("Lens Mode exercise")
-
-                NavigationLink(destination: SaccadesView()) {
-                    exerciseRow(
-                        icon: "arrow.left.arrow.right",
-                        title: "Saccades",
-                        description: "Rapid eye-movement training with a jumping dot"
-                    )
-                }
-                .accessibilityLabel("Saccades exercise")
-
-                NavigationLink(destination: SmoothPursuitView()) {
-                    exerciseRow(
-                        icon: "point.topleft.down.to.point.bottomright.curvepath",
-                        title: "Smooth Pursuit",
-                        description: "Track a dot along continuous paths"
-                    )
-                }
-                .accessibilityLabel("Smooth Pursuit exercise")
             } header: {
                 Text("Eye Movement Exercises")
             }
