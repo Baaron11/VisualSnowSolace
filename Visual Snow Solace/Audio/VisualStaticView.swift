@@ -11,11 +11,12 @@ struct VisualStaticView: View {
     @Binding var grainSpeed: Double
     @Binding var grainContrast: Double
     @Binding var hueRotation: Double
+    @Binding var showFullscreen: Bool
+
+    var overlayContent: (() -> AnyView)? = nil
 
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
     @Environment(AppSettings.self) private var settings
-
-    @State private var showFullscreen = false
 
     private var reduceMotion: Bool {
         settings.reduceMotionOverride || systemReduceMotion
@@ -34,16 +35,6 @@ struct VisualStaticView: View {
             }
 
             sliders
-
-            Button {
-                showFullscreen = true
-            } label: {
-                Label("Fullscreen", systemImage: "arrow.up.left.and.arrow.down.right")
-            }
-            .buttonStyle(.bordered)
-            .accessibilityLabel("Show visual static fullscreen")
-
-            DisclaimerFooter()
         }
         .fullScreenCover(isPresented: $showFullscreen) {
             fullscreenView
@@ -114,6 +105,14 @@ struct VisualStaticView: View {
             }
             .ignoresSafeArea()
             .accessibilityLabel("Fullscreen visual static grain")
+            .overlay(alignment: .center) {
+                if let overlayContent {
+                    overlayContent()
+                        .padding(16)
+                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
+                        .padding(16)
+                }
+            }
 
             Button {
                 showFullscreen = false
