@@ -3,7 +3,8 @@
 //
 // Menu screen listing available visual training exercises. Shows a
 // one-time safety warning sheet before the user accesses any exercise
-// for the first time in a session. Convergence is listed as "coming soon".
+// for the first time in a session. Exercises are grouped into eye-movement
+// and binocular/convergence sections.
 
 import SwiftUI
 
@@ -15,35 +16,82 @@ struct VisualTrainingMenuView: View {
         List {
             Section {
                 NavigationLink(destination: LensModeView()) {
-                    Label("Lens Mode", systemImage: "camera.filters")
+                    exerciseRow(
+                        icon: "camera.filters",
+                        title: "Lens Mode",
+                        description: "Tinted camera overlays for light sensitivity"
+                    )
                 }
                 .accessibilityLabel("Lens Mode exercise")
 
                 NavigationLink(destination: SaccadesView()) {
-                    Label("Saccades", systemImage: "arrow.left.arrow.right")
+                    exerciseRow(
+                        icon: "arrow.left.arrow.right",
+                        title: "Saccades",
+                        description: "Rapid eye-movement training with a jumping dot"
+                    )
                 }
                 .accessibilityLabel("Saccades exercise")
 
                 NavigationLink(destination: SmoothPursuitView()) {
-                    Label("Smooth Pursuit", systemImage: "point.topleft.down.to.point.bottomright.curvepath")
+                    exerciseRow(
+                        icon: "point.topleft.down.to.point.bottomright.curvepath",
+                        title: "Smooth Pursuit",
+                        description: "Track a dot along continuous paths"
+                    )
                 }
                 .accessibilityLabel("Smooth Pursuit exercise")
             } header: {
-                Text("Exercises")
+                Text("Eye Movement Exercises")
             }
 
             Section {
-                HStack {
-                    Label("Convergence", systemImage: "arrow.triangle.merge")
-                        .foregroundStyle(.secondary)
-                    Spacer()
-                    Text("Coming Soon")
-                        .font(.caption)
-                        .foregroundStyle(.tertiary)
+                NavigationLink(destination: BrockStringView()) {
+                    exerciseRow(
+                        icon: "circle.grid.3x3",
+                        title: "Brock String",
+                        description: "Focus-shifting across three beads on a string"
+                    )
                 }
-                .accessibilityLabel("Convergence, coming soon")
+                .accessibilityLabel("Brock String exercise")
+
+                NavigationLink(destination: PencilPushupsView()) {
+                    exerciseRow(
+                        icon: "pencil",
+                        title: "Pencil Pushups",
+                        description: "Track a pencil moving toward and away from you"
+                    )
+                }
+                .accessibilityLabel("Pencil Pushups exercise")
+
+                NavigationLink(destination: BarrelCardsView()) {
+                    exerciseRow(
+                        icon: "circle.circle",
+                        title: "Barrel Cards",
+                        description: "Focus through concentric rings at varying distances"
+                    )
+                }
+                .accessibilityLabel("Barrel Cards exercise")
+
+                NavigationLink(destination: SeptumCatView()) {
+                    exerciseRow(
+                        icon: "hand.point.up",
+                        title: "Septum Cat",
+                        description: "Observe physiological diplopia with a near finger"
+                    )
+                }
+                .accessibilityLabel("Septum Cat exercise")
+
+                NavigationLink(destination: LifesaverView()) {
+                    exerciseRow(
+                        icon: "circle.dashed",
+                        title: "Lifesaver",
+                        description: "Free-fusion exercise with side-by-side rings"
+                    )
+                }
+                .accessibilityLabel("Lifesaver exercise")
             } header: {
-                Text("Upcoming")
+                Text("Binocular & Convergence Exercises")
             }
         }
         .navigationTitle("Visual Training")
@@ -56,6 +104,27 @@ struct VisualTrainingMenuView: View {
             safetyDismissed = true
         }) {
             safetyWarningSheet
+        }
+    }
+
+    // MARK: - Exercise Row
+
+    private func exerciseRow(icon: String, title: String, description: String) -> some View {
+        HStack(spacing: 12) {
+            Image(systemName: icon)
+                .font(.title3)
+                .foregroundStyle(.blue)
+                .frame(width: 28)
+                .accessibilityHidden(true)
+
+            VStack(alignment: .leading, spacing: 2) {
+                Text(title)
+                    .font(.body)
+                Text(description)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .lineLimit(2)
+            }
         }
     }
 
