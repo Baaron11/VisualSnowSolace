@@ -24,46 +24,34 @@ struct ResearchItem: Identifiable {
 
 private let researchItems: [ResearchItem] = [
     ResearchItem(
-        title: "Visual Snow Syndrome: A Clinical and Phenotypological Description of 1,100 Cases",
-        summary: "Large-scale survey characterising the clinical spectrum of VSS including comorbid symptoms such as palinopsia, photophobia, and tinnitus.",
-        url: URL(string: "https://doi.org/10.1212/WNL.0000000000200983")!, // VERIFY URL
-        date: "2022"
+        title: "Visual Snow Syndrome — NIH Rare Diseases",
+        summary: "NIH's Genetic and Rare Diseases Information Center overview of Visual Snow Syndrome, covering symptoms, diagnosis, and current understanding.",
+        url: URL(string: "https://rarediseases.info.nih.gov/diseases/12062/visual-snow-syndrome")!,
+        date: "NIH GARD"
     ),
     ResearchItem(
-        title: "Visual Snow Syndrome: Pathophysiology and Treatment",
-        summary: "Comprehensive review of proposed pathophysiological mechanisms including thalamocortical dysrhythmia and potential therapeutic approaches.",
-        url: URL(string: "https://doi.org/10.1007/s11916-020-00847-x")!, // VERIFY URL
-        date: "2020"
+        title: "VSS Patient Guide — Visual Snow Initiative",
+        summary: "Comprehensive patient-facing guide from the Visual Snow Initiative covering symptom categories, management strategies, and how to talk to your doctor.",
+        url: URL(string: "https://www.visualsnowinitiative.org/vss-patient-guide/")!,
+        date: "Visual Snow Initiative"
     ),
     ResearchItem(
-        title: "Prevalence of Visual Snow Syndrome in the UK",
-        summary: "Population-based study estimating VSS prevalence at approximately 3.7 % using validated diagnostic criteria.",
-        url: URL(string: "https://doi.org/10.1111/ene.15353")!, // VERIFY URL
-        date: "2022"
+        title: "Visual Snow Syndrome: A Review — PubMed 2024",
+        summary: "Peer-reviewed review article (PubMed PMID 38465699) covering the current clinical understanding of VSS, proposed mechanisms, and diagnostic criteria.",
+        url: URL(string: "https://pubmed.ncbi.nlm.nih.gov/38465699/")!,
+        date: "PubMed 2024"
     ),
     ResearchItem(
-        title: "Brain Structure in Visual Snow Syndrome: A Multi-Modal MRI Study",
-        summary: "Neuroimaging study revealing increased grey-matter volume in the lingual gyrus and cerebellum in VSS patients compared to controls.",
-        url: URL(string: "https://doi.org/10.1002/ana.25955")!, // VERIFY URL
-        date: "2020"
+        title: "VSS Clinical Research — PMC 2025",
+        summary: "Full-text article via PubMed Central examining clinical characteristics and patient-reported outcomes in Visual Snow Syndrome.",
+        url: URL(string: "https://pmc.ncbi.nlm.nih.gov/articles/PMC12429512/")!,
+        date: "PMC 2025"
     ),
     ResearchItem(
-        title: "Visual Snow Syndrome After Repetitive Transcranial Magnetic Stimulation",
-        summary: "Case series exploring rTMS as a potential treatment, targeting hyperexcitability in visual cortex areas.",
-        url: URL(string: "https://doi.org/10.1177/0333102419888808")!, // VERIFY URL
-        date: "2020"
-    ),
-    ResearchItem(
-        title: "The Visual Snow Initiative: New Developments in Understanding Visual Snow Syndrome",
-        summary: "Overview of research milestones including functional PET findings showing lingual gyrus hypermetabolism as a potential biomarker.",
-        url: URL(string: "https://doi.org/10.1186/s10194-021-01276-2")!, // VERIFY URL
-        date: "2021"
-    ),
-    ResearchItem(
-        title: "Colour Vision in Visual Snow Syndrome",
-        summary: "Psychophysical study demonstrating subtle colour-discrimination deficits suggesting involvement of early visual processing pathways.",
-        url: URL(string: "https://doi.org/10.1136/bjophthalmol-2021-319681")!, // VERIFY URL
-        date: "2022"
+        title: "Clinical Research — Eye on Vision Foundation",
+        summary: "Published clinical research from the Eye on Vision Foundation's journal examining VSS symptom profiles and patient experience.",
+        url: URL(string: "https://www.eyeonvision.org/uploads/1/3/8/3/138334683/vdr8-2_clinicalresearch_tann.pdf")!,
+        date: "Eye on Vision Foundation"
     ),
 ]
 
