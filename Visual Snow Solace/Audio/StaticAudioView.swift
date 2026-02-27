@@ -11,9 +11,9 @@ internal import Combine
 struct StaticAudioView: View {
     @Environment(NoiseGenerator.self) private var noise
 
-    @State private var grainSpeed = 1.0
-    @State private var grainContrast = 0.5
-    @State private var hueRotation = 0.0
+    @AppStorage("visualStatic.speed") private var grainSpeed: Double = 1.0
+    @AppStorage("visualStatic.contrast") private var grainContrast: Double = 0.5
+    @AppStorage("visualStatic.hue") private var grainHue: Double = 0.0
     @State private var showVisualStaticFullscreen = false
     @State private var sessionTime: TimeInterval = 0
 
@@ -53,7 +53,7 @@ struct StaticAudioView: View {
                 VisualStaticView(
                     grainSpeed: $grainSpeed,
                     grainContrast: $grainContrast,
-                    hueRotation: $hueRotation,
+                    hueRotation: $grainHue,
                     showFullscreen: $showVisualStaticFullscreen
                 )
                 .frame(height: 180)
@@ -70,6 +70,27 @@ struct StaticAudioView: View {
                     }
                     .padding(8)
                     .accessibilityLabel("Show visual static fullscreen")
+                }
+
+                HStack {
+                    Text("Grain Speed")
+                        .frame(width: 110, alignment: .leading)
+                        .font(.subheadline)
+                    Slider(value: $grainSpeed, in: 0.1...3.0)
+                }
+
+                HStack {
+                    Text("Contrast")
+                        .frame(width: 110, alignment: .leading)
+                        .font(.subheadline)
+                    Slider(value: $grainContrast, in: 0.0...1.0)
+                }
+
+                HStack {
+                    Text("Hue")
+                        .frame(width: 110, alignment: .leading)
+                        .font(.subheadline)
+                    Slider(value: $grainHue, in: 0.0...360.0)
                 }
 
                 // Session timer
