@@ -108,7 +108,7 @@ struct SymptomGalleryView: View {
                 DisclaimerFooter()
                     .padding(.bottom, 8)
             }
-            .padding()
+            .padding(.horizontal, 16)
         }
         .navigationTitle("Symptoms")
     }
@@ -128,6 +128,7 @@ struct SymptomGalleryView: View {
         .background(Color.orange.opacity(0.15), in: RoundedRectangle(cornerRadius: 10))
         .accessibilityElement(children: .combine)
         .accessibilityLabel("Disclaimer: For educational purposes only. Not a diagnostic tool. Consult your clinician.")
+        .padding(.horizontal, 0)
     }
 
     // MARK: - Section Header
@@ -140,6 +141,7 @@ struct SymptomGalleryView: View {
                 .fill(.secondary.opacity(0.3))
                 .frame(height: 1)
         }
+        .frame(maxWidth: .infinity, alignment: .leading)
     }
 }
 
@@ -166,12 +168,13 @@ private struct SymptomCard: View {
                 .font(.body)
                 .foregroundStyle(.secondary)
         }
-        .padding()
+        .padding(16)
         .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 16))
         .overlay(
             RoundedRectangle(cornerRadius: 16)
                 .strokeBorder(.quaternary, lineWidth: 1)
         )
+        .padding(.horizontal, 0)
     }
 
     @ViewBuilder
@@ -223,7 +226,7 @@ private struct TextOnlySymptomCard: View {
                 .font(.body)
                 .foregroundStyle(.secondary)
         }
-        .padding()
+        .padding(16)
         .background(.secondary.opacity(0.07), in: RoundedRectangle(cornerRadius: 16))
     }
 }
