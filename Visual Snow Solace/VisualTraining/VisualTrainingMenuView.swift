@@ -93,6 +93,59 @@ struct VisualTrainingMenuView: View {
             } header: {
                 Text("Binocular & Convergence Exercises")
             }
+
+            Section {
+                NavigationLink(destination: HartChartView()) {
+                    exerciseRow(
+                        icon: "circle.grid.3x3",
+                        title: "Hart Chart",
+                        description: "Distance and near letter charts for focus-shifting"
+                    )
+                }
+                .accessibilityLabel("Hart Chart exercise")
+
+                NavigationLink(destination: MichiganTrackingView()) {
+                    exerciseRow(
+                        icon: "text.alignleft",
+                        title: "Michigan Tracking",
+                        description: "Find and circle letters A–Z in a random paragraph"
+                    )
+                }
+                .accessibilityLabel("Michigan Tracking exercise")
+            } header: {
+                Text("Hart Chart & Tracking")
+            }
+
+            Section {
+                NavigationLink(destination: PostItSaccadesView()) {
+                    exerciseRow(
+                        icon: "note.text",
+                        title: "Post-It Saccades",
+                        description: "Real-world saccade training with sticky-note targets"
+                    )
+                }
+                .accessibilityLabel("Post-It Saccades exercise")
+
+                NavigationLink(destination: HandheldPencilSaccadesView()) {
+                    exerciseRow(
+                        icon: "pencil.and.list.clipboard",
+                        title: "Handheld Pencil Saccades",
+                        description: "Saccades with background distractors and a pencil target"
+                    )
+                }
+                .accessibilityLabel("Handheld Pencil Saccades exercise")
+
+                NavigationLink(destination: WayneSaccadicFixatorView()) {
+                    exerciseRow(
+                        icon: "circle.grid.3x3.fill",
+                        title: "Wayne Saccadic Fixator",
+                        description: "Tap lit targets in a grid for speed and accuracy"
+                    )
+                }
+                .accessibilityLabel("Wayne Saccadic Fixator exercise")
+            } header: {
+                Text("Saccadic Training")
+            }
         }
         .navigationTitle("Visual Training")
         .onAppear {
