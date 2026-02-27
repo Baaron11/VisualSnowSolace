@@ -6,6 +6,7 @@
 // configurations. Presets are persisted as a JSON array in UserDefaults.
 
 import Foundation
+import SwiftUI
 
 // MARK: - Afterimage Persistence Level
 

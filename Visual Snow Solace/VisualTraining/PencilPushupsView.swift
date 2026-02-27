@@ -9,6 +9,7 @@
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
+internal import Combine
 #endif
 
 // MARK: - Movement Speed

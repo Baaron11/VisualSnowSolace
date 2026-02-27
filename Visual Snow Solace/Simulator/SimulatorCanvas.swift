@@ -150,7 +150,7 @@ private struct NoiseImageView: View {
         }
 
         // Crop to desired size
-        noiseImage = noiseImage.cropped(to: CGRect(x: seed * driftSpeed * 100, y: seed * driftSpeed * 50, width: w, height: h))
+        noiseImage = noiseImage.cropped(to: CGRect(x: Int(seed * driftSpeed) * 100, y: Int(seed * driftSpeed) * 50, width: w, height: h))
 
         // Apply density as opacity via alpha scaling
         let densityAlpha = density / 100.0
@@ -168,7 +168,7 @@ private struct NoiseImageView: View {
 
         // Peripheral static: mask to show noise only at edges
         if peripheralOnly {
-            let center = CIVector(x: CGFloat(w) / 2, y: CGFloat(h) / 2)
+            let center = CGPoint(x: CGFloat(w) / 2, y: CGFloat(h) / 2)
             let maxRadius = min(CGFloat(w), CGFloat(h)) * 0.5
 
             let gradient = CIFilter.radialGradient()
@@ -209,3 +209,4 @@ private struct NoiseImageView: View {
         return ctx.makeImage()!
     }
 }
+

@@ -6,6 +6,7 @@
 // toggle playback.
 
 import SwiftUI
+internal import Combine
 
 struct StaticAudioView: View {
     @Environment(NoiseGenerator.self) private var noise
