@@ -25,7 +25,7 @@ struct SymptomGalleryView: View {
 
                 SymptomCard(
                     title: "Palinopsia (Afterimages)",
-                    imageNames: ["afterimage1", "afterimage2"],
+                    imageNames: ["AfterImage1", "afterimage2"],
                     description: "Palinopsia causes visual images to persist or recur after the original stimulus is gone. This includes trailing afterimages that follow moving objects, and static afterimages that linger after looking at a bright or high-contrast object. It can range from mild (brief trailing) to severe (prolonged ghost images)."
                 )
 
@@ -47,7 +47,7 @@ struct SymptomGalleryView: View {
 
                 SymptomCard(
                     title: "Entoptic Phenomena (Floaters)",
-                    imageNames: ["floaters1", "floaters2"],
+                    imageNames: ["Floaters1", "Floaters2"],
                     description: "Entoptic phenomena are visual effects that originate within the eye itself. In VSS this commonly includes floaters (moving shadows or threads), blue field entoptic phenomenon (tiny bright dots darting along the visual field in bright light), and self-light of the eye (patterns seen in complete darkness)."
                 )
 
