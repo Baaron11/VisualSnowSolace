@@ -11,11 +11,9 @@ internal import Combine
 struct StaticAudioView: View {
     @Environment(NoiseGenerator.self) private var noise
 
-    @AppStorage("visualStatic.showVisualStatic") private var showVisualStatic = false
-    @AppStorage("visualStatic.grainSpeed") private var grainSpeed = 1.0
-    @AppStorage("visualStatic.grainContrast") private var grainContrast = 0.5
-    @AppStorage("visualStatic.hueRotation") private var hueRotation = 0.0
-
+    @State private var grainSpeed = 1.0
+    @State private var grainContrast = 0.5
+    @State private var hueRotation = 0.0
     @State private var showVisualStaticFullscreen = false
     @State private var sessionTime: TimeInterval = 0
 
@@ -23,22 +21,7 @@ struct StaticAudioView: View {
         @Bindable var noise = noise
 
         ScrollView {
-            VStack(spacing: 32) {
-                // Play/Pause button – trailing aligned
-                HStack {
-                    Spacer()
-                    Button {
-                        noise.toggle()
-                    } label: {
-                        Label(noise.isPlaying ? "Pause" : "Play",
-                              systemImage: noise.isPlaying ? "pause.fill" : "play.fill")
-                    }
-                    .buttonStyle(.bordered)
-                    .controlSize(.small)
-                    .accessibilityLabel(noise.isPlaying ? "Pause noise" : "Play noise")
-                }
-                .frame(maxWidth: .infinity, alignment: .trailing)
-
+            VStack(spacing: 20) {
                 // Noise type picker
                 Picker("Noise Type", selection: $noise.noiseType) {
                     ForEach(NoiseType.allCases) { type in
@@ -49,50 +32,44 @@ struct StaticAudioView: View {
                 .accessibilityLabel("Noise type picker")
 
                 // Volume slider
-                VStack(alignment: .leading, spacing: 4) {
+                HStack {
                     Text("Volume: \(Int(noise.volume * 100))%")
+                        .frame(width: 110, alignment: .leading)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
                     Slider(value: $noise.volume, in: 0...1)
                         .accessibilityLabel("Volume, \(Int(noise.volume * 100)) percent")
                 }
 
                 // Filter slider
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Filter Cutoff: \(Int(noise.filterCutoff)) Hz")
+                HStack {
+                    Text("Filter: \(Int(noise.filterCutoff)) Hz")
+                        .frame(width: 110, alignment: .leading)
                         .font(.subheadline)
-                        .foregroundStyle(.secondary)
                     Slider(value: $noise.filterCutoff, in: 200...20000)
                         .accessibilityLabel("Low pass filter cutoff, \(Int(noise.filterCutoff)) hertz")
                 }
 
-                // Visual Static section
-                Section {
-                    Toggle("Show Visual Static", isOn: $showVisualStatic)
-                        .accessibilityLabel("Show visual static")
-
-                    if showVisualStatic {
-                        VisualStaticView(
-                            grainSpeed: $grainSpeed,
-                            grainContrast: $grainContrast,
-                            hueRotation: $hueRotation,
-                            showFullscreen: $showVisualStaticFullscreen
-                        )
-
-                        // Fullscreen button – directly below VisualStaticView
-                        Button {
-                            showVisualStaticFullscreen = true
-                        } label: {
-                            Label("Fullscreen", systemImage: "arrow.up.left.and.arrow.down.right")
-                        }
-                        .font(.footnote)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                        .accessibilityLabel("Show visual static fullscreen")
+                // Visual Static canvas (always visible, condensed)
+                VisualStaticView(
+                    grainSpeed: $grainSpeed,
+                    grainContrast: $grainContrast,
+                    hueRotation: $hueRotation,
+                    showFullscreen: $showVisualStaticFullscreen
+                )
+                .frame(height: 180)
+                .clipped()
+                .clipShape(RoundedRectangle(cornerRadius: 12))
+                .overlay(alignment: .bottomTrailing) {
+                    Button {
+                        showVisualStaticFullscreen = true
+                    } label: {
+                        Image(systemName: "arrow.up.left.and.arrow.down.right")
+                            .font(.footnote)
+                            .padding(8)
+                            .background(.ultraThinMaterial, in: Circle())
                     }
-                } header: {
-                    Text("Visual Static")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity, alignment: .leading)
+                    .padding(8)
+                    .accessibilityLabel("Show visual static fullscreen")
                 }
 
                 // Session timer
@@ -108,6 +85,20 @@ struct StaticAudioView: View {
             .padding()
         }
         .navigationTitle("Static Audio")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    noise.toggle()
+                } label: {
+                    Label(noise.isPlaying ? "Pause" : "Play",
+                          systemImage: noise.isPlaying ? "pause.fill" : "play.fill")
+                }
+                .buttonStyle(.bordered)
+                .controlSize(.small)
+                .accessibilityLabel(noise.isPlaying ? "Pause noise" : "Play noise")
+            }
+        }
         .onDisappear {
             noise.stop()
         }
