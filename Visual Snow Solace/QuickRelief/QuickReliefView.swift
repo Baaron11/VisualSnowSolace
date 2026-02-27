@@ -11,6 +11,59 @@ import UIKit
 internal import Combine
 #endif
 
+// MARK: - Breathing Overlay Content
+
+private struct BreathingOverlayContent: View {
+    let phaseName: String
+    let phaseTimeRemaining: TimeInterval
+    let circleScale: CGFloat
+    let reduceMotion: Bool
+
+    var body: some View {
+        if reduceMotion {
+            VStack(spacing: 8) {
+                Text(phaseName)
+                    .font(.title2.bold())
+                    .foregroundStyle(.white)
+                    .contentTransition(.numericText())
+                Text(formatTime(phaseTimeRemaining))
+                    .font(.system(size: 32, weight: .light, design: .monospaced))
+                    .foregroundStyle(.white)
+                    .contentTransition(.numericText())
+            }
+        } else {
+            ZStack {
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [.blue.opacity(0.7), .cyan.opacity(0.4)],
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: 80
+                        )
+                    )
+                    .frame(width: 150, height: 150)
+                    .scaleEffect(circleScale)
+
+                VStack(spacing: 4) {
+                    Text(phaseName)
+                        .font(.title3.bold())
+                        .foregroundStyle(.white)
+                    Text(formatTime(phaseTimeRemaining))
+                        .font(.caption.monospacedDigit())
+                        .foregroundStyle(.white.opacity(0.8))
+                }
+            }
+        }
+    }
+
+    private func formatTime(_ seconds: TimeInterval) -> String {
+        let mins = Int(seconds) / 60
+        let secs = Int(seconds) % 60
+        return String(format: "%02d:%02d", mins, secs)
+    }
+}
+
 struct QuickReliefView: View {
     @Environment(AppSettings.self) private var settings
     @Environment(NoiseGenerator.self) private var noise
@@ -27,6 +80,7 @@ struct QuickReliefView: View {
     @State private var phaseElapsed: TimeInterval = 0
     @State private var sessionTime: TimeInterval = 0
     @State private var circleScale: CGFloat = 1.0
+    @State private var showVisualStaticFullscreen = false
 
     private var reduceMotion: Bool {
         settings.reduceMotionOverride || systemReduceMotion
@@ -50,10 +104,154 @@ struct QuickReliefView: View {
         ScrollView {
             VStack(spacing: 24) {
                 if isActive {
-                    activeView(noise: noise)
+                    // Breathing display
+                    if reduceMotion {
+                        VStack(spacing: 8) {
+                            Text(currentPhase.name)
+                                .font(.largeTitle.bold())
+                                .contentTransition(.numericText())
+                            Text(formatTime(phaseTimeRemaining))
+                                .font(.system(size: 48, weight: .light, design: .monospaced))
+                                .contentTransition(.numericText())
+                        }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("\(currentPhase.name), \(Int(phaseTimeRemaining)) seconds remaining")
+                    } else {
+                        ZStack {
+                            Circle()
+                                .fill(
+                                    RadialGradient(
+                                        colors: [.blue.opacity(0.7), .cyan.opacity(0.4)],
+                                        center: .center,
+                                        startRadius: 0,
+                                        endRadius: 120
+                                    )
+                                )
+                                .frame(width: 200, height: 200)
+                                .scaleEffect(circleScale)
+
+                            VStack(spacing: 4) {
+                                Text(currentPhase.name)
+                                    .font(.title2.bold())
+                                    .foregroundStyle(.white)
+                                Text(formatTime(phaseTimeRemaining))
+                                    .font(.caption.monospacedDigit())
+                                    .foregroundStyle(.white.opacity(0.8))
+                            }
+                        }
+                        .accessibilityElement(children: .combine)
+                        .accessibilityLabel("\(currentPhase.name), \(Int(phaseTimeRemaining)) seconds remaining")
+                    }
+
+                    // Visual static during session
+                    if visualStaticActiveOnStart {
+                        VisualStaticView(
+                            grainSpeed: $grainSpeed,
+                            grainContrast: $grainContrast,
+                            hueRotation: $hueRotation,
+                            showFullscreen: $showVisualStaticFullscreen,
+                            overlayContent: {
+                                AnyView(
+                                    BreathingOverlayContent(
+                                        phaseName: currentPhase.name,
+                                        phaseTimeRemaining: phaseTimeRemaining,
+                                        circleScale: circleScale,
+                                        reduceMotion: reduceMotion
+                                    )
+                                )
+                            }
+                        )
+
+                        Button {
+                            showVisualStaticFullscreen = true
+                        } label: {
+                            Label("Fullscreen", systemImage: "arrow.up.left.and.arrow.down.right")
+                        }
+                        .font(.footnote)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .accessibilityLabel("Show visual static fullscreen")
+                    }
+
+                    // Stop button
+                    Button {
+                        stopRelief()
+                    } label: {
+                        Text("Stop")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .tint(.red)
+                    .controlSize(.large)
+                    .accessibilityLabel("Stop quick relief session")
                 } else {
-                    idleView
+                    Spacer()
+
+                    Image(systemName: "bolt.heart.fill")
+                        .font(.system(size: 80))
+                        .foregroundStyle(.blue)
+                        .accessibilityHidden(true)
+
+                    Text("Quick Relief")
+                        .font(.title.bold())
+
+                    Text("Starts brown noise at 50% volume and a \(settings.defaultBreathingPreset.rawValue) breathing exercise together.")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.center)
+
+                    // Visual Static toggle
+                    Toggle("Visual Static", isOn: $showVisualStatic)
+                        .accessibilityLabel("Show visual static")
+
+                    if showVisualStatic {
+                        VisualStaticView(
+                            grainSpeed: $grainSpeed,
+                            grainContrast: $grainContrast,
+                            hueRotation: $hueRotation,
+                            showFullscreen: $showVisualStaticFullscreen
+                        )
+
+                        Button {
+                            showVisualStaticFullscreen = true
+                        } label: {
+                            Label("Fullscreen", systemImage: "arrow.up.left.and.arrow.down.right")
+                        }
+                        .font(.footnote)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .accessibilityLabel("Show visual static fullscreen")
+                    }
+
+                    Spacer()
+
+                    Button {
+                        startRelief()
+                    } label: {
+                        Text("Start Quick Relief")
+                            .frame(maxWidth: .infinity)
+                    }
+                    .buttonStyle(.borderedProminent)
+                    .controlSize(.large)
+                    .accessibilityLabel("Start quick relief session")
                 }
+
+                // Volume slider (always visible)
+                VStack(alignment: .leading, spacing: 4) {
+                    Text("Volume: \(Int(noise.volume * 100))%")
+                        .font(.subheadline)
+                        .foregroundStyle(.secondary)
+                    Slider(value: $noise.volume, in: 0...1)
+                        .accessibilityLabel("Noise volume, \(Int(noise.volume * 100)) percent")
+                }
+
+                // Session timer
+                if isActive {
+                    Text("Session: \(formatTime(sessionTime))")
+                        .font(.footnote.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
+                }
+
+                DisclaimerFooter()
             }
             .padding()
         }
@@ -64,137 +262,6 @@ struct QuickReliefView: View {
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
             guard isActive else { return }
             tick()
-        }
-    }
-
-    // MARK: - Idle View
-
-    private var idleView: some View {
-        VStack(spacing: 24) {
-            Spacer()
-
-            Image(systemName: "bolt.heart.fill")
-                .font(.system(size: 80))
-                .foregroundStyle(.blue)
-                .accessibilityHidden(true)
-
-            Text("Quick Relief")
-                .font(.title.bold())
-
-            Text("Starts brown noise at 50% volume and a \(settings.defaultBreathingPreset.rawValue) breathing exercise together.")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-
-            // Visual Static toggle
-            Toggle("Visual Static", isOn: $showVisualStatic)
-                .accessibilityLabel("Show visual static")
-
-            if showVisualStatic {
-                VisualStaticView(
-                    grainSpeed: $grainSpeed,
-                    grainContrast: $grainContrast,
-                    hueRotation: $hueRotation
-                )
-            }
-
-            Spacer()
-
-            Button {
-                startRelief()
-            } label: {
-                Text("Start Quick Relief")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.large)
-            .accessibilityLabel("Start quick relief session")
-
-            DisclaimerFooter()
-        }
-    }
-
-    // MARK: - Active View
-
-    private func activeView(noise: NoiseGenerator) -> some View {
-        let noiseBinding = Bindable(noise)
-
-        return VStack(spacing: 24) {
-            // Breathing display
-            if reduceMotion {
-                VStack(spacing: 8) {
-                    Text(currentPhase.name)
-                        .font(.largeTitle.bold())
-                        .contentTransition(.numericText())
-                    Text(formatTime(phaseTimeRemaining))
-                        .font(.system(size: 48, weight: .light, design: .monospaced))
-                        .contentTransition(.numericText())
-                }
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel("\(currentPhase.name), \(Int(phaseTimeRemaining)) seconds remaining")
-            } else {
-                ZStack {
-                    Circle()
-                        .fill(
-                            RadialGradient(
-                                colors: [.blue.opacity(0.7), .cyan.opacity(0.4)],
-                                center: .center,
-                                startRadius: 0,
-                                endRadius: 120
-                            )
-                        )
-                        .frame(width: 200, height: 200)
-                        .scaleEffect(circleScale)
-
-                    VStack(spacing: 4) {
-                        Text(currentPhase.name)
-                            .font(.title2.bold())
-                            .foregroundStyle(.white)
-                        Text(formatTime(phaseTimeRemaining))
-                            .font(.caption.monospacedDigit())
-                            .foregroundStyle(.white.opacity(0.8))
-                    }
-                }
-                .accessibilityElement(children: .combine)
-                .accessibilityLabel("\(currentPhase.name), \(Int(phaseTimeRemaining)) seconds remaining")
-            }
-
-            // Session timer
-            Text("Session: \(formatTime(sessionTime))")
-                .font(.headline.monospacedDigit())
-                .foregroundStyle(.secondary)
-
-            // Volume slider
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Volume: \(Int(noise.volume * 100))%")
-                    .font(.subheadline)
-                    .foregroundStyle(.secondary)
-                Slider(value: noiseBinding.volume, in: 0...1)
-                    .accessibilityLabel("Noise volume, \(Int(noise.volume * 100)) percent")
-            }
-
-            // Visual static during session
-            if visualStaticActiveOnStart {
-                VisualStaticView(
-                    grainSpeed: $grainSpeed,
-                    grainContrast: $grainContrast,
-                    hueRotation: $hueRotation
-                )
-            }
-
-            // Stop button
-            Button {
-                stopRelief()
-            } label: {
-                Text("Stop")
-                    .frame(maxWidth: .infinity)
-            }
-            .buttonStyle(.borderedProminent)
-            .tint(.red)
-            .controlSize(.large)
-            .accessibilityLabel("Stop quick relief session")
-
-            DisclaimerFooter()
         }
     }
 
@@ -267,6 +334,6 @@ struct QuickReliefView: View {
     private func formatTime(_ seconds: TimeInterval) -> String {
         let mins = Int(seconds) / 60
         let secs = Int(seconds) % 60
-        return String(format: "%d:%02d", mins, secs)
+        return String(format: "%02d:%02d", mins, secs)
     }
 }

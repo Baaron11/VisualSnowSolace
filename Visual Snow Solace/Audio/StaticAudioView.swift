@@ -15,11 +15,29 @@ struct StaticAudioView: View {
     @AppStorage("visualStatic.grainContrast") private var grainContrast = 0.5
     @AppStorage("visualStatic.hueRotation") private var hueRotation = 0.0
 
+    @State private var showVisualStaticFullscreen = false
+    @State private var sessionTime: TimeInterval = 0
+
     var body: some View {
         @Bindable var noise = noise
 
         ScrollView {
             VStack(spacing: 32) {
+                // Play/Pause button – trailing aligned
+                HStack {
+                    Spacer()
+                    Button {
+                        noise.toggle()
+                    } label: {
+                        Label(noise.isPlaying ? "Pause" : "Play",
+                              systemImage: noise.isPlaying ? "pause.fill" : "play.fill")
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .accessibilityLabel(noise.isPlaying ? "Pause noise" : "Play noise")
+                }
+                .frame(maxWidth: .infinity, alignment: .trailing)
+
                 // Noise type picker
                 Picker("Noise Type", selection: $noise.noiseType) {
                     ForEach(NoiseType.allCases) { type in
@@ -47,17 +65,6 @@ struct StaticAudioView: View {
                         .accessibilityLabel("Low pass filter cutoff, \(Int(noise.filterCutoff)) hertz")
                 }
 
-                // Play/Pause button
-                Button {
-                    noise.toggle()
-                } label: {
-                    Label(noise.isPlaying ? "Pause" : "Play",
-                          systemImage: noise.isPlaying ? "pause.circle.fill" : "play.circle.fill")
-                        .font(.system(size: 56))
-                        .symbolRenderingMode(.hierarchical)
-                }
-                .accessibilityLabel(noise.isPlaying ? "Pause noise" : "Play noise")
-
                 // Visual Static section
                 Section {
                     Toggle("Show Visual Static", isOn: $showVisualStatic)
@@ -67,13 +74,32 @@ struct StaticAudioView: View {
                         VisualStaticView(
                             grainSpeed: $grainSpeed,
                             grainContrast: $grainContrast,
-                            hueRotation: $hueRotation
+                            hueRotation: $hueRotation,
+                            showFullscreen: $showVisualStaticFullscreen
                         )
+
+                        // Fullscreen button – directly below VisualStaticView
+                        Button {
+                            showVisualStaticFullscreen = true
+                        } label: {
+                            Label("Fullscreen", systemImage: "arrow.up.left.and.arrow.down.right")
+                        }
+                        .font(.footnote)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .accessibilityLabel("Show visual static fullscreen")
                     }
                 } header: {
                     Text("Visual Static")
                         .font(.headline)
                         .frame(maxWidth: .infinity, alignment: .leading)
+                }
+
+                // Session timer
+                if noise.isPlaying {
+                    Text("Session: \(formatTime(sessionTime))")
+                        .font(.footnote.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                        .frame(maxWidth: .infinity, alignment: .center)
                 }
 
                 DisclaimerFooter()
@@ -84,5 +110,20 @@ struct StaticAudioView: View {
         .onDisappear {
             noise.stop()
         }
+        .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
+            guard noise.isPlaying else { return }
+            sessionTime += 1
+        }
+        .onChange(of: noise.isPlaying) { _, isPlaying in
+            if isPlaying {
+                sessionTime = 0
+            }
+        }
+    }
+
+    private func formatTime(_ seconds: TimeInterval) -> String {
+        let mins = Int(seconds) / 60
+        let secs = Int(seconds) % 60
+        return String(format: "%02d:%02d", mins, secs)
     }
 }
