@@ -55,14 +55,14 @@ struct VisualTrainingMenuView: View {
                 }
                 .accessibilityLabel("Barrel Cards exercise")
 
-                NavigationLink(destination: SeptumCatView()) {
+                NavigationLink(destination: ConvergenceStereogramView()) {
                     exerciseRow(
                         icon: "hand.point.up",
-                        title: "Septum Cat",
-                        description: "Observe physiological diplopia with a near finger"
+                        title: "Convergence Stereogram",
+                        description: "Use stereogram images to train convergence and fusion."
                     )
                 }
-                .accessibilityLabel("Septum Cat exercise")
+                .accessibilityLabel("Convergence Stereogram exercise")
 
                 NavigationLink(destination: LifesaverView()) {
                     exerciseRow(

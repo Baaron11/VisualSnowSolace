@@ -1,11 +1,10 @@
 // SeptumCatView.swift
 // Visual Snow Solace
 //
-// Septum (physiological diplopia) awareness exercise. The user holds a finger
-// in front of their nose and looks past it at a far target, observing two
-// "ghost" images of the finger. A stability indicator tracks how long the
-// user maintains awareness. Includes a "Lost it — refocus" button that resets
-// the streak counter.
+// Convergence Stereogram exercise. The user selects a stereogram image (cat
+// or circles) and practices convergence and fusion by relaxing their focus
+// until a third fused image appears. Includes a streak counter and a
+// "Lost it — refocus" button.
 
 import SwiftUI
 #if canImport(UIKit)
@@ -13,14 +12,16 @@ import UIKit
 internal import Combine
 #endif
 
-struct SeptumCatView: View {
+struct ConvergenceStereogramView: View {
     @Environment(AppSettings.self) private var settings
-    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
 
     // Configuration
     @State private var durationMinutes: Double = 3
     @State private var hapticEnabled = true
     @State private var audioCue = false
+
+    // Image selection
+    @State private var showCat: Bool = true
 
     // Runtime
     @State private var isRunning = false
@@ -31,10 +32,6 @@ struct SeptumCatView: View {
     @State private var showBreakAlert = false
     @State private var breakAlertShown = false
 
-    private var reduceMotion: Bool {
-        settings.reduceMotionOverride || systemReduceMotion
-    }
-
     private var sessionDuration: TimeInterval {
         durationMinutes * 60
     }
@@ -44,8 +41,9 @@ struct SeptumCatView: View {
             VStack(spacing: 20) {
                 instructionsSection
 
-                illustrationSection
-                    .frame(height: 260)
+                imagePicker
+
+                stereogramImage
 
                 if isRunning {
                     streakDisplay
@@ -66,7 +64,7 @@ struct SeptumCatView: View {
             }
             .padding()
         }
-        .navigationTitle("Septum Cat")
+        .navigationTitle("Convergence Stereogram")
         .onDisappear { stop() }
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
             guard isRunning else { return }
@@ -87,121 +85,59 @@ struct SeptumCatView: View {
             Text("Instructions")
                 .font(.headline)
 
-            Text("Hold your finger or a pen vertically in front of your nose, midway between your eyes. Look past it at a target on the wall. You should see two transparent 'ghost' images of your finger due to physiological diplopia — this is normal. Try to keep both ghost images visible and equal while focusing on the far target. Practice holding this awareness for 10–30 seconds.")
+            Text("Choose an image above. Hold it at arm's length and relax your focus until a third image appears in the center — this is the fused stereogram image. Try to bring it into clear focus and hold it. Stop immediately if you feel eye strain or discomfort.")
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
     }
 
-    // MARK: - Illustration
+    // MARK: - Image Picker
 
-    private var illustrationSection: some View {
-        GeometryReader { geo in
-            Canvas { context, size in
-                drawIllustration(context: context, size: size)
-            }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Septum cat illustration. Two ghost finger images flanking a focus target. \(isStable ? "Stable" : "Lost focus, refocusing")")
+    private var imagePicker: some View {
+        Picker("Image", selection: $showCat) {
+            Text("Cat").tag(true)
+            Text("Circles").tag(false)
         }
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.ultraThinMaterial)
-        )
+        .pickerStyle(.segmented)
     }
 
-    private func drawIllustration(context: GraphicsContext, size: CGSize) {
-        let centerX = size.width / 2
-        let centerY = size.height / 2
+    // MARK: - Stereogram Image
 
-        // Background target circle (far focus point)
-        let targetRadius: CGFloat = 16
-        let targetRect = CGRect(
-            x: centerX - targetRadius,
-            y: centerY - targetRadius,
-            width: targetRadius * 2,
-            height: targetRadius * 2
-        )
-        context.stroke(
-            Path(ellipseIn: targetRect),
-            with: .color(.primary),
-            lineWidth: 2
-        )
-
-        // Inner dot of target
-        let innerDot: CGFloat = 4
-        let innerRect = CGRect(
-            x: centerX - innerDot,
-            y: centerY - innerDot,
-            width: innerDot * 2,
-            height: innerDot * 2
-        )
-        context.fill(Path(ellipseIn: innerRect), with: .color(.primary))
-
-        // Target label
-        let targetLabel = Text("Focus target")
-            .font(.caption2)
-            .foregroundColor(.secondary)
-        context.draw(
-            context.resolve(targetLabel),
-            at: CGPoint(x: centerX, y: centerY + targetRadius + 16),
-            anchor: .center
-        )
-
-        // Stability ring around target
-        if isRunning {
-            let ringRadius = targetRadius + 6
-            let ringRect = CGRect(
-                x: centerX - ringRadius,
-                y: centerY - ringRadius,
-                width: ringRadius * 2,
-                height: ringRadius * 2
-            )
-            context.stroke(
-                Path(ellipseIn: ringRect),
-                with: .color(isStable ? .green : .red),
-                lineWidth: 2
-            )
+    private var stereogramImage: some View {
+        Group {
+            if showCat {
+                if UIImage(named: "cat") != nil {
+                    Image("cat")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(12)
+                } else {
+                    imagePlaceholder(label: "Cat stereogram")
+                }
+            } else {
+                if UIImage(named: "convergencecircles") != nil {
+                    Image("convergencecircles")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(12)
+                } else {
+                    imagePlaceholder(label: "Convergence circles stereogram")
+                }
+            }
         }
+    }
 
-        // Ghost finger images (two semi-transparent bars offset left and right)
-        let fingerWidth: CGFloat = 10
-        let fingerHeight: CGFloat = 100
-        let ghostOffset: CGFloat = 40
-
-        // Left ghost
-        let leftFingerRect = CGRect(
-            x: centerX - ghostOffset - fingerWidth / 2,
-            y: centerY - fingerHeight / 2,
-            width: fingerWidth,
-            height: fingerHeight
-        )
-        context.fill(
-            Path(roundedRect: leftFingerRect, cornerRadius: 3),
-            with: .color(.gray.opacity(0.25))
-        )
-
-        // Right ghost
-        let rightFingerRect = CGRect(
-            x: centerX + ghostOffset - fingerWidth / 2,
-            y: centerY - fingerHeight / 2,
-            width: fingerWidth,
-            height: fingerHeight
-        )
-        context.fill(
-            Path(roundedRect: rightFingerRect, cornerRadius: 3),
-            with: .color(.gray.opacity(0.25))
-        )
-
-        // Ghost labels
-        let ghostLabel = Text("Ghost images")
-            .font(.caption2)
-            .foregroundColor(.secondary)
-        context.draw(
-            context.resolve(ghostLabel),
-            at: CGPoint(x: centerX, y: centerY + fingerHeight / 2 + 16),
-            anchor: .center
-        )
+    private func imagePlaceholder(label: String) -> some View {
+        RoundedRectangle(cornerRadius: 12)
+            .fill(Color.gray.opacity(0.2))
+            .frame(height: 200)
+            .overlay(
+                Text(label)
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+            )
     }
 
     // MARK: - Streak Display
@@ -285,7 +221,7 @@ struct SeptumCatView: View {
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop septum cat exercise" : "Begin septum cat exercise")
+        .accessibilityLabel(isRunning ? "Stop convergence stereogram exercise" : "Begin convergence stereogram exercise")
     }
 
     private func start() {
