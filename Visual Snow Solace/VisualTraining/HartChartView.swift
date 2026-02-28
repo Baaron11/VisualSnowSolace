@@ -115,22 +115,22 @@ struct HartChartView: View {
     // MARK: - Standard Mode (10×10)
 
     private var standardChartView: some View {
-        LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible()), count: 10),
-            spacing: 0
-        ) {
-            ForEach(0..<standardGrid.count, id: \.self) { row in
-                ForEach(0..<standardGrid[row].count, id: \.self) { col in
-                    let char = standardGrid[row][col]
-                    Text(String(char))
-                        .font(.system(.title2, design: .monospaced, weight: .bold))
-                        .foregroundStyle(.primary)
-                        .frame(maxWidth: .infinity)
-                        .aspectRatio(1, contentMode: .fit)
-                        .accessibilityLabel(String(char))
+        ScrollView {
+            if standardGrid.count >= 10 {
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 10), spacing: 0) {
+                    ForEach(0..<100, id: \.self) { index in
+                        let row = index / 10
+                        let col = index % 10
+                        Text(String(standardGrid[row][col]))
+                            .font(.system(.title2, design: .monospaced, weight: .bold))
+                            .frame(maxWidth: .infinity)
+                            .aspectRatio(1, contentMode: .fit)
+                            .accessibilityLabel(String(standardGrid[row][col]))
+                    }
                 }
             }
         }
+        .frame(maxHeight: .infinity)
         .padding(.horizontal)
     }
 
