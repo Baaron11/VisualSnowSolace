@@ -1,11 +1,9 @@
 // BrockStringView.swift
 // Visual Snow Solace
 //
-// Brock String convergence exercise. Displays a horizontal string diagram
-// with three beads at near, middle, and far positions. The user focuses on
-// each bead in turn; the active bead pulses and a convergence shape (V, X,
-// or reversed V) is drawn beneath it. Haptic pacing cues the user to shift
-// focus at a configurable interval.
+// Brock String convergence exercise. Displays a reference image of the brock
+// string setup and provides instructions, a pacing timer with haptic cues,
+// and a configurable session timer.
 
 import SwiftUI
 #if canImport(UIKit)
@@ -15,7 +13,6 @@ internal import Combine
 
 struct BrockStringView: View {
     @Environment(AppSettings.self) private var settings
-    @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
 
     // Configuration
     @State private var durationMinutes: Double = 3
@@ -30,27 +27,17 @@ struct BrockStringView: View {
     @State private var showBreakAlert = false
     @State private var breakAlertShown = false
     @State private var timeSinceLastShift: TimeInterval = 0
-    @State private var pulseScale: CGFloat = 1.0
-
-    private var reduceMotion: Bool {
-        settings.reduceMotionOverride || systemReduceMotion
-    }
 
     private var sessionDuration: TimeInterval {
         durationMinutes * 60
     }
-
-    private let beadColors: [Color] = [.red, .green, .blue]
-    private let beadLabels = ["Near (1 ft)", "Middle (5 ft)", "Far (9 ft)"]
-    private let convergenceLabels = ["V shape", "X shape", "V reversed"]
 
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
                 instructionsSection
 
-                diagramSection
-                    .frame(height: 200)
+                brockStringImage
 
                 configurationSection
                     .disabled(isRunning)
@@ -92,121 +79,29 @@ struct BrockStringView: View {
         }
     }
 
-    // MARK: - Diagram
+    // MARK: - Image
 
-    private var diagramSection: some View {
-        GeometryReader { geo in
-            let size = geo.size
-            Canvas { context, canvasSize in
-                drawStringDiagram(context: context, size: canvasSize)
-            }
-            .onAppear { _ = size }
-            .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Brock string diagram. Focused on \(beadLabels[focusedBead]) bead, expecting \(convergenceLabels[focusedBead])")
-            .onTapGesture { location in
-                handleBeadTap(at: location, in: size)
-            }
-        }
-        .clipShape(RoundedRectangle(cornerRadius: 12))
-        .background(
-            RoundedRectangle(cornerRadius: 12)
-                .fill(.ultraThinMaterial)
-        )
-    }
-
-    private func drawStringDiagram(context: GraphicsContext, size: CGSize) {
-        let midY = size.height * 0.4
-        let leftX = size.width * 0.1
-        let rightX = size.width * 0.9
-        let stringLength = rightX - leftX
-
-        // Draw the string line
-        var stringPath = Path()
-        stringPath.move(to: CGPoint(x: leftX, y: midY))
-        stringPath.addLine(to: CGPoint(x: rightX, y: midY))
-        context.stroke(stringPath, with: .color(.gray), lineWidth: 2)
-
-        // Bead positions: near (left), middle (center), far (right)
-        let beadPositions: [CGFloat] = [
-            leftX + stringLength * 0.1,
-            leftX + stringLength * 0.5,
-            leftX + stringLength * 0.9
-        ]
-
-        // Draw convergence shape beneath active bead
-        let activeX = beadPositions[focusedBead]
-        let chevronY = midY + 30
-        let chevronSpread: CGFloat = 30
-
-        var chevronPath = Path()
-        switch focusedBead {
-        case 0: // V shape (converging toward near)
-            chevronPath.move(to: CGPoint(x: activeX - chevronSpread, y: chevronY + 20))
-            chevronPath.addLine(to: CGPoint(x: activeX, y: chevronY))
-            chevronPath.addLine(to: CGPoint(x: activeX + chevronSpread, y: chevronY + 20))
-        case 1: // X shape
-            chevronPath.move(to: CGPoint(x: activeX - chevronSpread, y: chevronY))
-            chevronPath.addLine(to: CGPoint(x: activeX + chevronSpread, y: chevronY + 20))
-            chevronPath.move(to: CGPoint(x: activeX + chevronSpread, y: chevronY))
-            chevronPath.addLine(to: CGPoint(x: activeX - chevronSpread, y: chevronY + 20))
-        default: // V reversed (diverging from far)
-            chevronPath.move(to: CGPoint(x: activeX - chevronSpread, y: chevronY))
-            chevronPath.addLine(to: CGPoint(x: activeX, y: chevronY + 20))
-            chevronPath.addLine(to: CGPoint(x: activeX + chevronSpread, y: chevronY))
-        }
-        context.stroke(chevronPath, with: .color(.orange), lineWidth: 2)
-
-        // Draw beads
-        for (index, posX) in beadPositions.enumerated() {
-            let isActive = index == focusedBead
-            let radius: CGFloat = isActive ? 14 * pulseScale : 12
-            let beadRect = CGRect(
-                x: posX - radius,
-                y: midY - radius,
-                width: radius * 2,
-                height: radius * 2
-            )
-
-            let color = beadColors[index]
-            context.fill(
-                Path(ellipseIn: beadRect),
-                with: .color(isActive ? color : color.opacity(0.5))
-            )
-
-            // Focus point label
-            let labelY = midY + 60
-            let text = Text(beadLabels[index])
-                .font(.caption2)
-                .foregroundColor(.secondary)
-            context.draw(
-                context.resolve(text),
-                at: CGPoint(x: posX, y: labelY),
-                anchor: .center
-            )
-        }
-    }
-
-    private func handleBeadTap(at location: CGPoint, in size: CGSize) {
-        let leftX = size.width * 0.1
-        let stringLength = size.width * 0.8
-        let beadPositions: [CGFloat] = [
-            leftX + stringLength * 0.1,
-            leftX + stringLength * 0.5,
-            leftX + stringLength * 0.9
-        ]
-
-        var closestIndex = 0
-        var closestDist = CGFloat.infinity
-        for (index, posX) in beadPositions.enumerated() {
-            let dist = abs(location.x - posX)
-            if dist < closestDist {
-                closestDist = dist
-                closestIndex = index
+    private var brockStringImage: some View {
+        Group {
+            if UIImage(named: "brockstring") != nil {
+                Image("brockstring")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(maxWidth: .infinity)
+                    .cornerRadius(12)
+                    .padding(.vertical, 8)
+            } else {
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.gray.opacity(0.2))
+                    .frame(height: 200)
+                    .overlay(
+                        Text("Brock String diagram")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    )
+                    .padding(.vertical, 8)
             }
         }
-
-        focusedBead = closestIndex
-        timeSinceLastShift = 0
     }
 
     // MARK: - Configuration
@@ -285,14 +180,12 @@ struct BrockStringView: View {
         timeSinceLastShift = 0
         focusedBead = 0
         breakAlertShown = false
-        startPulse()
     }
 
     private func stop() {
         isRunning = false
         elapsed = 0
         timeSinceLastShift = 0
-        pulseScale = 1.0
     }
 
     private func tick() {
@@ -314,15 +207,6 @@ struct BrockStringView: View {
             timeSinceLastShift = 0
             focusedBead = (focusedBead + 1) % 3
             if hapticPacing { triggerHaptic() }
-            startPulse()
-        }
-    }
-
-    private func startPulse() {
-        guard !reduceMotion else { return }
-        pulseScale = 1.0
-        withAnimation(.easeInOut(duration: 1.0).repeatForever(autoreverses: true)) {
-            pulseScale = 1.2
         }
     }
 
