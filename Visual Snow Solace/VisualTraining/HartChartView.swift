@@ -187,7 +187,7 @@ struct HartChartView: View {
         let colors = (colored && gridIndex < cornerColors.count) ? cornerColors[gridIndex] : []
 
         LazyVGrid(
-            columns: Array(repeating: GridItem(.flexible()), count: 4),
+            columns: Array(repeating: GridItem(.fixed(28), spacing: 0), count: 4),
             spacing: 0
         ) {
             ForEach(0..<grid.count, id: \.self) { row in
@@ -198,12 +198,13 @@ struct HartChartView: View {
                         : .primary
                     Text(String(char))
                         .font(.system(.title3, design: .monospaced, weight: .bold))
+                        .frame(width: 28, height: 28)
                         .foregroundStyle(color)
                         .accessibilityLabel(String(char))
                 }
             }
         }
-        .frame(width: 130)
+        .frame(width: 28 * 4, height: 28 * 4)
         .overlay(
             RoundedRectangle(cornerRadius: 6)
                 .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
