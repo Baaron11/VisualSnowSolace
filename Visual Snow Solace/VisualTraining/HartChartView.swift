@@ -13,6 +13,7 @@
 import SwiftUI
 #if canImport(UIKit)
 import UIKit
+internal import Combine
 #endif
 
 // MARK: - Hart Chart Mode
