@@ -57,7 +57,8 @@ struct StaticAudioView: View {
                         grainSpeed: $grainSpeed,
                         grainContrast: $grainContrast,
                         hueRotation: $grainHue,
-                        showFullscreen: $showVisualStaticFullscreen
+                        showFullscreen: $showVisualStaticFullscreen,
+                        showControls: false
                     )
                     .aspectRatio(1, contentMode: .fit)
                     .frame(maxWidth: .infinity)
