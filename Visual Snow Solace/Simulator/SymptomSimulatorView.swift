@@ -47,7 +47,7 @@ struct SymptomGalleryView: View {
 
                 SymptomCard(
                     title: "Entoptic Phenomena (Floaters)",
-                    imageNames: ["Floaters1", "Floaters2"],
+                    imageNames: ["Floaters1"],
                     description: "Entoptic phenomena are visual effects that originate within the eye itself. In VSS this commonly includes floaters (moving shadows or threads), blue field entoptic phenomenon (tiny bright dots darting along the visual field in bright light), and self-light of the eye (patterns seen in complete darkness)."
                 )
 
