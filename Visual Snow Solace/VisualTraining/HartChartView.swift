@@ -140,16 +140,16 @@ struct HartChartView: View {
     private var fourCornerBWView: some View {
         GeometryReader { _ in
             ZStack {
-                cornerGridView(gridIndex: 0, colored: false)
+                cornerGridView(grid: cornerGrids.indices.contains(0) ? cornerGrids[0] : [], colors: nil)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-                cornerGridView(gridIndex: 1, colored: false)
+                cornerGridView(grid: cornerGrids.indices.contains(1) ? cornerGrids[1] : [], colors: nil)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
-                cornerGridView(gridIndex: 2, colored: false)
+                cornerGridView(grid: cornerGrids.indices.contains(2) ? cornerGrids[2] : [], colors: nil)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
 
-                cornerGridView(gridIndex: 3, colored: false)
+                cornerGridView(grid: cornerGrids.indices.contains(3) ? cornerGrids[3] : [], colors: nil)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
         }
@@ -162,16 +162,16 @@ struct HartChartView: View {
     private var fourCornerColorView: some View {
         GeometryReader { _ in
             ZStack {
-                cornerGridView(gridIndex: 0, colored: true)
+                cornerGridView(grid: cornerGrids.indices.contains(0) ? cornerGrids[0] : [], colors: cornerColors.indices.contains(0) ? cornerColors[0] : nil)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
 
-                cornerGridView(gridIndex: 1, colored: true)
+                cornerGridView(grid: cornerGrids.indices.contains(1) ? cornerGrids[1] : [], colors: cornerColors.indices.contains(1) ? cornerColors[1] : nil)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
 
-                cornerGridView(gridIndex: 2, colored: true)
+                cornerGridView(grid: cornerGrids.indices.contains(2) ? cornerGrids[2] : [], colors: cornerColors.indices.contains(2) ? cornerColors[2] : nil)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomLeading)
 
-                cornerGridView(gridIndex: 3, colored: true)
+                cornerGridView(grid: cornerGrids.indices.contains(3) ? cornerGrids[3] : [], colors: cornerColors.indices.contains(3) ? cornerColors[3] : nil)
                     .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottomTrailing)
             }
         }
@@ -181,30 +181,23 @@ struct HartChartView: View {
 
     // MARK: - Corner Grid Subview
 
-    @ViewBuilder
-    private func cornerGridView(gridIndex: Int, colored: Bool) -> some View {
-        let grid = gridIndex < cornerGrids.count ? cornerGrids[gridIndex] : []
-        let colors = (colored && gridIndex < cornerColors.count) ? cornerColors[gridIndex] : []
-
-        LazyVGrid(
-            columns: Array(repeating: GridItem(.fixed(28), spacing: 0), count: 4),
-            spacing: 0
-        ) {
-            ForEach(0..<grid.count, id: \.self) { row in
-                ForEach(0..<grid[row].count, id: \.self) { col in
-                    let char = grid[row][col]
-                    let color: Color = (colored && row < colors.count && col < colors[row].count)
-                        ? colors[row][col]
-                        : .primary
-                    Text(String(char))
-                        .font(.system(.title3, design: .monospaced, weight: .bold))
-                        .frame(width: 28, height: 28)
-                        .foregroundStyle(color)
-                        .accessibilityLabel(String(char))
+    private func cornerGridView(grid: [[Character]], colors: [[Color]]?) -> some View {
+        VStack(spacing: 0) {
+            ForEach(0..<4, id: \.self) { row in
+                HStack(spacing: 0) {
+                    ForEach(0..<4, id: \.self) { col in
+                        let char = grid[row][col]
+                        let color: Color = colors?[row][col] ?? .primary
+                        Text(String(char))
+                            .font(.system(.title3, design: .monospaced, weight: .bold))
+                            .foregroundStyle(color)
+                            .frame(width: 28, height: 28)
+                            .accessibilityLabel(String(char))
+                    }
                 }
             }
         }
-        .frame(width: 28 * 4, height: 28 * 4)
+        .padding(6)
         .overlay(
             RoundedRectangle(cornerRadius: 6)
                 .stroke(Color.secondary.opacity(0.3), lineWidth: 1)
