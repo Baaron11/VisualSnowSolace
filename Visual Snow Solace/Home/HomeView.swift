@@ -49,7 +49,7 @@ struct HomeView: View {
                 }
                 .padding()
             }
-            .navigationTitle("Visual Snow Solace")
+            .navigationTitle("Visual Snow Syndrome Solace")
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(destination: SettingsView()) {

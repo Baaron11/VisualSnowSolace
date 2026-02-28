@@ -48,7 +48,7 @@ struct SettingsView: View {
                 LabeledContent("Version", value: appVersion)
                     .accessibilityLabel("App version \(appVersion)")
 
-                Text("Visual Snow Solace is designed to provide comfort tools for people experiencing visual snow syndrome. Not a medical device. For informational use only. Consult your clinician before starting any new wellness routine.")
+                Text("Visual Snow Syndrome Solace is designed to provide comfort tools for people experiencing visual snow syndrome. Not a medical device. For informational use only. Consult your clinician before starting any new wellness routine.")
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
