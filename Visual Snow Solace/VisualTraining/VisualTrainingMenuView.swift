@@ -99,34 +99,16 @@ struct VisualTrainingMenuView: View {
             }
 
             Section {
-                NavigationLink(destination: PostItSaccadesView()) {
+                NavigationLink(destination: RedGreenWordView()) {
                     exerciseRow(
-                        icon: "note.text",
-                        title: "Post-It Saccades",
-                        description: "Real-world saccade training with sticky-note targets"
+                        icon: "eyeglasses",
+                        title: "Red/Green Word Training",
+                        description: "Read color-coded words using red/green anaglyphic lenses."
                     )
                 }
-                .accessibilityLabel("Post-It Saccades exercise")
-
-                NavigationLink(destination: HandheldPencilSaccadesView()) {
-                    exerciseRow(
-                        icon: "pencil.and.list.clipboard",
-                        title: "Handheld Pencil Saccades",
-                        description: "Saccades with background distractors and a pencil target"
-                    )
-                }
-                .accessibilityLabel("Handheld Pencil Saccades exercise")
-
-                NavigationLink(destination: WayneSaccadicFixatorView()) {
-                    exerciseRow(
-                        icon: "circle.grid.3x3.fill",
-                        title: "Wayne Saccadic Fixator",
-                        description: "Tap lit targets in a grid for speed and accuracy"
-                    )
-                }
-                .accessibilityLabel("Wayne Saccadic Fixator exercise")
+                .accessibilityLabel("Red/Green Word Training exercise")
             } header: {
-                Text("Saccadic Training")
+                Text("Red/Green Training")
             }
         }
         .navigationTitle("Visual Training")

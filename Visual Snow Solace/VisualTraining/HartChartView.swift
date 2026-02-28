@@ -36,6 +36,13 @@ struct HartChartView: View {
     @State private var sessionSeconds: Int = 0
     @State private var isRunning: Bool = false
 
+    // Metronome
+    @State private var metronomeBPM: Double = 60.0
+    @State private var metronomeActive: Bool = false
+    @State private var metronomePhase: Bool = false // flips each beat for visual pulse
+    @State private var lastBeatTime: Date = Date()
+    private let metronomeTimer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+
     private let chars: [Character] = Array("ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789")
     private let colorPalette: [Color] = [.red, .orange, .green, .blue]
 
@@ -77,6 +84,36 @@ struct HartChartView: View {
 
             Spacer()
 
+            // Metronome
+            VStack(spacing: 8) {
+                HStack {
+                    Image(systemName: metronomeActive ? "metronome.fill" : "metronome")
+                        .foregroundStyle(metronomeActive ? .blue : .secondary)
+                        .font(.title3)
+                        .scaleEffect(metronomePhase && metronomeActive ? 1.2 : 1.0)
+                        .animation(.easeInOut(duration: 0.1), value: metronomePhase)
+                        .accessibilityLabel(metronomeActive ? "Metronome active" : "Metronome inactive")
+
+                    Text("\(Int(metronomeBPM)) BPM")
+                        .font(.subheadline.monospacedDigit())
+                        .frame(width: 72, alignment: .leading)
+
+                    Slider(value: $metronomeBPM, in: 20...120, step: 1)
+                        .accessibilityLabel("Metronome speed")
+
+                    Button(metronomeActive ? "Stop" : "Start") {
+                        metronomeActive.toggle()
+                        if metronomeActive {
+                            lastBeatTime = Date()
+                        }
+                    }
+                    .buttonStyle(.bordered)
+                    .controlSize(.small)
+                    .accessibilityLabel(metronomeActive ? "Stop metronome" : "Start metronome")
+                }
+            }
+            .padding(.horizontal)
+
             // Session timer (mm:ss)
             Text(formatTime(sessionSeconds))
                 .font(.headline.monospacedDigit())
@@ -110,6 +147,20 @@ struct HartChartView: View {
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
             guard isRunning else { return }
             sessionSeconds += 1
+        }
+        .onReceive(metronomeTimer) { now in
+            guard metronomeActive else { return }
+            let interval = 60.0 / metronomeBPM
+            if now.timeIntervalSince(lastBeatTime) >= interval {
+                lastBeatTime = now
+                metronomePhase.toggle()
+                #if os(iOS)
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                #endif
+            }
+        }
+        .onDisappear {
+            metronomeActive = false
         }
     }
 
