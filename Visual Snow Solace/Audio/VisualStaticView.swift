@@ -13,6 +13,7 @@ struct VisualStaticView: View {
     @Binding var hueRotation: Double
     @Binding var showFullscreen: Bool
 
+    var showControls: Bool = true
     var overlayContent: (() -> AnyView)? = nil
 
     @Environment(\.accessibilityReduceMotion) private var systemReduceMotion
@@ -34,7 +35,9 @@ struct VisualStaticView: View {
                     .foregroundStyle(.secondary)
             }
 
-            sliders
+            if showControls {
+                sliders
+            }
         }
         .fullScreenCover(isPresented: $showFullscreen) {
             fullscreenView
