@@ -11,6 +11,7 @@ internal import Combine
 struct StaticAudioView: View {
     @Environment(NoiseGenerator.self) private var noise
 
+    @AppStorage("visualStatic.visible") private var showVisualStatic: Bool = false
     @AppStorage("visualStatic.speed") private var grainSpeed: Double = 1.0
     @AppStorage("visualStatic.contrast") private var grainContrast: Double = 0.5
     @AppStorage("visualStatic.hue") private var grainHue: Double = 0.0
@@ -49,48 +50,52 @@ struct StaticAudioView: View {
                         .accessibilityLabel("Low pass filter cutoff, \(Int(noise.filterCutoff)) hertz")
                 }
 
-                // Visual Static canvas (always visible, condensed)
-                VisualStaticView(
-                    grainSpeed: $grainSpeed,
-                    grainContrast: $grainContrast,
-                    hueRotation: $grainHue,
-                    showFullscreen: $showVisualStaticFullscreen
-                )
-                .frame(height: 180)
-                .clipped()
-                .clipShape(RoundedRectangle(cornerRadius: 12))
-                .overlay(alignment: .bottomTrailing) {
-                    Button {
-                        showVisualStaticFullscreen = true
-                    } label: {
-                        Image(systemName: "arrow.up.left.and.arrow.down.right")
-                            .font(.footnote)
-                            .padding(8)
-                            .background(.ultraThinMaterial, in: Circle())
+                Toggle("Show Visual Static", isOn: $showVisualStatic)
+
+                if showVisualStatic {
+                    VisualStaticView(
+                        grainSpeed: $grainSpeed,
+                        grainContrast: $grainContrast,
+                        hueRotation: $grainHue,
+                        showFullscreen: $showVisualStaticFullscreen
+                    )
+                    .aspectRatio(1, contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .clipped()
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+                    .overlay(alignment: .bottomTrailing) {
+                        Button {
+                            showVisualStaticFullscreen = true
+                        } label: {
+                            Image(systemName: "arrow.up.left.and.arrow.down.right")
+                                .font(.footnote)
+                                .padding(8)
+                                .background(.ultraThinMaterial, in: Circle())
+                        }
+                        .padding(8)
+                        .accessibilityLabel("Show visual static fullscreen")
                     }
-                    .padding(8)
-                    .accessibilityLabel("Show visual static fullscreen")
-                }
 
-                HStack {
-                    Text("Grain Speed")
-                        .frame(width: 110, alignment: .leading)
-                        .font(.subheadline)
-                    Slider(value: $grainSpeed, in: 0.1...3.0)
-                }
+                    HStack {
+                        Text("Grain Speed")
+                            .frame(width: 110, alignment: .leading)
+                            .font(.subheadline)
+                        Slider(value: $grainSpeed, in: 0.1...3.0)
+                    }
 
-                HStack {
-                    Text("Contrast")
-                        .frame(width: 110, alignment: .leading)
-                        .font(.subheadline)
-                    Slider(value: $grainContrast, in: 0.0...1.0)
-                }
+                    HStack {
+                        Text("Contrast")
+                            .frame(width: 110, alignment: .leading)
+                            .font(.subheadline)
+                        Slider(value: $grainContrast, in: 0.0...1.0)
+                    }
 
-                HStack {
-                    Text("Hue")
-                        .frame(width: 110, alignment: .leading)
-                        .font(.subheadline)
-                    Slider(value: $grainHue, in: 0.0...360.0)
+                    HStack {
+                        Text("Hue")
+                            .frame(width: 110, alignment: .leading)
+                            .font(.subheadline)
+                        Slider(value: $grainHue, in: 0.0...360.0)
+                    }
                 }
 
                 // Session timer
