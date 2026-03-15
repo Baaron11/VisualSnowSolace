@@ -1,9 +1,10 @@
 // CameraPreviewView.swift
 // Visual Snow Solace
 //
-// UIViewRepresentable that wraps an AVCaptureVideoPreviewLayer for live
-// camera preview. Used by LensModeView to show the rear camera feed
-// underneath colour-tint overlays.
+// SwiftUI wrapper around an AVCaptureVideoPreviewLayer for live camera
+// preview. Automatically starts and stops the capture session in response
+// to the view appearing and disappearing, ensuring the session survives
+// navigation and is never recreated unnecessarily.
 
 import SwiftUI
 
@@ -11,7 +12,43 @@ import SwiftUI
 import UIKit
 import AVFoundation
 
-struct CameraPreviewView: UIViewRepresentable {
+// MARK: - Public wrapper
+
+/// Drop-in SwiftUI view that displays a live camera preview.
+///
+/// The caller must own the `AVCaptureSession` (e.g. as `@State` in the
+/// parent view) and pass it in.  `CameraPreviewView` takes care of
+/// starting / stopping the session on appear / disappear so the parent
+/// does not need to manage lifecycle.
+struct CameraPreviewView: View {
+    let session: AVCaptureSession
+
+    var body: some View {
+        CameraPreviewRepresentable(session: session)
+            .onAppear {
+                let status = AVCaptureDevice.authorizationStatus(for: .video)
+                guard status == .authorized else { return }
+                DispatchQueue.global(qos: .userInitiated).async {
+                    if !session.isRunning {
+                        session.startRunning()
+                    }
+                }
+            }
+            .onDisappear {
+                DispatchQueue.global(qos: .userInitiated).async {
+                    if session.isRunning {
+                        session.stopRunning()
+                    }
+                }
+            }
+    }
+}
+
+// MARK: - UIViewRepresentable (internal)
+
+/// Thin UIKit bridge – only responsible for hosting the preview layer.
+/// Session start / stop is handled by the enclosing `CameraPreviewView`.
+private struct CameraPreviewRepresentable: UIViewRepresentable {
     let session: AVCaptureSession
 
     func makeUIView(context: Context) -> PreviewUIView {
@@ -22,7 +59,7 @@ struct CameraPreviewView: UIViewRepresentable {
     }
 
     func updateUIView(_ uiView: PreviewUIView, context: Context) {
-        uiView.previewLayer.session = session
+        // Session binding is handled in makeUIView; nothing to update.
     }
 
     // Custom UIView subclass so the preview layer is the backing layer,
