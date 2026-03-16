@@ -15,6 +15,7 @@ struct BrockStringView: View {
     @Environment(AppSettings.self) private var settings
 
     // Configuration
+    @State private var showExample: Bool = false
     @State private var durationMinutes: Double = 3
     @State private var hapticPacing = true
     @State private var audioCue = false
@@ -83,23 +84,51 @@ struct BrockStringView: View {
 
     private var brockStringImage: some View {
         Group {
-            if UIImage(named: "brockstring") != nil {
-                Image("brockstring")
-                    .resizable()
-                    .scaledToFit()
-                    .frame(maxWidth: .infinity)
-                    .cornerRadius(12)
-                    .padding(.vertical, 8)
+            Picker("Image", selection: $showExample) {
+                Text("Diagram").tag(false)
+                Text("Example").tag(true)
+            }
+            .pickerStyle(.segmented)
+            .accessibilityLabel("Brock String image type")
+
+            if showExample {
+                if UIImage(named: "brockstringexample") != nil {
+                    Image("brockstringexample")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(12)
+                        .padding(.vertical, 8)
+                } else {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(height: 200)
+                        .overlay(
+                            Text("Brock String example")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        )
+                        .padding(.vertical, 8)
+                }
             } else {
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.gray.opacity(0.2))
-                    .frame(height: 200)
-                    .overlay(
-                        Text("Brock String diagram")
-                            .font(.caption)
-                            .foregroundStyle(.secondary)
-                    )
-                    .padding(.vertical, 8)
+                if UIImage(named: "brockstring") != nil {
+                    Image("brockstring")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(maxWidth: .infinity)
+                        .cornerRadius(12)
+                        .padding(.vertical, 8)
+                } else {
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color.gray.opacity(0.2))
+                        .frame(height: 200)
+                        .overlay(
+                            Text("Brock String diagram")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                        )
+                        .padding(.vertical, 8)
+                }
             }
         }
     }

@@ -26,10 +26,20 @@ enum HartChartMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
+// MARK: - Color Calling Mode
+
+enum ColorCallingMode: String, CaseIterable {
+    case color = "Color"
+    case letter = "Letter"
+    case alternating = "Alternating"
+}
+
 // MARK: - View
 
 struct HartChartView: View {
     @State private var mode: HartChartMode = .standard
+    @State private var saccadeInstructionsExpanded: Bool = false
+    @State private var colorCallingMode: ColorCallingMode = .color
     @State private var standardGrid: [[Character]] = []
     @State private var cornerGrids: [[[Character]]] = []  // 4 grids of 4×4
     @State private var cornerColors: [[[Color]]] = []     // 4 grids of 4×4 colors
@@ -69,6 +79,80 @@ struct HartChartView: View {
                 .buttonStyle(.bordered)
                 .controlSize(.small)
                 .accessibilityLabel("Generate new chart")
+            }
+            .padding(.horizontal)
+
+            // Vision Wall Saccades instructions
+            VStack(alignment: .leading, spacing: 8) {
+                Button {
+                    withAnimation(.easeInOut(duration: 0.2)) {
+                        saccadeInstructionsExpanded.toggle()
+                    }
+                } label: {
+                    HStack {
+                        Text("Vision Wall Saccades")
+                            .font(.headline)
+                            .foregroundStyle(.primary)
+                        Spacer()
+                        Image(systemName: saccadeInstructionsExpanded ? "chevron.up" : "chevron.down")
+                            .foregroundStyle(.secondary)
+                            .font(.footnote)
+                    }
+                }
+                .accessibilityLabel(saccadeInstructionsExpanded ? "Collapse instructions" : "Expand instructions")
+
+                if saccadeInstructionsExpanded {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("How to use the Hart Chart for Wall Saccades")
+                            .font(.subheadline)
+                            .fontWeight(.semibold)
+
+                        Text("Place this chart on a wall at distance (2–3 meters). Stand or sit comfortably with your head still. Make deliberate eye movements between targets — do not move your head.")
+                            .font(.body)
+                            .foregroundStyle(.secondary)
+
+                        Divider()
+
+                        Text("Standard — Sequential (1→10)")
+                            .font(.subheadline).fontWeight(.semibold)
+                        Text("Starting at 1, move your eyes to each number in order across the chart: 1, 2, 3… through 10. Call each number aloud as you land on it. Repeat for each row.")
+                            .font(.body).foregroundStyle(.secondary)
+
+                        Divider()
+
+                        Text("Standard — Alternating (1–10, 2–9…)")
+                            .font(.subheadline).fontWeight(.semibold)
+                        Text("Begin at 1 on the left, then jump to 10 on the right. Then 2, then 9. Then 3, then 8 — continuing inward until you meet in the center. This trains larger amplitude saccades and symmetrical eye movement. Call each number or letter aloud as you land on it.")
+                            .font(.body).foregroundStyle(.secondary)
+
+                        Divider()
+
+                        Text("4 Corner Color — Three calling modes")
+                            .font(.subheadline).fontWeight(.semibold)
+                        Text("Use the 4 Corner Color chart on the wall. As you saccade to each target, call out:")
+                            .font(.body).foregroundStyle(.secondary)
+
+                        VStack(alignment: .leading, spacing: 6) {
+                            Label("**Color only** — say the color of the letter (e.g. \"Red\", \"Blue\")", systemImage: "circle.fill")
+                                .font(.body).foregroundStyle(.secondary)
+                            Label("**Letter only** — say the letter itself (e.g. \"A\", \"7\")", systemImage: "textformat")
+                                .font(.body).foregroundStyle(.secondary)
+                            Label("**Alternating** — alternate between calling the color and the letter on each successive target (e.g. \"Red\", \"B\", \"Green\", \"4\"…)", systemImage: "arrow.left.arrow.right")
+                                .font(.body).foregroundStyle(.secondary)
+                        }
+                        .padding(.leading, 8)
+
+                        Divider()
+
+                        Text("Tips")
+                            .font(.subheadline).fontWeight(.semibold)
+                        Text("Keep your head still throughout. Use the metronome below to pace your saccades — one beat per target. Take a break if you feel eye strain. Stop immediately if you feel dizzy or unwell.")
+                            .font(.body).foregroundStyle(.secondary)
+                    }
+                    .padding(14)
+                    .background(.secondary.opacity(0.07), in: RoundedRectangle(cornerRadius: 12))
+                    .transition(.opacity.combined(with: .move(edge: .top)))
+                }
             }
             .padding(.horizontal)
 
@@ -211,6 +295,22 @@ struct HartChartView: View {
     // MARK: - Four Corner Color
 
     private var fourCornerColorView: some View {
+        VStack(spacing: 8) {
+            Picker("Call out", selection: $colorCallingMode) {
+                ForEach(ColorCallingMode.allCases, id: \.self) { mode in
+                    Text(mode.rawValue).tag(mode)
+                }
+            }
+            .pickerStyle(.segmented)
+            .padding(.horizontal)
+            .accessibilityLabel("Color calling mode")
+
+            Text(callingModeHint)
+                .font(.footnote)
+                .foregroundStyle(.secondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal)
+
         GeometryReader { _ in
             ZStack {
                 cornerGridView(grid: cornerGrids.indices.contains(0) ? cornerGrids[0] : [], colors: cornerColors.indices.contains(0) ? cornerColors[0] : nil)
@@ -228,6 +328,17 @@ struct HartChartView: View {
         }
         .frame(height: UIScreen.main.bounds.width)
         .padding(.horizontal)
+        }
+    }
+
+    // MARK: - Calling Mode Hint
+
+    private var callingModeHint: String {
+        switch colorCallingMode {
+        case .color: return "Say the color of each letter as you look at it."
+        case .letter: return "Say the letter or number as you look at it."
+        case .alternating: return "Alternate — first target say the color, next say the letter, and so on."
+        }
     }
 
     // MARK: - Corner Grid Subview
