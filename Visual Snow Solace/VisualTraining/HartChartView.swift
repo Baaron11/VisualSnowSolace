@@ -26,20 +26,11 @@ enum HartChartMode: String, CaseIterable, Identifiable {
     var id: String { rawValue }
 }
 
-// MARK: - Color Calling Mode
-
-enum ColorCallingMode: String, CaseIterable {
-    case color = "Color"
-    case letter = "Letter"
-    case alternating = "Alternating"
-}
-
 // MARK: - View
 
 struct HartChartView: View {
     @State private var mode: HartChartMode = .standard
     @State private var saccadeInstructionsExpanded: Bool = false
-    @State private var colorCallingMode: ColorCallingMode = .color
     @State private var standardGrid: [[Character]] = []
     @State private var cornerGrids: [[[Character]]] = []  // 4 grids of 4×4
     @State private var cornerColors: [[[Color]]] = []     // 4 grids of 4×4 colors
@@ -155,16 +146,20 @@ struct HartChartView: View {
                 }
             }
             .padding(.horizontal)
+            .zIndex(1)
 
             // Chart display area
-            switch mode {
-            case .standard:
-                standardChartView
-            case .fourCornerBW:
-                fourCornerBWView
-            case .fourCornerColor:
-                fourCornerColorView
+            Group {
+                switch mode {
+                case .standard:
+                    standardChartView
+                case .fourCornerBW:
+                    fourCornerBWView
+                case .fourCornerColor:
+                    fourCornerColorView
+                }
             }
+            .zIndex(0)
 
             Spacer()
 
@@ -295,22 +290,6 @@ struct HartChartView: View {
     // MARK: - Four Corner Color
 
     private var fourCornerColorView: some View {
-        VStack(spacing: 8) {
-            Picker("Call out", selection: $colorCallingMode) {
-                ForEach(ColorCallingMode.allCases, id: \.self) { mode in
-                    Text(mode.rawValue).tag(mode)
-                }
-            }
-            .pickerStyle(.segmented)
-            .padding(.horizontal)
-            .accessibilityLabel("Color calling mode")
-
-            Text(callingModeHint)
-                .font(.footnote)
-                .foregroundStyle(.secondary)
-                .multilineTextAlignment(.center)
-                .padding(.horizontal)
-
         GeometryReader { _ in
             ZStack {
                 cornerGridView(grid: cornerGrids.indices.contains(0) ? cornerGrids[0] : [], colors: cornerColors.indices.contains(0) ? cornerColors[0] : nil)
@@ -328,17 +307,6 @@ struct HartChartView: View {
         }
         .frame(height: UIScreen.main.bounds.width)
         .padding(.horizontal)
-        }
-    }
-
-    // MARK: - Calling Mode Hint
-
-    private var callingModeHint: String {
-        switch colorCallingMode {
-        case .color: return "Say the color of each letter as you look at it."
-        case .letter: return "Say the letter or number as you look at it."
-        case .alternating: return "Alternate — first target say the color, next say the letter, and so on."
-        }
     }
 
     // MARK: - Corner Grid Subview
