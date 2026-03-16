@@ -48,7 +48,8 @@ struct HartChartView: View {
     private let colorPalette: [Color] = [.red, .orange, .green, .blue]
 
     var body: some View {
-        VStack(spacing: 12) {
+        ScrollView {
+            VStack(spacing: 16) {
             // Mode picker
             Picker("Chart type", selection: $mode) {
                 ForEach(HartChartMode.allCases) { m in
@@ -146,7 +147,6 @@ struct HartChartView: View {
                 }
             }
             .padding(.horizontal)
-            .zIndex(1)
 
             // Chart display area
             Group {
@@ -159,9 +159,6 @@ struct HartChartView: View {
                     fourCornerColorView
                 }
             }
-            .zIndex(0)
-
-            Spacer()
 
             // Metronome
             VStack(spacing: 8) {
@@ -219,6 +216,7 @@ struct HartChartView: View {
             DisclaimerFooter()
         }
         .padding(.vertical)
+        } // ScrollView
         .navigationTitle("Hart Chart")
         .navigationBarTitleDisplayMode(.inline)
         .onAppear { generateAll() }
