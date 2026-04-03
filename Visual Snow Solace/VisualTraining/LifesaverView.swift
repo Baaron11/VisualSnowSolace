@@ -31,6 +31,22 @@ struct LifesaverView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                HStack(alignment: .top, spacing: 10) {
+                    Image(systemName: "cart.fill")
+                        .foregroundStyle(.secondary)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Lifesaver Card Required")
+                            .font(.subheadline.bold())
+                        Text("Search for \"vision therapy lifesaver card\" to find transparent or printed lifesaver cards for this exercise.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .padding(12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.secondary.opacity(0.1), in: RoundedRectangle(cornerRadius: 10))
+                .padding(.bottom, 4)
+
                 instructionCard
 
                 configurationSection
