@@ -36,6 +36,7 @@ struct HartChartView: View {
     @State private var cornerColors: [[[Color]]] = []     // 4 grids of 4×4 colors
     @State private var sessionSeconds: Int = 0
     @State private var isRunning: Bool = false
+    @State private var showInfoDrawer: Bool = false
 
     // Metronome
     @State private var metronomeBPM: Double = 60.0
@@ -219,6 +220,55 @@ struct HartChartView: View {
         } // ScrollView
         .navigationTitle("Hart Chart")
         .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button {
+                    showInfoDrawer = true
+                } label: {
+                    Image(systemName: "info.circle")
+                        .accessibilityLabel("How to do this exercise")
+                }
+            }
+        }
+        .sheet(isPresented: $showInfoDrawer) {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    Text(infoTitle)
+                        .font(.title2.bold())
+                        .padding(.top, 8)
+
+                    if mode != .fourCornerColor {
+                        HStack(alignment: .top, spacing: 10) {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.orange)
+                            Text("Do not move your head during this exercise — move only your eyes.")
+                                .font(.body.bold())
+                        }
+                        .padding(12)
+                        .background(.orange.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
+                    } else {
+                        HStack(alignment: .top, spacing: 10) {
+                            Image(systemName: "exclamationmark.triangle.fill")
+                                .foregroundStyle(.orange)
+                            Text("Do not move your head during this exercise — move only your eyes.")
+                                .font(.body.bold())
+                        }
+                        .padding(12)
+                        .background(.orange.opacity(0.12), in: RoundedRectangle(cornerRadius: 10))
+                    }
+
+                    Text(infoBody)
+                        .font(.body)
+                        .foregroundStyle(.secondary)
+                        .lineSpacing(4)
+                }
+                .padding(.horizontal, 24)
+                .padding(.bottom, 32)
+            }
+            .presentationDetents([.large])
+            .presentationDragIndicator(.visible)
+            .presentationBackground(.ultraThinMaterial)
+        }
         .onAppear { generateAll() }
         .onChange(of: mode) { _, _ in generateAll() }
         .onReceive(Timer.publish(every: 1, on: .main, in: .common).autoconnect()) { _ in
@@ -400,5 +450,72 @@ struct HartChartView: View {
         let mins = totalSeconds / 60
         let secs = totalSeconds % 60
         return String(format: "%02d:%02d", mins, secs)
+    }
+
+    // MARK: - Info Drawer Content
+
+    private var infoTitle: String {
+        switch mode {
+        case .standard: return "Standard Hart Chart"
+        case .fourCornerBW: return "4 Corner B&W"
+        case .fourCornerColor: return "4 Corner Color"
+        }
+    }
+
+    private var infoBody: String {
+        switch mode {
+        case .standard:
+            return """
+            Set the metronome to 60 BPM to start.
+
+            Place this chart on a wall at distance. Cover one eye with a patch or your hand.
+
+            Starting from the top row:
+            • On the first beat — say the leftmost letter aloud
+            • On the next beat — say the rightmost letter aloud
+            • Then the second from the left, then the second from the right
+            • Continue inward until you reach the center of the row
+            • Move to the next row and repeat
+
+            One letter per beat. Say each letter out loud as your eyes land on it.
+
+            Do this for 2 minutes with one eye patched, then switch to the other eye for another 2 minutes. You can also do it with both eyes open.
+            """
+
+        case .fourCornerBW:
+            return """
+            Set the metronome to 60 BPM to start.
+
+            Place this chart on a wall at distance. Keep both eyes open.
+
+            Follow an S-motion — not a circle — through the four corner charts:
+            1. First letter, top-left chart (top-left corner of screen)
+            2. First letter, top-right chart
+            3. First letter, bottom-left chart
+            4. First letter, bottom-right chart
+
+            Then move to the second letter in each chart, following the same S-motion. Continue for 2 minutes.
+
+            One letter per beat. Say each letter aloud as your eyes land on it. Do not move your head — eyes only.
+            """
+
+        case .fourCornerColor:
+            return """
+            Set the metronome to 60 BPM to start.
+
+            Place this chart on a wall at distance. Keep both eyes open.
+
+            Follow the same S-motion as the B&W chart:
+            1. Top-left chart → top-right chart → bottom-left chart → bottom-right chart
+            2. Then move to the next letter in each chart and repeat
+
+            Alternate what you say on each beat:
+            • First target — say the letter or number aloud
+            • Next target — say the color of it aloud
+            • Continue alternating: letter, color, letter, color…
+
+            Do not move your head — eyes only.
+            """
+        }
     }
 }

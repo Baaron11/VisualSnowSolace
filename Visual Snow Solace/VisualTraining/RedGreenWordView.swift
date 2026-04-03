@@ -100,6 +100,7 @@ private enum WordList {
 // MARK: - View
 
 struct RedGreenWordView: View {
+    @AppStorage("redgreen.lensWarningShown") private var lensWarningShown: Bool = false
     @State private var displayedWords: [String] = []
     @State private var columnCount: Int = 4
     @State private var fontSize: RedGreenFontSize = .medium
@@ -125,6 +126,29 @@ struct RedGreenWordView: View {
         .navigationBarTitleDisplayMode(.inline)
         .onAppear {
             displayedWords = WordList.dolch.shuffled()
+        }
+        .sheet(isPresented: .init(get: { !lensWarningShown }, set: { _ in lensWarningShown = true })) {
+            VStack(spacing: 24) {
+                Image(systemName: "eyeglasses")
+                    .font(.system(size: 48))
+                    .foregroundStyle(.primary)
+                Text("Red/Green Glasses Required")
+                    .font(.title2.bold())
+                    .multilineTextAlignment(.center)
+                Text("This exercise requires red/green anaglyphic glasses — red lens on the left eye, green on the right. Without them the exercise will not work as intended.\n\nYou can find these online or through a vision therapist.")
+                    .font(.body)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+                Button("Got it") {
+                    lensWarningShown = true
+                }
+                .buttonStyle(.borderedProminent)
+                .controlSize(.large)
+                .accessibilityLabel("Dismiss glasses reminder")
+            }
+            .padding(32)
+            .presentationDetents([.medium])
+            .presentationDragIndicator(.visible)
         }
     }
 
