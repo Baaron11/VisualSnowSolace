@@ -32,6 +32,22 @@ struct BarrelCardsView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: 20) {
+                HStack(alignment: .top, spacing: 10) {
+                    Image(systemName: "printer.fill")
+                        .foregroundStyle(.secondary)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("Printout Required")
+                            .font(.subheadline.bold())
+                        Text("Search for \"3 Dot Strabismus Training Card\" or \"Convergence Card\" to find and print this exercise card.")
+                            .font(.footnote)
+                            .foregroundStyle(.secondary)
+                    }
+                }
+                .padding(12)
+                .frame(maxWidth: .infinity, alignment: .leading)
+                .background(.secondary.opacity(0.1), in: RoundedRectangle(cornerRadius: 10))
+                .padding(.bottom, 4)
+
                 instructionsSection
 
                 configurationSection
