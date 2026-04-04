@@ -19,42 +19,42 @@ struct HomeView: View {
                 LazyVGrid(columns: columns, spacing: 16) {
                     // Breathing tile
                     NavigationLink(destination: BreathingView()) {
-                        TileView(title: "Breathing", icon: "wind", enabled: true)
+                        TileView(title: NSLocalizedString("home.breathing", comment: "Breathing tile title"), icon: "wind", enabled: true)
                     }
-                    .accessibilityLabel("Breathing exercises")
+                    .accessibilityLabel(NSLocalizedString("home.breathing.accessibility", comment: "Breathing tile accessibility"))
 
                     // Static Audio tile
                     NavigationLink(destination: StaticAudioView()) {
-                        TileView(title: "Static", icon: "waveform", enabled: true)
+                        TileView(title: NSLocalizedString("home.static", comment: "Static tile title"), icon: "waveform", enabled: true)
                     }
-                    .accessibilityLabel("Static noise audio")
+                    .accessibilityLabel(NSLocalizedString("home.static.accessibility", comment: "Static tile accessibility"))
 
                     // Visual Training tile
                     NavigationLink(destination: VisualTrainingMenuView()) {
-                        TileView(title: "Visual Training", icon: "eye.trianglebadge.exclamationmark", enabled: true)
+                        TileView(title: NSLocalizedString("home.visualTraining", comment: "Visual Training tile title"), icon: "eye.trianglebadge.exclamationmark", enabled: true)
                     }
-                    .accessibilityLabel("Visual Training exercises")
+                    .accessibilityLabel(NSLocalizedString("home.visualTraining.accessibility", comment: "Visual Training tile accessibility"))
 
                     // Symptoms tile
                     NavigationLink(destination: SymptomGalleryView()) {
-                        TileView(title: "Symptoms", icon: "eye.trianglebadge.exclamationmark", enabled: true)
+                        TileView(title: NSLocalizedString("home.symptoms", comment: "Symptoms tile title"), icon: "eye.trianglebadge.exclamationmark", enabled: true)
                     }
-                    .accessibilityLabel("Symptoms")
+                    .accessibilityLabel(NSLocalizedString("home.symptoms.accessibility", comment: "Symptoms tile accessibility"))
 
                     // Research tile
                     NavigationLink(destination: ResearchView()) {
-                        TileView(title: "Research", icon: "book.pages", enabled: true)
+                        TileView(title: NSLocalizedString("home.research", comment: "Research tile title"), icon: "book.pages", enabled: true)
                     }
-                    .accessibilityLabel("Research papers")
+                    .accessibilityLabel(NSLocalizedString("home.research.accessibility", comment: "Research tile accessibility"))
                 }
                 .padding()
             }
-            .navigationTitle("Visual Snow Syndrome Solace")
+            .navigationTitle(NSLocalizedString("home.title", comment: "Home screen navigation title"))
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
                     NavigationLink(destination: SettingsView()) {
                         Image(systemName: "gearshape")
-                            .accessibilityLabel("Settings")
+                            .accessibilityLabel(NSLocalizedString("home.settings.accessibility", comment: "Settings button accessibility"))
                     }
                 }
             }

@@ -62,7 +62,7 @@ struct BreathingView: View {
             DisclaimerFooter()
         }
         .padding()
-        .navigationTitle("Breathing")
+        .navigationTitle(NSLocalizedString("breathing.title", comment: "Breathing navigation title"))
         .onAppear {
             selectedPreset = settings.defaultBreathingPreset
         }
@@ -78,14 +78,14 @@ struct BreathingView: View {
     // MARK: - Subviews
 
     private var presetPicker: some View {
-        Picker("Preset", selection: $selectedPreset) {
+        Picker(NSLocalizedString("breathing.preset", comment: "Preset picker label"), selection: $selectedPreset) {
             ForEach(BreathingPreset.allCases) { preset in
-                Text(preset.rawValue).tag(preset)
+                Text(preset.localizedName).tag(preset)
             }
         }
         .pickerStyle(.segmented)
         .disabled(isRunning)
-        .accessibilityLabel("Breathing preset picker")
+        .accessibilityLabel(NSLocalizedString("breathing.preset.accessibility", comment: "Preset picker accessibility"))
     }
 
     @ViewBuilder
@@ -100,7 +100,7 @@ struct BreathingView: View {
                     .contentTransition(.numericText())
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("\(currentPhase.name), \(Int(phaseTimeRemaining)) seconds remaining")
+            .accessibilityLabel(String(format: NSLocalizedString("breathing.phaseRemaining.accessibility", comment: "Phase remaining accessibility"), currentPhase.name, Int(phaseTimeRemaining)))
         } else {
             ZStack {
                 Circle()
@@ -125,7 +125,7 @@ struct BreathingView: View {
                 }
             }
             .accessibilityElement(children: .combine)
-            .accessibilityLabel("\(currentPhase.name), \(Int(phaseTimeRemaining)) seconds remaining")
+            .accessibilityLabel(String(format: NSLocalizedString("breathing.phaseRemaining.accessibility", comment: "Phase remaining accessibility"), currentPhase.name, Int(phaseTimeRemaining)))
         }
     }
 
@@ -134,17 +134,17 @@ struct BreathingView: View {
             Image(systemName: "wind")
                 .font(.system(size: 60))
                 .foregroundStyle(.secondary)
-            Text("Tap Start to begin")
+            Text(NSLocalizedString("breathing.tapStart", comment: "Idle prompt text"))
                 .font(.headline)
                 .foregroundStyle(.secondary)
         }
     }
 
     private var sessionTimerLabel: some View {
-        Text("Session: \(formatTime(sessionTime))")
+        Text(String(format: NSLocalizedString("breathing.session", comment: "Session timer label"), formatTime(sessionTime)))
             .font(.headline.monospacedDigit())
             .foregroundStyle(.secondary)
-            .accessibilityLabel("Session time: \(Int(sessionTime)) seconds")
+            .accessibilityLabel(String(format: NSLocalizedString("breathing.sessionTime.accessibility", comment: "Session timer accessibility"), Int(sessionTime)))
     }
 
     private var startStopButton: some View {
@@ -155,13 +155,13 @@ struct BreathingView: View {
                 startBreathing()
             }
         } label: {
-            Text(isRunning ? "Stop" : "Start")
+            Text(isRunning ? NSLocalizedString("breathing.stop", comment: "Stop button") : NSLocalizedString("breathing.start", comment: "Start button"))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop breathing exercise" : "Start breathing exercise")
+        .accessibilityLabel(isRunning ? NSLocalizedString("breathing.stop.accessibility", comment: "Stop button accessibility") : NSLocalizedString("breathing.start.accessibility", comment: "Start button accessibility"))
     }
 
     // MARK: - Timer Logic

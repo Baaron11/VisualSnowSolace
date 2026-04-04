@@ -16,6 +16,14 @@ enum AppearanceMode: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    var localizedName: String {
+        switch self {
+        case .system: return NSLocalizedString("settings.appearance.system", comment: "System appearance mode")
+        case .light: return NSLocalizedString("settings.appearance.light", comment: "Light appearance mode")
+        case .dark: return NSLocalizedString("settings.appearance.dark", comment: "Dark appearance mode")
+        }
+    }
+
     var colorScheme: ColorScheme? {
         switch self {
         case .system: return nil
@@ -40,25 +48,33 @@ enum BreathingPreset: String, CaseIterable, Identifiable {
 
     var id: String { rawValue }
 
+    var localizedName: String {
+        switch self {
+        case .box: return NSLocalizedString("appSettings.preset.box", comment: "Box breathing preset name")
+        case .fourSevenEight: return NSLocalizedString("appSettings.preset.fourSevenEight", comment: "4-7-8 breathing preset name")
+        case .paced: return NSLocalizedString("appSettings.preset.paced", comment: "Paced breathing preset name")
+        }
+    }
+
     var phases: [BreathingPhase] {
         switch self {
         case .box:
             return [
-                BreathingPhase(name: "Inhale", duration: 4, targetScale: 1.5),
-                BreathingPhase(name: "Hold", duration: 4, targetScale: 1.5),
-                BreathingPhase(name: "Exhale", duration: 4, targetScale: 0.6),
-                BreathingPhase(name: "Hold", duration: 4, targetScale: 0.6),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.inhale", comment: "Inhale phase"), duration: 4, targetScale: 1.5),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.hold", comment: "Hold phase"), duration: 4, targetScale: 1.5),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.exhale", comment: "Exhale phase"), duration: 4, targetScale: 0.6),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.hold", comment: "Hold phase"), duration: 4, targetScale: 0.6),
             ]
         case .fourSevenEight:
             return [
-                BreathingPhase(name: "Inhale", duration: 4, targetScale: 1.5),
-                BreathingPhase(name: "Hold", duration: 7, targetScale: 1.5),
-                BreathingPhase(name: "Exhale", duration: 8, targetScale: 0.6),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.inhale", comment: "Inhale phase"), duration: 4, targetScale: 1.5),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.hold", comment: "Hold phase"), duration: 7, targetScale: 1.5),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.exhale", comment: "Exhale phase"), duration: 8, targetScale: 0.6),
             ]
         case .paced:
             return [
-                BreathingPhase(name: "Inhale", duration: 5, targetScale: 1.5),
-                BreathingPhase(name: "Exhale", duration: 5, targetScale: 0.6),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.inhale", comment: "Inhale phase"), duration: 5, targetScale: 1.5),
+                BreathingPhase(name: NSLocalizedString("appSettings.breathing.exhale", comment: "Exhale phase"), duration: 5, targetScale: 0.6),
             ]
         }
     }
