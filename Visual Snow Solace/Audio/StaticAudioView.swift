@@ -24,33 +24,33 @@ struct StaticAudioView: View {
         ScrollView {
             VStack(spacing: 20) {
                 // Noise type picker
-                Picker("Noise Type", selection: $noise.noiseType) {
+                Picker(NSLocalizedString("staticAudio.noiseType", comment: "Noise Type picker label"), selection: $noise.noiseType) {
                     ForEach(NoiseType.allCases) { type in
-                        Text(type.rawValue).tag(type)
+                        Text(localizedNoiseTypeName(type)).tag(type)
                     }
                 }
                 .pickerStyle(.segmented)
-                .accessibilityLabel("Noise type picker")
+                .accessibilityLabel(NSLocalizedString("staticAudio.noiseType.accessibility", comment: "Noise type picker accessibility"))
 
                 // Volume slider
                 HStack {
-                    Text("Volume: \(Int(noise.volume * 100))%")
+                    Text(String(format: NSLocalizedString("staticAudio.volume", comment: "Volume label"), Int(noise.volume * 100)))
                         .frame(width: 110, alignment: .leading)
                         .font(.subheadline)
                     Slider(value: $noise.volume, in: 0...1)
-                        .accessibilityLabel("Volume, \(Int(noise.volume * 100)) percent")
+                        .accessibilityLabel(String(format: NSLocalizedString("staticAudio.volume.accessibility", comment: "Volume slider accessibility"), Int(noise.volume * 100)))
                 }
 
                 // Filter slider
                 HStack {
-                    Text("Filter: \(Int(noise.filterCutoff)) Hz")
+                    Text(String(format: NSLocalizedString("staticAudio.filter", comment: "Filter label"), Int(noise.filterCutoff)))
                         .frame(width: 110, alignment: .leading)
                         .font(.subheadline)
                     Slider(value: $noise.filterCutoff, in: 200...20000)
-                        .accessibilityLabel("Low pass filter cutoff, \(Int(noise.filterCutoff)) hertz")
+                        .accessibilityLabel(String(format: NSLocalizedString("staticAudio.filter.accessibility", comment: "Filter slider accessibility"), Int(noise.filterCutoff)))
                 }
 
-                Toggle("Show Visual Static", isOn: $showVisualStatic)
+                Toggle(NSLocalizedString("staticAudio.showVisualStatic", comment: "Show Visual Static toggle"), isOn: $showVisualStatic)
 
                 if showVisualStatic {
                     VisualStaticView(
@@ -74,25 +74,25 @@ struct StaticAudioView: View {
                                 .background(.ultraThinMaterial, in: Circle())
                         }
                         .padding(8)
-                        .accessibilityLabel("Show visual static fullscreen")
+                        .accessibilityLabel(NSLocalizedString("staticAudio.fullscreen.accessibility", comment: "Fullscreen button accessibility"))
                     }
 
                     HStack {
-                        Text("Grain Speed")
+                        Text(NSLocalizedString("staticAudio.grainSpeed", comment: "Grain Speed label"))
                             .frame(width: 110, alignment: .leading)
                             .font(.subheadline)
                         Slider(value: $grainSpeed, in: 0.1...3.0)
                     }
 
                     HStack {
-                        Text("Contrast")
+                        Text(NSLocalizedString("staticAudio.contrast", comment: "Contrast label"))
                             .frame(width: 110, alignment: .leading)
                             .font(.subheadline)
                         Slider(value: $grainContrast, in: 0.0...1.0)
                     }
 
                     HStack {
-                        Text("Hue")
+                        Text(NSLocalizedString("staticAudio.hue", comment: "Hue label"))
                             .frame(width: 110, alignment: .leading)
                             .font(.subheadline)
                         Slider(value: $grainHue, in: 0.0...360.0)
@@ -101,7 +101,7 @@ struct StaticAudioView: View {
 
                 // Session timer
                 if noise.isPlaying {
-                    Text("Session: \(formatTime(sessionTime))")
+                    Text(String(format: NSLocalizedString("staticAudio.session", comment: "Session timer"), formatTime(sessionTime)))
                         .font(.footnote.monospacedDigit())
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -111,19 +111,19 @@ struct StaticAudioView: View {
             }
             .padding()
         }
-        .navigationTitle("Static Audio")
+        .navigationTitle(NSLocalizedString("staticAudio.title", comment: "Static Audio navigation title"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
                 Button {
                     noise.toggle()
                 } label: {
-                    Label(noise.isPlaying ? "Pause" : "Play",
+                    Label(noise.isPlaying ? NSLocalizedString("staticAudio.pause", comment: "Pause button") : NSLocalizedString("staticAudio.play", comment: "Play button"),
                           systemImage: noise.isPlaying ? "pause.fill" : "play.fill")
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)
-                .accessibilityLabel(noise.isPlaying ? "Pause noise" : "Play noise")
+                .accessibilityLabel(noise.isPlaying ? NSLocalizedString("staticAudio.pause.accessibility", comment: "Pause button accessibility") : NSLocalizedString("staticAudio.play.accessibility", comment: "Play button accessibility"))
             }
         }
         .onDisappear {
@@ -137,6 +137,14 @@ struct StaticAudioView: View {
             if isPlaying {
                 sessionTime = 0
             }
+        }
+    }
+
+    private func localizedNoiseTypeName(_ type: NoiseType) -> String {
+        switch type {
+        case .white: return NSLocalizedString("staticAudio.noiseType.white", comment: "White noise type")
+        case .pink: return NSLocalizedString("staticAudio.noiseType.pink", comment: "Pink noise type")
+        case .brown: return NSLocalizedString("staticAudio.noiseType.brown", comment: "Brown noise type")
         }
     }
 

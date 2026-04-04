@@ -8,12 +8,12 @@ import SwiftUI
 
 struct DisclaimerFooter: View {
     var body: some View {
-        Text("Not a medical device. For informational use only. Consult your clinician.")
+        Text(NSLocalizedString("disclaimer.text", comment: "Disclaimer text shown at bottom of screens"))
             .font(.caption2)
             .italic()
             .foregroundStyle(.secondary)
             .multilineTextAlignment(.center)
             .padding(.top, 8)
-            .accessibilityLabel("Disclaimer: Not a medical device. For informational use only. Consult your clinician.")
+            .accessibilityLabel(NSLocalizedString("disclaimer.accessibilityLabel", comment: "Accessibility label for disclaimer"))
     }
 }

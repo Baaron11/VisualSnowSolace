@@ -115,7 +115,7 @@ struct QuickReliefView: View {
                                 .contentTransition(.numericText())
                         }
                         .accessibilityElement(children: .combine)
-                        .accessibilityLabel("\(currentPhase.name), \(Int(phaseTimeRemaining)) seconds remaining")
+                        .accessibilityLabel(String(format: NSLocalizedString("breathing.phaseRemaining.accessibility", comment: "Phase remaining accessibility"), currentPhase.name, Int(phaseTimeRemaining)))
                     } else {
                         ZStack {
                             Circle()
@@ -140,7 +140,7 @@ struct QuickReliefView: View {
                             }
                         }
                         .accessibilityElement(children: .combine)
-                        .accessibilityLabel("\(currentPhase.name), \(Int(phaseTimeRemaining)) seconds remaining")
+                        .accessibilityLabel(String(format: NSLocalizedString("breathing.phaseRemaining.accessibility", comment: "Phase remaining accessibility"), currentPhase.name, Int(phaseTimeRemaining)))
                     }
 
                     // Visual static during session
@@ -165,24 +165,24 @@ struct QuickReliefView: View {
                         Button {
                             showVisualStaticFullscreen = true
                         } label: {
-                            Label("Fullscreen", systemImage: "arrow.up.left.and.arrow.down.right")
+                            Label(NSLocalizedString("quickRelief.fullscreen", comment: "Fullscreen button label"), systemImage: "arrow.up.left.and.arrow.down.right")
                         }
                         .font(.footnote)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                        .accessibilityLabel("Show visual static fullscreen")
+                        .accessibilityLabel(NSLocalizedString("quickRelief.fullscreen.accessibility", comment: "Fullscreen button accessibility"))
                     }
 
                     // Stop button
                     Button {
                         stopRelief()
                     } label: {
-                        Text("Stop")
+                        Text(NSLocalizedString("quickRelief.stop", comment: "Stop button"))
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
                     .tint(.red)
                     .controlSize(.large)
-                    .accessibilityLabel("Stop quick relief session")
+                    .accessibilityLabel(NSLocalizedString("quickRelief.stop.accessibility", comment: "Stop button accessibility"))
                 } else {
                     Spacer()
 
@@ -191,17 +191,17 @@ struct QuickReliefView: View {
                         .foregroundStyle(.blue)
                         .accessibilityHidden(true)
 
-                    Text("Quick Relief")
+                    Text(NSLocalizedString("quickRelief.title", comment: "Quick Relief title"))
                         .font(.title.bold())
 
-                    Text("Starts brown noise at 50% volume and a \(settings.defaultBreathingPreset.rawValue) breathing exercise together.")
+                    Text(String(format: NSLocalizedString("quickRelief.description", comment: "Quick Relief description"), settings.defaultBreathingPreset.localizedName))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                         .multilineTextAlignment(.center)
 
                     // Visual Static toggle
-                    Toggle("Visual Static", isOn: $showVisualStatic)
-                        .accessibilityLabel("Show visual static")
+                    Toggle(NSLocalizedString("quickRelief.visualStatic", comment: "Visual Static toggle"), isOn: $showVisualStatic)
+                        .accessibilityLabel(NSLocalizedString("quickRelief.visualStatic.accessibility", comment: "Visual Static toggle accessibility"))
 
                     if showVisualStatic {
                         VisualStaticView(
@@ -214,11 +214,11 @@ struct QuickReliefView: View {
                         Button {
                             showVisualStaticFullscreen = true
                         } label: {
-                            Label("Fullscreen", systemImage: "arrow.up.left.and.arrow.down.right")
+                            Label(NSLocalizedString("quickRelief.fullscreen", comment: "Fullscreen button label"), systemImage: "arrow.up.left.and.arrow.down.right")
                         }
                         .font(.footnote)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                        .accessibilityLabel("Show visual static fullscreen")
+                        .accessibilityLabel(NSLocalizedString("quickRelief.fullscreen.accessibility", comment: "Fullscreen button accessibility"))
                     }
 
                     Spacer()
@@ -226,26 +226,26 @@ struct QuickReliefView: View {
                     Button {
                         startRelief()
                     } label: {
-                        Text("Start Quick Relief")
+                        Text(NSLocalizedString("quickRelief.startQuickRelief", comment: "Start Quick Relief button"))
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
-                    .accessibilityLabel("Start quick relief session")
+                    .accessibilityLabel(NSLocalizedString("quickRelief.start.accessibility", comment: "Start button accessibility"))
                 }
 
                 // Volume slider (always visible)
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Volume: \(Int(noise.volume * 100))%")
+                    Text(String(format: NSLocalizedString("quickRelief.volume", comment: "Volume label"), Int(noise.volume * 100)))
                         .font(.subheadline)
                         .foregroundStyle(.secondary)
                     Slider(value: $noise.volume, in: 0...1)
-                        .accessibilityLabel("Noise volume, \(Int(noise.volume * 100)) percent")
+                        .accessibilityLabel(String(format: NSLocalizedString("quickRelief.volume.accessibility", comment: "Volume slider accessibility"), Int(noise.volume * 100)))
                 }
 
                 // Session timer
                 if isActive {
-                    Text("Session: \(formatTime(sessionTime))")
+                    Text(String(format: NSLocalizedString("quickRelief.session", comment: "Session timer"), formatTime(sessionTime)))
                         .font(.footnote.monospacedDigit())
                         .foregroundStyle(.secondary)
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -255,7 +255,7 @@ struct QuickReliefView: View {
             }
             .padding()
         }
-        .navigationTitle("Quick Relief")
+        .navigationTitle(NSLocalizedString("quickRelief.title", comment: "Quick Relief navigation title"))
         .onDisappear {
             stopRelief()
         }

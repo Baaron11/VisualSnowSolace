@@ -1,0 +1,145 @@
+/* Visual Snow Solace — English (Base) Localizable.strings */
+/* Generated for translation. Format: "key" = "value"; */
+
+/* ── Shared ── */
+"disclaimer.text" = "Not a medical device. For informational use only. Consult your clinician.";
+"disclaimer.accessibilityLabel" = "Disclaimer: Not a medical device. For informational use only. Consult your clinician.";
+
+/* ── Root ── */
+"root.tab.home" = "Home";
+"root.tab.quickRelief" = "Quick Relief";
+"root.tab.log" = "Log";
+
+/* ── Home ── */
+"home.title" = "Visual Snow Syndrome Solace";
+"home.breathing" = "Breathing";
+"home.breathing.accessibility" = "Breathing exercises";
+"home.static" = "Static";
+"home.static.accessibility" = "Static noise audio";
+"home.visualTraining" = "Visual Training";
+"home.visualTraining.accessibility" = "Visual Training exercises";
+"home.symptoms" = "Symptoms";
+"home.symptoms.accessibility" = "Symptoms";
+"home.research" = "Research";
+"home.research.accessibility" = "Research papers";
+"home.settings.accessibility" = "Settings";
+
+/* ── Settings ── */
+"settings.title" = "Settings";
+"settings.appearance" = "Appearance";
+"settings.appearance.theme" = "Theme";
+"settings.appearance.theme.accessibility" = "App theme";
+"settings.appearance.system" = "System";
+"settings.appearance.light" = "Light";
+"settings.appearance.dark" = "Dark";
+"settings.motion" = "Motion";
+"settings.motion.reduceMotion" = "Reduce Motion";
+"settings.motion.reduceMotion.accessibility" = "Override reduce motion setting";
+"settings.motion.description" = "When enabled, breathing animations are replaced with text countdowns. This supplements the system Reduce Motion setting.";
+"settings.breathing" = "Breathing";
+"settings.breathing.defaultPreset" = "Default Preset";
+"settings.breathing.defaultPreset.accessibility" = "Default breathing preset";
+"settings.about" = "About";
+"settings.about.version" = "Version";
+"settings.about.appVersion.accessibility" = "App version %@";
+"settings.about.description" = "Visual Snow Syndrome Solace is designed to provide comfort tools for people experiencing visual snow syndrome. Not a medical device. For informational use only. Consult your clinician before starting any new wellness routine.";
+
+/* ── App Settings (enum display names) ── */
+"appSettings.breathing.inhale" = "Inhale";
+"appSettings.breathing.hold" = "Hold";
+"appSettings.breathing.exhale" = "Exhale";
+"appSettings.preset.box" = "Box (4-4-4-4)";
+"appSettings.preset.fourSevenEight" = "4-7-8";
+"appSettings.preset.paced" = "Paced (5-5)";
+
+/* ── Breathing ── */
+"breathing.title" = "Breathing";
+"breathing.preset" = "Preset";
+"breathing.preset.accessibility" = "Breathing preset picker";
+"breathing.phaseRemaining.accessibility" = "%@, %d seconds remaining";
+"breathing.tapStart" = "Tap Start to begin";
+"breathing.session" = "Session: %@";
+"breathing.sessionTime.accessibility" = "Session time: %d seconds";
+"breathing.start" = "Start";
+"breathing.stop" = "Stop";
+"breathing.start.accessibility" = "Start breathing exercise";
+"breathing.stop.accessibility" = "Stop breathing exercise";
+
+/* ── Quick Relief ── */
+"quickRelief.title" = "Quick Relief";
+"quickRelief.description" = "Starts brown noise at 50%% volume and a %@ breathing exercise together.";
+"quickRelief.visualStatic" = "Visual Static";
+"quickRelief.visualStatic.accessibility" = "Show visual static";
+"quickRelief.fullscreen" = "Fullscreen";
+"quickRelief.fullscreen.accessibility" = "Show visual static fullscreen";
+"quickRelief.stop" = "Stop";
+"quickRelief.stop.accessibility" = "Stop quick relief session";
+"quickRelief.startQuickRelief" = "Start Quick Relief";
+"quickRelief.start.accessibility" = "Start quick relief session";
+"quickRelief.volume" = "Volume: %d%%";
+"quickRelief.volume.accessibility" = "Noise volume, %d percent";
+"quickRelief.session" = "Session: %@";
+
+/* ── Static Audio ── */
+"staticAudio.title" = "Static Audio";
+"staticAudio.noiseType" = "Noise Type";
+"staticAudio.noiseType.accessibility" = "Noise type picker";
+"staticAudio.noiseType.white" = "White";
+"staticAudio.noiseType.pink" = "Pink";
+"staticAudio.noiseType.brown" = "Brown";
+"staticAudio.volume" = "Volume: %d%%";
+"staticAudio.volume.accessibility" = "Volume, %d percent";
+"staticAudio.filter" = "Filter: %d Hz";
+"staticAudio.filter.accessibility" = "Low pass filter cutoff, %d hertz";
+"staticAudio.showVisualStatic" = "Show Visual Static";
+"staticAudio.fullscreen.accessibility" = "Show visual static fullscreen";
+"staticAudio.grainSpeed" = "Grain Speed";
+"staticAudio.contrast" = "Contrast";
+"staticAudio.hue" = "Hue";
+"staticAudio.session" = "Session: %@";
+"staticAudio.pause" = "Pause";
+"staticAudio.play" = "Play";
+"staticAudio.pause.accessibility" = "Pause noise";
+"staticAudio.play.accessibility" = "Play noise";
+
+/* ── Visual Static ── */
+"visualStatic.motionReduced" = "Motion reduced";
+"visualStatic.grain.accessibility" = "Animated visual static grain";
+"visualStatic.speed" = "Speed: %.1fx";
+"visualStatic.speed.accessibility" = "Grain speed, %.1f x";
+"visualStatic.grainContrast" = "Grain Contrast: %d%%";
+"visualStatic.grainContrast.accessibility" = "Grain contrast, %d percent";
+"visualStatic.hueRotation" = "Hue Rotation: %d\u00B0";
+"visualStatic.hueRotation.accessibility" = "Hue rotation, %d degrees";
+"visualStatic.fullscreen.accessibility" = "Fullscreen visual static grain";
+"visualStatic.dismiss.accessibility" = "Dismiss fullscreen";
+
+/* ── Log ── */
+"log.title" = "Symptom Log";
+"log.empty.title" = "No Entries";
+"log.empty.description" = "Tap the button below to log your first entry.";
+"log.addEntry.accessibility" = "Add log entry";
+"log.triggers.accessibility" = "Triggers: %@";
+"log.notes.accessibility" = "Notes: %@";
+"log.simulatorPreset.accessibility" = "Simulator preset: %@";
+"log.severity.badge" = "%d/10";
+"log.severity.accessibility" = "Severity %d out of 10";
+"log.newEntry.title" = "New Entry";
+"log.newEntry.date" = "Date";
+"log.newEntry.today" = "Today";
+"log.newEntry.severity" = "Severity";
+"log.newEntry.severityValue" = "Severity: %d";
+"log.newEntry.severitySlider.accessibility" = "Severity slider, %d out of 10";
+"log.newEntry.triggers" = "Triggers";
+"log.newEntry.triggers.placeholder" = "e.g. bright lights, screens, stress";
+"log.newEntry.triggers.accessibility" = "Triggers text field";
+"log.newEntry.notes" = "Notes";
+"log.newEntry.notes.placeholder" = "Additional notes…";
+"log.newEntry.notes.accessibility" = "Notes text field";
+"log.newEntry.simulatorPreset" = "Simulator Preset";
+"log.newEntry.simulatorPreset.placeholder" = "Preset name (optional)";
+"log.newEntry.simulatorPreset.accessibility" = "Simulator preset name, optional";
+"log.newEntry.cancel" = "Cancel";
+"log.newEntry.cancel.accessibility" = "Cancel adding entry";
+"log.newEntry.save" = "Save";
+"log.newEntry.save.accessibility" = "Save log entry";

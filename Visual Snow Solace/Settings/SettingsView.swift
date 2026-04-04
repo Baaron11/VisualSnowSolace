@@ -14,46 +14,46 @@ struct SettingsView: View {
 
         Form {
             // Appearance section
-            Section("Appearance") {
-                Picker("Theme", selection: $settings.appearance) {
+            Section(NSLocalizedString("settings.appearance", comment: "Appearance section header")) {
+                Picker(NSLocalizedString("settings.appearance.theme", comment: "Theme picker label"), selection: $settings.appearance) {
                     ForEach(AppearanceMode.allCases) { mode in
-                        Text(mode.rawValue).tag(mode)
+                        Text(mode.localizedName).tag(mode)
                     }
                 }
-                .accessibilityLabel("App theme")
+                .accessibilityLabel(NSLocalizedString("settings.appearance.theme.accessibility", comment: "Theme picker accessibility"))
             }
 
             // Motion section
-            Section("Motion") {
-                Toggle("Reduce Motion", isOn: $settings.reduceMotionOverride)
-                    .accessibilityLabel("Override reduce motion setting")
+            Section(NSLocalizedString("settings.motion", comment: "Motion section header")) {
+                Toggle(NSLocalizedString("settings.motion.reduceMotion", comment: "Reduce Motion toggle label"), isOn: $settings.reduceMotionOverride)
+                    .accessibilityLabel(NSLocalizedString("settings.motion.reduceMotion.accessibility", comment: "Reduce Motion toggle accessibility"))
 
-                Text("When enabled, breathing animations are replaced with text countdowns. This supplements the system Reduce Motion setting.")
+                Text(NSLocalizedString("settings.motion.description", comment: "Reduce Motion description"))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
 
             // Breathing section
-            Section("Breathing") {
-                Picker("Default Preset", selection: $settings.defaultBreathingPreset) {
+            Section(NSLocalizedString("settings.breathing", comment: "Breathing section header")) {
+                Picker(NSLocalizedString("settings.breathing.defaultPreset", comment: "Default Preset picker label"), selection: $settings.defaultBreathingPreset) {
                     ForEach(BreathingPreset.allCases) { preset in
-                        Text(preset.rawValue).tag(preset)
+                        Text(preset.localizedName).tag(preset)
                     }
                 }
-                .accessibilityLabel("Default breathing preset")
+                .accessibilityLabel(NSLocalizedString("settings.breathing.defaultPreset.accessibility", comment: "Default Preset picker accessibility"))
             }
 
             // About section
-            Section("About") {
-                LabeledContent("Version", value: appVersion)
-                    .accessibilityLabel("App version \(appVersion)")
+            Section(NSLocalizedString("settings.about", comment: "About section header")) {
+                LabeledContent(NSLocalizedString("settings.about.version", comment: "Version label"), value: appVersion)
+                    .accessibilityLabel(String(format: NSLocalizedString("settings.about.appVersion.accessibility", comment: "App version accessibility"), appVersion))
 
-                Text("Visual Snow Syndrome Solace is designed to provide comfort tools for people experiencing visual snow syndrome. Not a medical device. For informational use only. Consult your clinician before starting any new wellness routine.")
+                Text(NSLocalizedString("settings.about.description", comment: "About section description"))
                     .font(.caption)
                     .foregroundStyle(.secondary)
             }
         }
-        .navigationTitle("Settings")
+        .navigationTitle(NSLocalizedString("settings.title", comment: "Settings navigation title"))
     }
 
     private var appVersion: String {

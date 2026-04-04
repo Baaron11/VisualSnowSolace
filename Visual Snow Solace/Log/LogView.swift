@@ -69,9 +69,9 @@ struct LogView: View {
         Group {
             if store.entries.isEmpty {
                 ContentUnavailableView(
-                    "No Entries",
+                    NSLocalizedString("log.empty.title", comment: "Empty log title"),
                     systemImage: "list.clipboard",
-                    description: Text("Tap the button below to log your first entry.")
+                    description: Text(NSLocalizedString("log.empty.description", comment: "Empty log description"))
                 )
             } else {
                 List {
@@ -84,7 +84,7 @@ struct LogView: View {
                 }
             }
         }
-        .navigationTitle("Symptom Log")
+        .navigationTitle(NSLocalizedString("log.title", comment: "Symptom Log navigation title"))
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
                 Button {
@@ -92,7 +92,7 @@ struct LogView: View {
                 } label: {
                     Image(systemName: "plus")
                 }
-                .accessibilityLabel("Add log entry")
+                .accessibilityLabel(NSLocalizedString("log.addEntry.accessibility", comment: "Add entry button accessibility"))
             }
         }
         .sheet(isPresented: $showingAddSheet) {
@@ -119,7 +119,7 @@ private struct LogEntryRow: View {
                 Label(entry.triggers, systemImage: "exclamationmark.triangle")
                     .font(.caption)
                     .foregroundStyle(.secondary)
-                    .accessibilityLabel("Triggers: \(entry.triggers)")
+                    .accessibilityLabel(String(format: NSLocalizedString("log.triggers.accessibility", comment: "Triggers accessibility"), entry.triggers))
             }
 
             if !entry.notes.isEmpty {
@@ -127,14 +127,14 @@ private struct LogEntryRow: View {
                     .font(.caption)
                     .foregroundStyle(.secondary)
                     .lineLimit(2)
-                    .accessibilityLabel("Notes: \(entry.notes)")
+                    .accessibilityLabel(String(format: NSLocalizedString("log.notes.accessibility", comment: "Notes accessibility"), entry.notes))
             }
 
             if let presetName = entry.simulatorPresetName, !presetName.isEmpty {
                 Label(presetName, systemImage: "sparkles.rectangle.stack")
                     .font(.caption2)
                     .foregroundStyle(.tint)
-                    .accessibilityLabel("Simulator preset: \(presetName)")
+                    .accessibilityLabel(String(format: NSLocalizedString("log.simulatorPreset.accessibility", comment: "Simulator preset accessibility"), presetName))
             }
         }
         .padding(.vertical, 4)
@@ -157,13 +157,13 @@ private struct SeverityBadge: View {
     }
 
     var body: some View {
-        Text("\(severity)/10")
+        Text(String(format: NSLocalizedString("log.severity.badge", comment: "Severity badge format"), severity))
             .font(.caption.bold())
             .padding(.horizontal, 8)
             .padding(.vertical, 2)
             .background(color.opacity(0.2), in: Capsule())
             .foregroundStyle(color)
-            .accessibilityLabel("Severity \(severity) out of 10")
+            .accessibilityLabel(String(format: NSLocalizedString("log.severity.accessibility", comment: "Severity accessibility"), severity))
     }
 }
 
@@ -181,42 +181,42 @@ private struct AddEntrySheet: View {
     var body: some View {
         NavigationStack {
             Form {
-                Section("Date") {
-                    LabeledContent("Today", value: Date.now, format: .dateTime.month().day().year())
+                Section(NSLocalizedString("log.newEntry.date", comment: "Date section header")) {
+                    LabeledContent(NSLocalizedString("log.newEntry.today", comment: "Today label"), value: Date.now, format: .dateTime.month().day().year())
                 }
 
-                Section("Severity") {
+                Section(NSLocalizedString("log.newEntry.severity", comment: "Severity section header")) {
                     VStack(alignment: .leading) {
-                        Text("Severity: \(Int(severity))")
+                        Text(String(format: NSLocalizedString("log.newEntry.severityValue", comment: "Severity value label"), Int(severity)))
                         Slider(value: $severity, in: 1...10, step: 1)
-                            .accessibilityLabel("Severity slider, \(Int(severity)) out of 10")
+                            .accessibilityLabel(String(format: NSLocalizedString("log.newEntry.severitySlider.accessibility", comment: "Severity slider accessibility"), Int(severity)))
                     }
                 }
 
-                Section("Triggers") {
-                    TextField("e.g. bright lights, screens, stress", text: $triggers)
-                        .accessibilityLabel("Triggers text field")
+                Section(NSLocalizedString("log.newEntry.triggers", comment: "Triggers section header")) {
+                    TextField(NSLocalizedString("log.newEntry.triggers.placeholder", comment: "Triggers placeholder"), text: $triggers)
+                        .accessibilityLabel(NSLocalizedString("log.newEntry.triggers.accessibility", comment: "Triggers field accessibility"))
                 }
 
-                Section("Notes") {
-                    TextField("Additional notes…", text: $notes, axis: .vertical)
+                Section(NSLocalizedString("log.newEntry.notes", comment: "Notes section header")) {
+                    TextField(NSLocalizedString("log.newEntry.notes.placeholder", comment: "Notes placeholder"), text: $notes, axis: .vertical)
                         .lineLimit(3...6)
-                        .accessibilityLabel("Notes text field")
+                        .accessibilityLabel(NSLocalizedString("log.newEntry.notes.accessibility", comment: "Notes field accessibility"))
                 }
 
-                Section("Simulator Preset") {
-                    TextField("Preset name (optional)", text: $simulatorPresetName)
-                        .accessibilityLabel("Simulator preset name, optional")
+                Section(NSLocalizedString("log.newEntry.simulatorPreset", comment: "Simulator Preset section header")) {
+                    TextField(NSLocalizedString("log.newEntry.simulatorPreset.placeholder", comment: "Simulator preset placeholder"), text: $simulatorPresetName)
+                        .accessibilityLabel(NSLocalizedString("log.newEntry.simulatorPreset.accessibility", comment: "Simulator preset field accessibility"))
                 }
             }
-            .navigationTitle("New Entry")
+            .navigationTitle(NSLocalizedString("log.newEntry.title", comment: "New Entry navigation title"))
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
-                    Button("Cancel") { dismiss() }
-                        .accessibilityLabel("Cancel adding entry")
+                    Button(NSLocalizedString("log.newEntry.cancel", comment: "Cancel button")) { dismiss() }
+                        .accessibilityLabel(NSLocalizedString("log.newEntry.cancel.accessibility", comment: "Cancel button accessibility"))
                 }
                 ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") {
+                    Button(NSLocalizedString("log.newEntry.save", comment: "Save button")) {
                         let entry = LogEntry(
                             severity: Int(severity),
                             triggers: triggers,
@@ -226,7 +226,7 @@ private struct AddEntrySheet: View {
                         store.add(entry)
                         dismiss()
                     }
-                    .accessibilityLabel("Save log entry")
+                    .accessibilityLabel(NSLocalizedString("log.newEntry.save.accessibility", comment: "Save button accessibility"))
                 }
             }
         }

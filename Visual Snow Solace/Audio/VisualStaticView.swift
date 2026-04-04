@@ -30,7 +30,7 @@ struct VisualStaticView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 12))
 
             if reduceMotion {
-                Text("Motion reduced")
+                Text(NSLocalizedString("visualStatic.motionReduced", comment: "Motion reduced label"))
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }
@@ -58,7 +58,7 @@ struct VisualStaticView: View {
                 drawGrain(context: context, size: size, seed: seed)
             }
         }
-        .accessibilityLabel("Animated visual static grain")
+        .accessibilityLabel(NSLocalizedString("visualStatic.grain.accessibility", comment: "Grain canvas accessibility"))
     }
 
     // MARK: - Sliders
@@ -66,27 +66,27 @@ struct VisualStaticView: View {
     private var sliders: some View {
         VStack(spacing: 12) {
             VStack(alignment: .leading, spacing: 4) {
-                Text("Speed: \(grainSpeed, specifier: "%.1f")x")
+                Text(String(format: NSLocalizedString("visualStatic.speed", comment: "Speed label"), grainSpeed))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Slider(value: $grainSpeed, in: 0.1...3.0)
-                    .accessibilityLabel("Grain speed, \(grainSpeed, specifier: "%.1f") x")
+                    .accessibilityLabel(String(format: NSLocalizedString("visualStatic.speed.accessibility", comment: "Speed slider accessibility"), grainSpeed))
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Grain Contrast: \(Int(grainContrast * 100))%")
+                Text(String(format: NSLocalizedString("visualStatic.grainContrast", comment: "Grain Contrast label"), Int(grainContrast * 100)))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Slider(value: $grainContrast, in: 0.0...1.0)
-                    .accessibilityLabel("Grain contrast, \(Int(grainContrast * 100)) percent")
+                    .accessibilityLabel(String(format: NSLocalizedString("visualStatic.grainContrast.accessibility", comment: "Grain Contrast slider accessibility"), Int(grainContrast * 100)))
             }
 
             VStack(alignment: .leading, spacing: 4) {
-                Text("Hue Rotation: \(Int(hueRotation))\u{00B0}")
+                Text(String(format: NSLocalizedString("visualStatic.hueRotation", comment: "Hue Rotation label"), Int(hueRotation)))
                     .font(.subheadline)
                     .foregroundStyle(.secondary)
                 Slider(value: $hueRotation, in: 0...360)
-                    .accessibilityLabel("Hue rotation, \(Int(hueRotation)) degrees")
+                    .accessibilityLabel(String(format: NSLocalizedString("visualStatic.hueRotation.accessibility", comment: "Hue Rotation slider accessibility"), Int(hueRotation)))
             }
         }
     }
@@ -107,7 +107,7 @@ struct VisualStaticView: View {
                 }
             }
             .ignoresSafeArea()
-            .accessibilityLabel("Fullscreen visual static grain")
+            .accessibilityLabel(NSLocalizedString("visualStatic.fullscreen.accessibility", comment: "Fullscreen grain accessibility"))
             .overlay(alignment: .center) {
                 if let overlayContent {
                     overlayContent()
@@ -126,7 +126,7 @@ struct VisualStaticView: View {
                     .shadow(radius: 4)
             }
             .padding()
-            .accessibilityLabel("Dismiss fullscreen")
+            .accessibilityLabel(NSLocalizedString("visualStatic.dismiss.accessibility", comment: "Dismiss fullscreen accessibility"))
         }
     }
 
