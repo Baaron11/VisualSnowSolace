@@ -7,6 +7,7 @@
 // capital letters, timer, personal best tracking, and accuracy counter.
 
 import SwiftUI
+import Foundation
 #if canImport(UIKit)
 import UIKit
 internal import Combine
@@ -19,6 +20,13 @@ enum TrackingMode: String, CaseIterable, Identifiable {
     case eyeOnly = "Eye-Only"
 
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .underline: return NSLocalizedString("michigan.mode.underline", comment: "Underline tracking mode")
+        case .eyeOnly:   return NSLocalizedString("michigan.mode.eyeOnly", comment: "Eye-Only tracking mode")
+        }
+    }
 }
 
 // MARK: - Letter Cell
@@ -74,15 +82,15 @@ struct MichiganTrackingView: View {
 
     var body: some View {
         VStack(spacing: 12) {
-            Picker("Mode", selection: $trackingMode) {
+            Picker(NSLocalizedString("michigan.modePicker", comment: "Mode picker label"), selection: $trackingMode) {
                 ForEach(TrackingMode.allCases) { m in
-                    Text(m.rawValue).tag(m)
+                    Text(m.localizedName).tag(m)
                 }
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
             .disabled(isRunning)
-            .accessibilityLabel("Tracking mode picker")
+            .accessibilityLabel(NSLocalizedString("michigan.modePicker.accessibility", comment: "Tracking mode picker accessibility"))
 
             instructionsPanel
 
@@ -96,20 +104,20 @@ struct MichiganTrackingView: View {
             HStack(spacing: 12) {
                 startStopButton
 
-                Button("New Paragraph") {
+                Button(NSLocalizedString("michigan.newParagraph", comment: "New paragraph button")) {
                     generateParagraph()
                     resetSession()
                 }
                 .buttonStyle(.bordered)
                 .disabled(isRunning)
-                .accessibilityLabel("Generate new paragraph")
+                .accessibilityLabel(NSLocalizedString("michigan.newParagraph.accessibility", comment: "Generate new paragraph accessibility"))
             }
             .padding(.horizontal)
 
             DisclaimerFooter()
         }
         .padding(.vertical)
-        .navigationTitle("Michigan Tracking")
+        .navigationTitle(NSLocalizedString("michigan.title", comment: "Michigan Tracking navigation title"))
         .onAppear { generateParagraph() }
         .onDisappear { isRunning = false }
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
@@ -124,43 +132,43 @@ struct MichiganTrackingView: View {
         DisclosureGroup(isExpanded: $showInstructions) {
             Group {
                 if trackingMode == .underline {
-                    Text("Starting at the top left, underline the letters continuously. When you reach the target letter, circle it and continue. Find and circle each letter A through Z in order. Keep your finger moving without lifting.")
+                    Text(NSLocalizedString("michigan.instructions.underline", comment: "Underline mode instructions"))
                 } else {
-                    Text("Using only your eyes (no head movement), scan each line left to right. Tap each letter A through Z in order as you find them.")
+                    Text(NSLocalizedString("michigan.instructions.eyeOnly", comment: "Eye-only mode instructions"))
                 }
             }
             .font(.caption)
             .foregroundStyle(.secondary)
             .padding(.top, 4)
         } label: {
-            Label("Instructions", systemImage: "info.circle")
+            Label(NSLocalizedString("michigan.instructions.label", comment: "Instructions disclosure label"), systemImage: "info.circle")
                 .font(.subheadline)
         }
         .padding(.horizontal)
-        .accessibilityLabel("Instructions panel")
+        .accessibilityLabel(NSLocalizedString("michigan.instructions.accessibility", comment: "Instructions panel accessibility"))
     }
 
     // MARK: - Target Display
 
     private var targetDisplay: some View {
         HStack {
-            Text("Find:")
+            Text(NSLocalizedString("michigan.find", comment: "Find label"))
                 .font(.headline)
                 .foregroundStyle(.secondary)
             Text(String(currentTarget))
                 .font(.system(size: 32, weight: .bold, design: .monospaced))
                 .foregroundStyle(.blue)
-                .accessibilityLabel("Current target letter: \(String(currentTarget))")
+                .accessibilityLabel(String(format: NSLocalizedString("michigan.target.accessibility", comment: "Current target letter accessibility"), String(currentTarget)))
 
             if trackingMode == .eyeOnly {
                 Spacer()
-                Text("No head movement")
+                Text(NSLocalizedString("michigan.noHeadMovement", comment: "No head movement reminder"))
                     .font(.caption2)
                     .foregroundStyle(.orange)
                     .padding(.horizontal, 8)
                     .padding(.vertical, 4)
                     .background(.orange.opacity(0.15), in: Capsule())
-                    .accessibilityLabel("Reminder: no head movement")
+                    .accessibilityLabel(NSLocalizedString("michigan.noHeadMovement.accessibility", comment: "No head movement accessibility"))
             }
         }
         .padding(.horizontal)
@@ -254,7 +262,7 @@ struct MichiganTrackingView: View {
             }
         }
         .frame(height: 220)
-        .accessibilityLabel("Letter tracking grid")
+        .accessibilityLabel(NSLocalizedString("michigan.grid.accessibility", comment: "Letter tracking grid accessibility"))
     }
 
     private func cellColor(for cell: LetterCell) -> Color {
@@ -270,29 +278,29 @@ struct MichiganTrackingView: View {
             if isRunning || isComplete {
                 Text(formatTime(elapsed))
                     .font(.headline.monospacedDigit())
-                    .accessibilityLabel("Elapsed time: \(Int(elapsed)) seconds")
+                    .accessibilityLabel(String(format: NSLocalizedString("michigan.elapsed.accessibility", comment: "Elapsed time accessibility"), Int(elapsed)))
             }
 
             if bestTime > 0 {
-                Text("Best: \(formatTime(bestTime))")
+                Text(String(format: NSLocalizedString("michigan.best", comment: "Best time label"), formatTime(bestTime)))
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
-                    .accessibilityLabel("Personal best: \(Int(bestTime)) seconds")
+                    .accessibilityLabel(String(format: NSLocalizedString("michigan.best.accessibility", comment: "Personal best accessibility"), Int(bestTime)))
             }
 
             Spacer()
 
             if trackingMode == .eyeOnly {
-                Text("✓\(correctCount)  ✗\(missCount)")
+                Text(String(format: NSLocalizedString("michigan.score", comment: "Score display"), correctCount, missCount))
                     .font(.subheadline.monospacedDigit())
-                    .accessibilityLabel("\(correctCount) correct, \(missCount) missed")
+                    .accessibilityLabel(String(format: NSLocalizedString("michigan.score.accessibility", comment: "Score accessibility"), correctCount, missCount))
             }
 
             if isComplete {
-                Text("Complete!")
+                Text(NSLocalizedString("michigan.complete", comment: "Exercise complete label"))
                     .font(.headline)
                     .foregroundStyle(.green)
-                    .accessibilityLabel("Exercise complete")
+                    .accessibilityLabel(NSLocalizedString("michigan.complete.accessibility", comment: "Exercise complete accessibility"))
             }
         }
         .padding(.horizontal)
@@ -304,13 +312,13 @@ struct MichiganTrackingView: View {
         Button {
             if isRunning { stopTracking() } else { startTracking() }
         } label: {
-            Text(isRunning ? "Stop" : "Start")
+            Text(isRunning ? NSLocalizedString("michigan.stop", comment: "Stop button") : NSLocalizedString("michigan.start", comment: "Start button"))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop tracking exercise" : "Start tracking exercise")
+        .accessibilityLabel(isRunning ? NSLocalizedString("michigan.stop.accessibility", comment: "Stop tracking exercise accessibility") : NSLocalizedString("michigan.start.accessibility", comment: "Start tracking exercise accessibility"))
     }
 
     // MARK: - Paragraph Generation

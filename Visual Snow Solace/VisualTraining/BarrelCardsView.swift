@@ -6,6 +6,7 @@
 // and audio cue options.
 
 import SwiftUI
+import Foundation
 #if canImport(UIKit)
 import UIKit
 internal import Combine
@@ -36,9 +37,9 @@ struct BarrelCardsView: View {
                     Image(systemName: "printer.fill")
                         .foregroundStyle(.secondary)
                     VStack(alignment: .leading, spacing: 2) {
-                        Text("Printout Required")
+                        Text(NSLocalizedString("barrelCards.printout.title", comment: "Printout required title"))
                             .font(.subheadline.bold())
-                        Text("Search for \"3 Dot Strabismus Training Card\" or \"Convergence Card\" to find and print this exercise card.")
+                        Text(NSLocalizedString("barrelCards.printout.description", comment: "Printout required description"))
                             .font(.footnote)
                             .foregroundStyle(.secondary)
                     }
@@ -63,17 +64,17 @@ struct BarrelCardsView: View {
             }
             .padding()
         }
-        .navigationTitle("Barrel Cards")
+        .navigationTitle(NSLocalizedString("barrelCards.title", comment: "Barrel Cards navigation title"))
         .onDisappear { stop() }
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
             guard isRunning else { return }
             tick()
         }
-        .alert("Take a Break", isPresented: $showBreakAlert) {
-            Button("Continue") {}
-            Button("Stop", role: .destructive) { stop() }
+        .alert(NSLocalizedString("barrelCards.breakAlert.title", comment: "Break alert title"), isPresented: $showBreakAlert) {
+            Button(NSLocalizedString("barrelCards.breakAlert.continue", comment: "Continue button")) {}
+            Button(NSLocalizedString("barrelCards.breakAlert.stop", comment: "Stop button"), role: .destructive) { stop() }
         } message: {
-            Text("You have been exercising for 5 minutes. Consider resting your eyes.")
+            Text(NSLocalizedString("barrelCards.breakAlert.message", comment: "Break alert message"))
         }
     }
 
@@ -81,10 +82,10 @@ struct BarrelCardsView: View {
 
     private var instructionsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Instructions")
+            Text(NSLocalizedString("barrelCards.instructions.title", comment: "Instructions heading"))
                 .font(.headline)
 
-            Text("Hold a barrel card lengthwise against your nose, with the series of rings visible. Focus on the farthest ring until it appears single and clear. Hold for 5 seconds, then shift focus to the next closer ring. Work inward ring by ring. If a ring doubles, hold until it merges before moving on.")
+            Text(NSLocalizedString("barrelCards.instructions.body", comment: "Barrel cards exercise instructions"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -95,36 +96,36 @@ struct BarrelCardsView: View {
     private var configurationSection: some View {
         VStack(spacing: 12) {
             HStack {
-                Text("Duration")
+                Text(NSLocalizedString("barrelCards.duration", comment: "Duration label"))
                     .font(.subheadline)
                 Spacer()
-                Picker("Duration", selection: $durationMinutes) {
-                    Text("1 min").tag(1.0)
-                    Text("3 min").tag(3.0)
-                    Text("5 min").tag(5.0)
+                Picker(NSLocalizedString("barrelCards.durationPicker", comment: "Duration picker label"), selection: $durationMinutes) {
+                    Text(NSLocalizedString("barrelCards.duration.1min", comment: "1 minute duration")).tag(1.0)
+                    Text(NSLocalizedString("barrelCards.duration.3min", comment: "3 minute duration")).tag(3.0)
+                    Text(NSLocalizedString("barrelCards.duration.5min", comment: "5 minute duration")).tag(5.0)
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 200)
-                .accessibilityLabel("Session duration picker")
+                .accessibilityLabel(NSLocalizedString("barrelCards.durationPicker.accessibility", comment: "Session duration picker accessibility"))
             }
 
-            Toggle("Haptic on Transition", isOn: $hapticEnabled)
+            Toggle(NSLocalizedString("barrelCards.haptic", comment: "Haptic on transition toggle"), isOn: $hapticEnabled)
                 .font(.subheadline)
-                .accessibilityLabel("Enable haptic feedback on ring transition")
+                .accessibilityLabel(NSLocalizedString("barrelCards.haptic.accessibility", comment: "Enable haptic feedback on ring transition accessibility"))
 
-            Toggle("Audio Cue", isOn: $audioCue)
+            Toggle(NSLocalizedString("barrelCards.audioCue", comment: "Audio cue toggle"), isOn: $audioCue)
                 .font(.subheadline)
-                .accessibilityLabel("Enable audio chime on ring transition")
+                .accessibilityLabel(NSLocalizedString("barrelCards.audioCue.accessibility", comment: "Enable audio chime on ring transition accessibility"))
         }
     }
 
     // MARK: - Session Timer
 
     private var sessionTimerLabel: some View {
-        Text("Session: \(formatTime(elapsed))")
+        Text(String(format: NSLocalizedString("barrelCards.session", comment: "Session timer label"), formatTime(elapsed)))
             .font(.headline.monospacedDigit())
             .foregroundStyle(.secondary)
-            .accessibilityLabel("Session time: \(Int(elapsed)) seconds")
+            .accessibilityLabel(String(format: NSLocalizedString("barrelCards.sessionTime.accessibility", comment: "Session time accessibility"), Int(elapsed)))
     }
 
     // MARK: - Start / Stop
@@ -133,13 +134,13 @@ struct BarrelCardsView: View {
         Button {
             if isRunning { stop() } else { start() }
         } label: {
-            Text(isRunning ? "Stop" : "Begin Exercise")
+            Text(isRunning ? NSLocalizedString("barrelCards.stop", comment: "Stop button") : NSLocalizedString("barrelCards.beginExercise", comment: "Begin exercise button"))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop barrel cards exercise" : "Begin barrel cards exercise")
+        .accessibilityLabel(isRunning ? NSLocalizedString("barrelCards.stop.accessibility", comment: "Stop barrel cards exercise accessibility") : NSLocalizedString("barrelCards.begin.accessibility", comment: "Begin barrel cards exercise accessibility"))
     }
 
     private func start() {

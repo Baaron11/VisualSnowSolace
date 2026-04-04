@@ -8,6 +8,7 @@
 // is denied or unavailable.
 
 import SwiftUI
+import Foundation
 
 #if canImport(UIKit)
 import AVFoundation
@@ -23,6 +24,16 @@ enum TintPreset: String, CaseIterable, Identifiable {
     case green = "Green"
 
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .warm:  return NSLocalizedString("lensMode.tint.warm", comment: "Warm FL-41 tint preset name")
+        case .cool:  return NSLocalizedString("lensMode.tint.cool", comment: "Cool tint preset name")
+        case .gray:  return NSLocalizedString("lensMode.tint.gray", comment: "Gray tint preset name")
+        case .amber: return NSLocalizedString("lensMode.tint.amber", comment: "Amber tint preset name")
+        case .green: return NSLocalizedString("lensMode.tint.green", comment: "Green tint preset name")
+        }
+    }
 
     var color: Color {
         switch self {
@@ -124,7 +135,7 @@ struct LensModeView: View {
 
             controls
         }
-        .navigationTitle("Lens Mode")
+        .navigationTitle(NSLocalizedString("lensMode.title", comment: "Lens Mode navigation title"))
         #if canImport(UIKit)
         .onAppear {
             cameraManager.requestAccess()
@@ -153,9 +164,9 @@ struct LensModeView: View {
                         .blendMode(.multiply)
                 )
                 .ignoresSafeArea(edges: .top)
-                .accessibilityLabel("Live camera preview with \(selectedTint.rawValue) tint")
+                .accessibilityLabel(String(format: NSLocalizedString("lensMode.camera.preview.accessibility", comment: "Camera preview accessibility with tint name"), selectedTint.localizedName))
         } else {
-            ProgressView("Requesting camera access…")
+            ProgressView(NSLocalizedString("lensMode.camera.requestingAccess", comment: "Camera access request in progress"))
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
         #else
@@ -168,11 +179,11 @@ struct LensModeView: View {
             Image(systemName: "camera.fill")
                 .font(.system(size: 48))
                 .foregroundStyle(.secondary)
-            Text("Camera access is required for Lens Mode.")
+            Text(NSLocalizedString("lensMode.camera.denied.title", comment: "Camera access required message"))
                 .font(.headline)
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
-            Text("Open Settings → Privacy → Camera to grant access.")
+            Text(NSLocalizedString("lensMode.camera.denied.instructions", comment: "Instructions to grant camera access"))
                 .font(.subheadline)
                 .foregroundStyle(.tertiary)
                 .multilineTextAlignment(.center)
@@ -181,7 +192,7 @@ struct LensModeView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .background(Color(.systemGroupedBackground))
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Camera permission denied. Open Settings to grant access.")
+        .accessibilityLabel(NSLocalizedString("lensMode.camera.denied.accessibility", comment: "Camera denied accessibility label"))
     }
 
     // MARK: - Controls
@@ -189,28 +200,28 @@ struct LensModeView: View {
     private var controls: some View {
         VStack(spacing: 16) {
             // Tint preset picker
-            Picker("Tint", selection: $selectedTint) {
+            Picker(NSLocalizedString("lensMode.tint.picker", comment: "Tint picker label"), selection: $selectedTint) {
                 ForEach(TintPreset.allCases) { preset in
-                    Text(preset.rawValue).tag(preset)
+                    Text(preset.localizedName).tag(preset)
                 }
             }
             .pickerStyle(.segmented)
-            .accessibilityLabel("Tint preset picker")
+            .accessibilityLabel(NSLocalizedString("lensMode.tintPicker.accessibility", comment: "Tint preset picker accessibility"))
 
             // Opacity slider
             HStack {
-                Text("Opacity")
+                Text(NSLocalizedString("lensMode.opacity", comment: "Opacity label"))
                     .font(.subheadline)
                 Slider(value: $tintOpacity, in: 0...1)
-                    .accessibilityLabel("Tint opacity, \(Int(tintOpacity * 100)) percent")
+                    .accessibilityLabel(String(format: NSLocalizedString("lensMode.opacity.accessibility", comment: "Tint opacity accessibility"), Int(tintOpacity * 100)))
                 Text("\(Int(tintOpacity * 100))%")
                     .font(.subheadline.monospacedDigit())
                     .frame(width: 44, alignment: .trailing)
             }
 
             // Low luminance toggle
-            Toggle("Low Luminance", isOn: $lowLuminance)
-                .accessibilityLabel("Low luminance mode, limits overlay to 30 percent maximum")
+            Toggle(NSLocalizedString("lensMode.lowLuminance", comment: "Low luminance toggle"), isOn: $lowLuminance)
+                .accessibilityLabel(NSLocalizedString("lensMode.lowLuminance.accessibility", comment: "Low luminance accessibility"))
 
             DisclaimerFooter()
         }
