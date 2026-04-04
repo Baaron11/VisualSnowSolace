@@ -6,6 +6,7 @@
 // for the first time in a session. Exercises are grouped into eye-movement
 // and binocular/convergence sections.
 
+import Foundation
 import SwiftUI
 
 struct VisualTrainingMenuView: View {
@@ -18,100 +19,100 @@ struct VisualTrainingMenuView: View {
                 NavigationLink(destination: LensModeView()) {
                     exerciseRow(
                         icon: "camera.filters",
-                        title: "Lens Mode",
-                        description: "Tinted camera overlays for light sensitivity"
+                        title: NSLocalizedString("trainingMenu.lensMode.title", comment: "Lens Mode exercise title"),
+                        description: NSLocalizedString("trainingMenu.lensMode.description", comment: "Lens Mode exercise description")
                     )
                 }
-                .accessibilityLabel("Lens Mode exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.lensMode.accessibility", comment: "Accessibility label for Lens Mode exercise"))
             } header: {
-                Text("Eye Movement Exercises")
+                Text(NSLocalizedString("trainingMenu.section.eyeMovement", comment: "Eye Movement Exercises section header"))
             }
 
             Section {
                 NavigationLink(destination: BrockStringView()) {
                     exerciseRow(
                         icon: "circle.grid.3x3",
-                        title: "Brock String",
-                        description: "Focus-shifting across three beads on a string"
+                        title: NSLocalizedString("trainingMenu.brockString.title", comment: "Brock String exercise title"),
+                        description: NSLocalizedString("trainingMenu.brockString.description", comment: "Brock String exercise description")
                     )
                 }
-                .accessibilityLabel("Brock String exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.brockString.accessibility", comment: "Accessibility label for Brock String exercise"))
 
                 NavigationLink(destination: PencilPushupsView()) {
                     exerciseRow(
                         icon: "pencil",
-                        title: "Pencil Pushups",
-                        description: "Track a pencil moving toward and away from you"
+                        title: NSLocalizedString("trainingMenu.pencilPushups.title", comment: "Pencil Pushups exercise title"),
+                        description: NSLocalizedString("trainingMenu.pencilPushups.description", comment: "Pencil Pushups exercise description")
                     )
                 }
-                .accessibilityLabel("Pencil Pushups exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.pencilPushups.accessibility", comment: "Accessibility label for Pencil Pushups exercise"))
 
                 NavigationLink(destination: BarrelCardsView()) {
                     exerciseRow(
                         icon: "circle.circle",
-                        title: "Barrel Cards",
-                        description: "Focus through concentric rings at varying distances"
+                        title: NSLocalizedString("trainingMenu.barrelCards.title", comment: "Barrel Cards exercise title"),
+                        description: NSLocalizedString("trainingMenu.barrelCards.description", comment: "Barrel Cards exercise description")
                     )
                 }
-                .accessibilityLabel("Barrel Cards exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.barrelCards.accessibility", comment: "Accessibility label for Barrel Cards exercise"))
 
                 NavigationLink(destination: ConvergenceStereogramView()) {
                     exerciseRow(
                         icon: "hand.point.up",
-                        title: "Convergence Stereogram",
-                        description: "Use stereogram images to train convergence and fusion."
+                        title: NSLocalizedString("trainingMenu.convergenceStereogram.title", comment: "Convergence Stereogram exercise title"),
+                        description: NSLocalizedString("trainingMenu.convergenceStereogram.description", comment: "Convergence Stereogram exercise description")
                     )
                 }
-                .accessibilityLabel("Convergence Stereogram exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.convergenceStereogram.accessibility", comment: "Accessibility label for Convergence Stereogram exercise"))
 
                 NavigationLink(destination: LifesaverView()) {
                     exerciseRow(
                         icon: "circle.dashed",
-                        title: "Lifesaver",
-                        description: "Free-fusion exercise with side-by-side rings"
+                        title: NSLocalizedString("trainingMenu.lifesaver.title", comment: "Lifesaver exercise title"),
+                        description: NSLocalizedString("trainingMenu.lifesaver.description", comment: "Lifesaver exercise description")
                     )
                 }
-                .accessibilityLabel("Lifesaver exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.lifesaver.accessibility", comment: "Accessibility label for Lifesaver exercise"))
             } header: {
-                Text("Binocular & Convergence Exercises")
+                Text(NSLocalizedString("trainingMenu.section.binocular", comment: "Binocular & Convergence Exercises section header"))
             }
 
             Section {
                 NavigationLink(destination: HartChartView()) {
                     exerciseRow(
                         icon: "circle.grid.3x3",
-                        title: "Hart Chart",
-                        description: "Distance and near letter charts for focus-shifting"
+                        title: NSLocalizedString("trainingMenu.hartChart.title", comment: "Hart Chart exercise title"),
+                        description: NSLocalizedString("trainingMenu.hartChart.description", comment: "Hart Chart exercise description")
                     )
                 }
-                .accessibilityLabel("Hart Chart exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.hartChart.accessibility", comment: "Accessibility label for Hart Chart exercise"))
 
                 NavigationLink(destination: MichiganTrackingView()) {
                     exerciseRow(
                         icon: "text.alignleft",
-                        title: "Michigan Tracking",
-                        description: "Find and circle letters A–Z in a random paragraph"
+                        title: NSLocalizedString("trainingMenu.michiganTracking.title", comment: "Michigan Tracking exercise title"),
+                        description: NSLocalizedString("trainingMenu.michiganTracking.description", comment: "Michigan Tracking exercise description")
                     )
                 }
-                .accessibilityLabel("Michigan Tracking exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.michiganTracking.accessibility", comment: "Accessibility label for Michigan Tracking exercise"))
             } header: {
-                Text("Hart Chart & Tracking")
+                Text(NSLocalizedString("trainingMenu.section.hartChartTracking", comment: "Hart Chart & Tracking section header"))
             }
 
             Section {
                 NavigationLink(destination: RedGreenWordView()) {
                     exerciseRow(
                         icon: "eyeglasses",
-                        title: "Red/Green Word Training",
-                        description: "Read color-coded words using red/green anaglyphic lenses."
+                        title: NSLocalizedString("trainingMenu.redGreenWordTraining.title", comment: "Red/Green Word Training exercise title"),
+                        description: NSLocalizedString("trainingMenu.redGreenWordTraining.description", comment: "Red/Green Word Training exercise description")
                     )
                 }
-                .accessibilityLabel("Red/Green Word Training exercise")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.redGreenWordTraining.accessibility", comment: "Accessibility label for Red/Green Word Training exercise"))
             } header: {
-                Text("Red/Green Training")
+                Text(NSLocalizedString("trainingMenu.section.redGreenTraining", comment: "Red/Green Training section header"))
             }
         }
-        .navigationTitle("Visual Training")
+        .navigationTitle(NSLocalizedString("trainingMenu.title", comment: "Visual Training navigation title"))
         .onAppear {
             if !safetyDismissed {
                 showSafetySheet = true
@@ -154,10 +155,10 @@ struct VisualTrainingMenuView: View {
                     .font(.system(size: 48))
                     .foregroundStyle(.yellow)
 
-                Text("Safety Notice")
+                Text(NSLocalizedString("trainingMenu.safety.title", comment: "Safety warning sheet title"))
                     .font(.title.bold())
 
-                Text("These visual exercises are for informational and wellness purposes only. They are not a substitute for professional medical advice, diagnosis, or treatment.\n\nStop immediately if you experience discomfort, dizziness, or worsening symptoms. Consult your clinician before beginning any visual training program.")
+                Text(NSLocalizedString("trainingMenu.safety.body", comment: "Safety warning sheet body text with two paragraphs separated by newlines"))
                     .font(.body)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
@@ -167,12 +168,12 @@ struct VisualTrainingMenuView: View {
                 Button {
                     showSafetySheet = false
                 } label: {
-                    Text("I Understand")
+                    Text(NSLocalizedString("trainingMenu.safety.dismiss", comment: "Safety warning dismiss button title"))
                         .frame(maxWidth: .infinity)
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
-                .accessibilityLabel("Dismiss safety notice")
+                .accessibilityLabel(NSLocalizedString("trainingMenu.safety.dismiss.accessibility", comment: "Accessibility label for dismiss safety notice button"))
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)

@@ -8,6 +8,7 @@
 // levels, timed sessions (1–3 min), and reduce motion compliance.
 
 import SwiftUI
+import Foundation
 #if canImport(UIKit)
 import UIKit
 internal import Combine
@@ -22,6 +23,15 @@ enum WSFDifficulty: String, CaseIterable, Identifiable {
     case challenge = "Challenge"
 
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .easy:      return NSLocalizedString("wayne.difficulty.easy", comment: "Easy difficulty")
+        case .medium:    return NSLocalizedString("wayne.difficulty.medium", comment: "Medium difficulty")
+        case .hard:      return NSLocalizedString("wayne.difficulty.hard", comment: "Hard difficulty")
+        case .challenge: return NSLocalizedString("wayne.difficulty.challenge", comment: "Challenge difficulty")
+        }
+    }
 
     var timeLimit: TimeInterval {
         switch self {
@@ -101,7 +111,7 @@ struct WayneSaccadicFixatorView: View {
             DisclaimerFooter()
         }
         .padding()
-        .navigationTitle("Wayne Saccadic Fixator")
+        .navigationTitle(NSLocalizedString("wayne.title", comment: "Wayne Saccadic Fixator navigation title"))
         .onDisappear { stopSession() }
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
             guard isRunning else { return }
@@ -116,15 +126,15 @@ struct WayneSaccadicFixatorView: View {
 
     private var instructionsPanel: some View {
         DisclosureGroup(isExpanded: $showInstructions) {
-            Text("The Wayne Saccadic Fixator trains saccadic speed, accuracy, and reaction time. Targets light up one at a time in a grid — tap the active target as quickly as possible. This app simulates the core training concept. For clinical WSF use, consult your vision therapist.")
+            Text(NSLocalizedString("wayne.instructions.body", comment: "Wayne Saccadic Fixator exercise instructions"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding(.top, 4)
         } label: {
-            Label("Instructions", systemImage: "info.circle")
+            Label(NSLocalizedString("wayne.instructions.label", comment: "Instructions label"), systemImage: "info.circle")
                 .font(.subheadline)
         }
-        .accessibilityLabel("Instructions panel")
+        .accessibilityLabel(NSLocalizedString("wayne.instructions.accessibility", comment: "Instructions panel accessibility label"))
     }
 
     // MARK: - Configuration
@@ -132,32 +142,32 @@ struct WayneSaccadicFixatorView: View {
     private var configSection: some View {
         VStack(spacing: 8) {
             HStack {
-                Text("Difficulty")
+                Text(NSLocalizedString("wayne.difficulty", comment: "Difficulty label"))
                     .font(.subheadline)
-                Picker("Difficulty", selection: $difficulty) {
+                Picker(NSLocalizedString("wayne.difficultyPicker", comment: "Difficulty picker"), selection: $difficulty) {
                     ForEach(WSFDifficulty.allCases) { d in
-                        Text(d.rawValue).tag(d)
+                        Text(d.localizedName).tag(d)
                     }
                 }
                 .pickerStyle(.segmented)
-                .accessibilityLabel("Difficulty picker")
+                .accessibilityLabel(NSLocalizedString("wayne.difficultyPicker.accessibility", comment: "Difficulty picker accessibility label"))
             }
 
             HStack {
-                Text("Duration")
+                Text(NSLocalizedString("wayne.duration", comment: "Duration label"))
                     .font(.subheadline)
-                Picker("Session Duration", selection: $sessionMinutes) {
-                    Text("1 min").tag(1)
-                    Text("2 min").tag(2)
-                    Text("3 min").tag(3)
+                Picker(NSLocalizedString("wayne.durationPicker", comment: "Session duration picker"), selection: $sessionMinutes) {
+                    Text(NSLocalizedString("wayne.duration.1min", comment: "1 minute duration")).tag(1)
+                    Text(NSLocalizedString("wayne.duration.2min", comment: "2 minute duration")).tag(2)
+                    Text(NSLocalizedString("wayne.duration.3min", comment: "3 minute duration")).tag(3)
                 }
                 .pickerStyle(.segmented)
-                .accessibilityLabel("Session duration picker")
+                .accessibilityLabel(NSLocalizedString("wayne.durationPicker.accessibility", comment: "Session duration picker accessibility label"))
             }
 
-            Toggle("Random Order", isOn: $randomOrder)
+            Toggle(NSLocalizedString("wayne.randomOrder", comment: "Random order toggle"), isOn: $randomOrder)
                 .font(.subheadline)
-                .accessibilityLabel("Toggle random target order")
+                .accessibilityLabel(NSLocalizedString("wayne.randomOrder.accessibility", comment: "Toggle random target order accessibility label"))
         }
     }
 
@@ -167,18 +177,18 @@ struct WayneSaccadicFixatorView: View {
         HStack(spacing: 16) {
             Label("\(hits)", systemImage: "checkmark.circle.fill")
                 .foregroundStyle(.green)
-                .accessibilityLabel("\(hits) hits")
+                .accessibilityLabel(String(format: NSLocalizedString("wayne.hits.accessibility", comment: "Hits count accessibility label"), hits))
 
             Label("\(misses)", systemImage: "xmark.circle.fill")
                 .foregroundStyle(.red)
-                .accessibilityLabel("\(misses) misses")
+                .accessibilityLabel(String(format: NSLocalizedString("wayne.misses.accessibility", comment: "Misses count accessibility label"), misses))
 
             Spacer()
 
             Text("\(averageReactionMs) ms")
                 .font(.subheadline.monospacedDigit())
                 .foregroundStyle(.secondary)
-                .accessibilityLabel("Average reaction time: \(averageReactionMs) milliseconds")
+                .accessibilityLabel(String(format: NSLocalizedString("wayne.avgReaction.accessibility", comment: "Average reaction time accessibility label"), averageReactionMs))
         }
         .font(.subheadline)
     }
@@ -215,7 +225,7 @@ struct WayneSaccadicFixatorView: View {
         }
         .scaleEffect(isActive && !reduceMotion ? pulseScale : 1.0)
         .disabled(!isRunning)
-        .accessibilityLabel("Target \(index + 1), \(isActive ? "active" : "inactive")")
+        .accessibilityLabel(isActive ? String(format: NSLocalizedString("wayne.target.active.accessibility", comment: "Active target accessibility label"), index + 1) : String(format: NSLocalizedString("wayne.target.inactive.accessibility", comment: "Inactive target accessibility label"), index + 1))
     }
 
     private func buttonColor(isActive: Bool, isFlashRed: Bool) -> Color {
@@ -227,23 +237,23 @@ struct WayneSaccadicFixatorView: View {
     // MARK: - Timer & Controls
 
     private var sessionTimerLabel: some View {
-        Text("\(formatTime(elapsed)) / \(formatTime(sessionDuration))")
+        Text(String(format: NSLocalizedString("wayne.sessionTimer", comment: "Session timer label"), formatTime(elapsed), formatTime(sessionDuration)))
             .font(.headline.monospacedDigit())
             .foregroundStyle(.secondary)
-            .accessibilityLabel("Session time: \(Int(elapsed)) of \(Int(sessionDuration)) seconds")
+            .accessibilityLabel(String(format: NSLocalizedString("wayne.sessionTimer.accessibility", comment: "Session timer accessibility label"), Int(elapsed), Int(sessionDuration)))
     }
 
     private var startStopButton: some View {
         Button {
             if isRunning { stopSession() } else { startSession() }
         } label: {
-            Text(isRunning ? "Stop" : "Start")
+            Text(isRunning ? NSLocalizedString("wayne.stop", comment: "Stop button") : NSLocalizedString("wayne.start", comment: "Start button"))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop exercise" : "Start exercise")
+        .accessibilityLabel(isRunning ? NSLocalizedString("wayne.stop.accessibility", comment: "Stop exercise accessibility label") : NSLocalizedString("wayne.start.accessibility", comment: "Start exercise accessibility label"))
     }
 
     // MARK: - Summary Sheet
@@ -255,26 +265,26 @@ struct WayneSaccadicFixatorView: View {
                     .font(.system(size: 48))
                     .foregroundStyle(.blue)
 
-                Text("Session Complete")
+                Text(NSLocalizedString("wayne.summary.title", comment: "Session complete title"))
                     .font(.title.bold())
 
                 VStack(spacing: 12) {
-                    summaryRow(label: "Hits", value: "\(hits)")
-                    summaryRow(label: "Misses", value: "\(misses)")
-                    summaryRow(label: "Avg Reaction", value: "\(averageReactionMs) ms")
-                    summaryRow(label: "High Score", value: "\(highScore) hits")
+                    summaryRow(label: NSLocalizedString("wayne.summary.hits", comment: "Hits label"), value: "\(hits)")
+                    summaryRow(label: NSLocalizedString("wayne.summary.misses", comment: "Misses label"), value: "\(misses)")
+                    summaryRow(label: NSLocalizedString("wayne.summary.avgReaction", comment: "Average reaction label"), value: String(format: NSLocalizedString("wayne.summary.ms", comment: "Milliseconds value format"), averageReactionMs))
+                    summaryRow(label: NSLocalizedString("wayne.summary.highScore", comment: "High score label"), value: String(format: NSLocalizedString("wayne.summary.hitsValue", comment: "Hits value format"), highScore))
                 }
                 .padding()
                 .background(RoundedRectangle(cornerRadius: 12).fill(.ultraThinMaterial))
 
                 Spacer()
 
-                Button("Done") {
+                Button(NSLocalizedString("wayne.summary.done", comment: "Done button")) {
                     showSummary = false
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
-                .accessibilityLabel("Dismiss summary")
+                .accessibilityLabel(NSLocalizedString("wayne.summary.done.accessibility", comment: "Dismiss summary accessibility label"))
             }
             .padding()
             .navigationBarTitleDisplayMode(.inline)

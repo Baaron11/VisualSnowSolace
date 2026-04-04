@@ -8,6 +8,7 @@
 // Configurable distractor density, auto-advance speed, and reduce motion.
 
 import SwiftUI
+import Foundation
 #if canImport(UIKit)
 import UIKit
 internal import Combine
@@ -21,6 +22,14 @@ enum DistractorDensity: String, CaseIterable, Identifiable {
     case high = "High"
 
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .low:    return NSLocalizedString("pencilSaccades.density.low", comment: "Low distractor density")
+        case .medium: return NSLocalizedString("pencilSaccades.density.medium", comment: "Medium distractor density")
+        case .high:   return NSLocalizedString("pencilSaccades.density.high", comment: "High distractor density")
+        }
+    }
 
     var count: Int {
         switch self {
@@ -88,7 +97,7 @@ struct HandheldPencilSaccadesView: View {
             DisclaimerFooter()
         }
         .padding()
-        .navigationTitle("Pencil Saccades")
+        .navigationTitle(NSLocalizedString("pencilSaccades.title", comment: "Pencil Saccades navigation title"))
         .onAppear { regenerateDistractors() }
         .onDisappear { stopSession() }
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
@@ -101,15 +110,15 @@ struct HandheldPencilSaccadesView: View {
 
     private var instructionsPanel: some View {
         DisclosureGroup(isExpanded: $showInstructions) {
-            Text("Hold a pencil vertically at arm's length, slightly off-center. Place a background with visual detail behind it (a bookshelf, patterned wall, or the on-screen distractor grid). Perform saccades from the pencil tip to a fixed target (a letter on the wall or the on-screen target), then back. The background distractors challenge your brain to suppress irrelevant visual input while making accurate saccades.")
+            Text(NSLocalizedString("pencilSaccades.instructions.body", comment: "Pencil saccades exercise instructions"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding(.top, 4)
         } label: {
-            Label("Instructions", systemImage: "info.circle")
+            Label(NSLocalizedString("pencilSaccades.instructions.label", comment: "Instructions label"), systemImage: "info.circle")
                 .font(.subheadline)
         }
-        .accessibilityLabel("Instructions panel")
+        .accessibilityLabel(NSLocalizedString("pencilSaccades.instructions.accessibility", comment: "Instructions panel accessibility label"))
     }
 
     // MARK: - Configuration
@@ -117,22 +126,22 @@ struct HandheldPencilSaccadesView: View {
     private var configSection: some View {
         VStack(spacing: 8) {
             HStack {
-                Text("Density")
+                Text(NSLocalizedString("pencilSaccades.density", comment: "Density label"))
                     .font(.subheadline)
-                Picker("Distractor Density", selection: $density) {
+                Picker(NSLocalizedString("pencilSaccades.densityPicker", comment: "Distractor density picker"), selection: $density) {
                     ForEach(DistractorDensity.allCases) { d in
-                        Text(d.rawValue).tag(d)
+                        Text(d.localizedName).tag(d)
                     }
                 }
                 .pickerStyle(.segmented)
-                .accessibilityLabel("Distractor density picker")
+                .accessibilityLabel(NSLocalizedString("pencilSaccades.densityPicker.accessibility", comment: "Distractor density picker accessibility label"))
             }
 
             HStack {
-                Text("Auto-Advance")
+                Text(NSLocalizedString("pencilSaccades.autoAdvance", comment: "Auto-advance label"))
                     .font(.subheadline)
                 Slider(value: $autoAdvanceInterval, in: 2...6, step: 0.5)
-                    .accessibilityLabel("Auto-advance interval, \(String(format: "%.1f", autoAdvanceInterval)) seconds")
+                    .accessibilityLabel(String(format: NSLocalizedString("pencilSaccades.autoAdvance.accessibility", comment: "Auto-advance interval accessibility label"), String(format: "%.1f", autoAdvanceInterval)))
                 Text("\(String(format: "%.1f", autoAdvanceInterval))s")
                     .font(.subheadline.monospacedDigit())
                     .frame(width: 36, alignment: .trailing)
@@ -180,14 +189,14 @@ struct HandheldPencilSaccadesView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
                 .padding(.leading, 24)
-                .accessibilityLabel("Pencil position indicator on left side")
+                .accessibilityLabel(NSLocalizedString("pencilSaccades.pencilIndicator.accessibility", comment: "Pencil position indicator accessibility label"))
 
                 // Center target
                 Text(currentTarget)
                     .font(.system(size: 64, weight: .bold, design: .monospaced))
                     .foregroundStyle(.blue)
                     .opacity(targetFlash ? 0.4 : 1.0)
-                    .accessibilityLabel("Saccade target: \(currentTarget)")
+                    .accessibilityLabel(String(format: NSLocalizedString("pencilSaccades.target.accessibility", comment: "Saccade target accessibility label"), currentTarget))
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
@@ -196,23 +205,23 @@ struct HandheldPencilSaccadesView: View {
     // MARK: - Timer & Controls
 
     private var sessionTimerLabel: some View {
-        Text("Session: \(formatTime(elapsed))")
+        Text(String(format: NSLocalizedString("pencilSaccades.session", comment: "Session timer label"), formatTime(elapsed)))
             .font(.headline.monospacedDigit())
             .foregroundStyle(.secondary)
-            .accessibilityLabel("Session time: \(Int(elapsed)) seconds")
+            .accessibilityLabel(String(format: NSLocalizedString("pencilSaccades.sessionTime.accessibility", comment: "Session time accessibility label"), Int(elapsed)))
     }
 
     private var startStopButton: some View {
         Button {
             if isRunning { stopSession() } else { startSession() }
         } label: {
-            Text(isRunning ? "Stop" : "Start")
+            Text(isRunning ? NSLocalizedString("pencilSaccades.stop", comment: "Stop button") : NSLocalizedString("pencilSaccades.start", comment: "Start button"))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop exercise" : "Start exercise")
+        .accessibilityLabel(isRunning ? NSLocalizedString("pencilSaccades.stop.accessibility", comment: "Stop exercise accessibility label") : NSLocalizedString("pencilSaccades.start.accessibility", comment: "Start exercise accessibility label"))
     }
 
     // MARK: - Logic

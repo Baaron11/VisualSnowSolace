@@ -7,6 +7,7 @@
 // "Lost it — refocus" button.
 
 import SwiftUI
+import Foundation
 #if canImport(UIKit)
 import UIKit
 internal import Combine
@@ -64,17 +65,17 @@ struct ConvergenceStereogramView: View {
             }
             .padding()
         }
-        .navigationTitle("Convergence Stereogram")
+        .navigationTitle(NSLocalizedString("convergenceStereogram.title", comment: "Navigation title for Convergence Stereogram exercise"))
         .onDisappear { stop() }
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
             guard isRunning else { return }
             tick()
         }
-        .alert("Take a Break", isPresented: $showBreakAlert) {
-            Button("Continue") {}
-            Button("Stop", role: .destructive) { stop() }
+        .alert(NSLocalizedString("convergenceStereogram.breakAlert.title", comment: "Break alert title"), isPresented: $showBreakAlert) {
+            Button(NSLocalizedString("convergenceStereogram.breakAlert.continue", comment: "Continue button in break alert")) {}
+            Button(NSLocalizedString("convergenceStereogram.breakAlert.stop", comment: "Stop button in break alert"), role: .destructive) { stop() }
         } message: {
-            Text("You have been exercising for 5 minutes. Consider resting your eyes.")
+            Text(NSLocalizedString("convergenceStereogram.breakAlert.message", comment: "Break alert message suggesting rest"))
         }
     }
 
@@ -82,10 +83,10 @@ struct ConvergenceStereogramView: View {
 
     private var instructionsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Instructions")
+            Text(NSLocalizedString("convergenceStereogram.instructions.title", comment: "Instructions section title"))
                 .font(.headline)
 
-            Text("Choose an image above. Hold it at arm's length and relax your focus until a third image appears in the center — this is the fused stereogram image. Try to bring it into clear focus and hold it. Stop immediately if you feel eye strain or discomfort.")
+            Text(NSLocalizedString("convergenceStereogram.instructions.body", comment: "Instructions for convergence stereogram exercise"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -94,9 +95,9 @@ struct ConvergenceStereogramView: View {
     // MARK: - Image Picker
 
     private var imagePicker: some View {
-        Picker("Image", selection: $showCat) {
-            Text("Cat").tag(true)
-            Text("Circles").tag(false)
+        Picker(NSLocalizedString("convergenceStereogram.imagePicker", comment: "Image picker label"), selection: $showCat) {
+            Text(NSLocalizedString("convergenceStereogram.image.cat", comment: "Cat image option")).tag(true)
+            Text(NSLocalizedString("convergenceStereogram.image.circles", comment: "Circles image option")).tag(false)
         }
         .pickerStyle(.segmented)
     }
@@ -113,7 +114,7 @@ struct ConvergenceStereogramView: View {
                         .frame(maxWidth: .infinity)
                         .cornerRadius(12)
                 } else {
-                    imagePlaceholder(label: "Cat stereogram")
+                    imagePlaceholder(label: NSLocalizedString("convergenceStereogram.placeholder.cat", comment: "Placeholder label for cat stereogram"))
                 }
             } else {
                 if UIImage(named: "convergencecircles") != nil {
@@ -123,7 +124,7 @@ struct ConvergenceStereogramView: View {
                         .frame(maxWidth: .infinity)
                         .cornerRadius(12)
                 } else {
-                    imagePlaceholder(label: "Convergence circles stereogram")
+                    imagePlaceholder(label: NSLocalizedString("convergenceStereogram.placeholder.circles", comment: "Placeholder label for convergence circles stereogram"))
                 }
             }
         }
@@ -144,19 +145,19 @@ struct ConvergenceStereogramView: View {
 
     private var streakDisplay: some View {
         VStack(spacing: 4) {
-            Text("Held: \(formatSeconds(streakTime))")
+            Text(String(format: NSLocalizedString("convergenceStereogram.held", comment: "Current held time display"), formatSeconds(streakTime)))
                 .font(.title2.bold().monospacedDigit())
                 .foregroundStyle(isStable ? .green : .red)
                 .contentTransition(.numericText())
 
             if bestStreak > 0 {
-                Text("Best: \(formatSeconds(bestStreak))")
+                Text(String(format: NSLocalizedString("convergenceStereogram.best", comment: "Best streak time display"), formatSeconds(bestStreak)))
                     .font(.caption.monospacedDigit())
                     .foregroundStyle(.secondary)
             }
         }
         .accessibilityElement(children: .combine)
-        .accessibilityLabel("Current streak: \(Int(streakTime)) seconds. Best streak: \(Int(bestStreak)) seconds")
+        .accessibilityLabel(String(format: NSLocalizedString("convergenceStereogram.streak.accessibility", comment: "Accessibility label for streak times"), Int(streakTime), Int(bestStreak)))
     }
 
     // MARK: - Lost It Button
@@ -165,11 +166,11 @@ struct ConvergenceStereogramView: View {
         Button {
             lostFocus()
         } label: {
-            Label("Lost it — refocus", systemImage: "eye.slash")
+            Label(NSLocalizedString("convergenceStereogram.lostIt", comment: "Lost it refocus button label"), systemImage: "eye.slash")
         }
         .buttonStyle(.bordered)
         .tint(.orange)
-        .accessibilityLabel("Lost focus, tap to reset streak and refocus")
+        .accessibilityLabel(NSLocalizedString("convergenceStereogram.lostIt.accessibility", comment: "Accessibility label for lost focus button"))
     }
 
     // MARK: - Configuration
@@ -177,36 +178,36 @@ struct ConvergenceStereogramView: View {
     private var configurationSection: some View {
         VStack(spacing: 12) {
             HStack {
-                Text("Duration")
+                Text(NSLocalizedString("convergenceStereogram.duration", comment: "Duration label"))
                     .font(.subheadline)
                 Spacer()
-                Picker("Duration", selection: $durationMinutes) {
-                    Text("1 min").tag(1.0)
-                    Text("3 min").tag(3.0)
-                    Text("5 min").tag(5.0)
+                Picker(NSLocalizedString("convergenceStereogram.durationPicker", comment: "Duration picker label"), selection: $durationMinutes) {
+                    Text(NSLocalizedString("convergenceStereogram.duration.1min", comment: "1 minute duration option")).tag(1.0)
+                    Text(NSLocalizedString("convergenceStereogram.duration.3min", comment: "3 minute duration option")).tag(3.0)
+                    Text(NSLocalizedString("convergenceStereogram.duration.5min", comment: "5 minute duration option")).tag(5.0)
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 200)
-                .accessibilityLabel("Session duration picker")
+                .accessibilityLabel(NSLocalizedString("convergenceStereogram.durationPicker.accessibility", comment: "Accessibility label for session duration picker"))
             }
 
-            Toggle("Haptic Feedback", isOn: $hapticEnabled)
+            Toggle(NSLocalizedString("convergenceStereogram.haptic", comment: "Haptic feedback toggle label"), isOn: $hapticEnabled)
                 .font(.subheadline)
-                .accessibilityLabel("Enable haptic feedback")
+                .accessibilityLabel(NSLocalizedString("convergenceStereogram.haptic.accessibility", comment: "Accessibility label for haptic feedback toggle"))
 
-            Toggle("Audio Cue", isOn: $audioCue)
+            Toggle(NSLocalizedString("convergenceStereogram.audioCue", comment: "Audio cue toggle label"), isOn: $audioCue)
                 .font(.subheadline)
-                .accessibilityLabel("Enable audio cue")
+                .accessibilityLabel(NSLocalizedString("convergenceStereogram.audioCue.accessibility", comment: "Accessibility label for audio cue toggle"))
         }
     }
 
     // MARK: - Session Timer
 
     private var sessionTimerLabel: some View {
-        Text("Session: \(formatTime(elapsed))")
+        Text(String(format: NSLocalizedString("convergenceStereogram.session", comment: "Session timer label with time"), formatTime(elapsed)))
             .font(.headline.monospacedDigit())
             .foregroundStyle(.secondary)
-            .accessibilityLabel("Session time: \(Int(elapsed)) seconds")
+            .accessibilityLabel(String(format: NSLocalizedString("convergenceStereogram.sessionTime.accessibility", comment: "Accessibility label for session time in seconds"), Int(elapsed)))
     }
 
     // MARK: - Start / Stop
@@ -215,13 +216,13 @@ struct ConvergenceStereogramView: View {
         Button {
             if isRunning { stop() } else { start() }
         } label: {
-            Text(isRunning ? "Stop" : "Begin Exercise")
+            Text(isRunning ? NSLocalizedString("convergenceStereogram.stop", comment: "Stop button label") : NSLocalizedString("convergenceStereogram.beginExercise", comment: "Begin exercise button label"))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop convergence stereogram exercise" : "Begin convergence stereogram exercise")
+        .accessibilityLabel(isRunning ? NSLocalizedString("convergenceStereogram.stop.accessibility", comment: "Accessibility label for stop convergence stereogram exercise") : NSLocalizedString("convergenceStereogram.begin.accessibility", comment: "Accessibility label for begin convergence stereogram exercise"))
     }
 
     private func start() {

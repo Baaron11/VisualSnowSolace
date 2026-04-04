@@ -8,6 +8,7 @@
 // optional audio readout via AVSpeechSynthesizer, and session tracking.
 
 import SwiftUI
+import Foundation
 import AVFoundation
 #if canImport(UIKit)
 import UIKit
@@ -22,6 +23,14 @@ enum SaccadeTargetType: String, CaseIterable, Identifiable {
     case shapes = "Shapes"
 
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .letters: return NSLocalizedString("postItSaccades.targetType.letters", comment: "Letters target type")
+        case .numbers: return NSLocalizedString("postItSaccades.targetType.numbers", comment: "Numbers target type")
+        case .shapes:  return NSLocalizedString("postItSaccades.targetType.shapes", comment: "Shapes target type")
+        }
+    }
 }
 
 // MARK: - Speed Mode
@@ -31,6 +40,13 @@ enum PostItSpeedMode: String, CaseIterable, Identifiable {
     case auto = "Auto"
 
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .manual: return NSLocalizedString("postItSaccades.speedMode.manual", comment: "Manual speed mode")
+        case .auto:   return NSLocalizedString("postItSaccades.speedMode.auto", comment: "Auto speed mode")
+        }
+    }
 }
 
 // MARK: - View
@@ -79,15 +95,15 @@ struct PostItSaccadesView: View {
 
             if isRunning {
                 HStack {
-                    Text("Time: \(formatTime(elapsed))")
+                    Text(String(format: NSLocalizedString("postItSaccades.time", comment: "Session time display"), formatTime(elapsed)))
                         .font(.headline.monospacedDigit())
-                        .accessibilityLabel("Session time: \(Int(elapsed)) seconds")
+                        .accessibilityLabel(String(format: NSLocalizedString("postItSaccades.time.accessibility", comment: "Session time accessibility"), Int(elapsed)))
 
                     Spacer()
 
-                    Text("Reps: \(reps)")
+                    Text(String(format: NSLocalizedString("postItSaccades.reps", comment: "Reps display"), reps))
                         .font(.headline.monospacedDigit())
-                        .accessibilityLabel("\(reps) repetitions completed")
+                        .accessibilityLabel(String(format: NSLocalizedString("postItSaccades.reps.accessibility", comment: "Reps accessibility"), reps))
                 }
                 .padding(.horizontal)
             }
@@ -95,7 +111,7 @@ struct PostItSaccadesView: View {
             DisclaimerFooter()
         }
         .padding(.vertical)
-        .navigationTitle("Post-It Saccades")
+        .navigationTitle(NSLocalizedString("postItSaccades.title", comment: "Post-It Saccades navigation title"))
         .onDisappear { stopSession() }
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
             guard isRunning else { return }
@@ -113,16 +129,16 @@ struct PostItSaccadesView: View {
 
     private var instructionsPanel: some View {
         DisclosureGroup(isExpanded: $showInstructions) {
-            Text("Place sticky notes with letters, numbers, or shapes around your environment — on walls, furniture, or a doorframe. Stand or sit in a fixed position. Call out each target and make a deliberate saccade to it, then return to a central fixation point. This exercise trains real-world saccadic accuracy across a large visual field.")
+            Text(NSLocalizedString("postItSaccades.instructions.body", comment: "Post-It Saccades instructions body"))
                 .font(.caption)
                 .foregroundStyle(.secondary)
                 .padding(.top, 4)
         } label: {
-            Label("Instructions", systemImage: "info.circle")
+            Label(NSLocalizedString("postItSaccades.instructions.label", comment: "Instructions disclosure label"), systemImage: "info.circle")
                 .font(.subheadline)
         }
         .padding(.horizontal)
-        .accessibilityLabel("Instructions panel")
+        .accessibilityLabel(NSLocalizedString("postItSaccades.instructions.accessibility", comment: "Instructions panel accessibility"))
     }
 
     // MARK: - Configuration
@@ -130,35 +146,35 @@ struct PostItSaccadesView: View {
     private var configSection: some View {
         VStack(spacing: 10) {
             HStack {
-                Text("Targets")
+                Text(NSLocalizedString("postItSaccades.targets", comment: "Targets label"))
                     .font(.subheadline)
-                Picker("Target Type", selection: $targetType) {
+                Picker(NSLocalizedString("postItSaccades.targetTypePicker", comment: "Target type picker label"), selection: $targetType) {
                     ForEach(SaccadeTargetType.allCases) { t in
-                        Text(t.rawValue).tag(t)
+                        Text(t.localizedName).tag(t)
                     }
                 }
                 .pickerStyle(.segmented)
-                .accessibilityLabel("Target type picker")
+                .accessibilityLabel(NSLocalizedString("postItSaccades.targetTypePicker.accessibility", comment: "Target type picker accessibility"))
             }
 
             HStack {
-                Text("Mode")
+                Text(NSLocalizedString("postItSaccades.mode", comment: "Mode label"))
                     .font(.subheadline)
-                Picker("Speed Mode", selection: $speedMode) {
+                Picker(NSLocalizedString("postItSaccades.speedModePicker", comment: "Speed mode picker label"), selection: $speedMode) {
                     ForEach(PostItSpeedMode.allCases) { m in
-                        Text(m.rawValue).tag(m)
+                        Text(m.localizedName).tag(m)
                     }
                 }
                 .pickerStyle(.segmented)
-                .accessibilityLabel("Speed mode picker")
+                .accessibilityLabel(NSLocalizedString("postItSaccades.speedModePicker.accessibility", comment: "Speed mode picker accessibility"))
             }
 
             if speedMode == .auto {
                 HStack {
-                    Text("Interval")
+                    Text(NSLocalizedString("postItSaccades.interval", comment: "Interval label"))
                         .font(.subheadline)
                     Slider(value: $autoInterval, in: 1...5, step: 0.5)
-                        .accessibilityLabel("Auto-advance interval, \(String(format: "%.1f", autoInterval)) seconds")
+                        .accessibilityLabel(String(format: NSLocalizedString("postItSaccades.interval.accessibility", comment: "Auto-advance interval accessibility"), String(format: "%.1f", autoInterval)))
                     Text("\(String(format: "%.1f", autoInterval))s")
                         .font(.subheadline.monospacedDigit())
                         .frame(width: 36, alignment: .trailing)
@@ -166,21 +182,21 @@ struct PostItSaccadesView: View {
             }
 
             HStack {
-                Text("Count")
+                Text(NSLocalizedString("postItSaccades.count", comment: "Count label"))
                     .font(.subheadline)
                 Slider(value: Binding(
                     get: { Double(targetCount) },
                     set: { targetCount = Int($0) }
                 ), in: 10...20, step: 1)
-                    .accessibilityLabel("Target count, \(targetCount)")
+                    .accessibilityLabel(String(format: NSLocalizedString("postItSaccades.count.accessibility", comment: "Target count accessibility"), targetCount))
                 Text("\(targetCount)")
                     .font(.subheadline.monospacedDigit())
                     .frame(width: 28, alignment: .trailing)
             }
 
-            Toggle("Audio Readout", isOn: $audioEnabled)
+            Toggle(NSLocalizedString("postItSaccades.audioReadout", comment: "Audio readout toggle"), isOn: $audioEnabled)
                 .font(.subheadline)
-                .accessibilityLabel("Toggle audio readout of targets")
+                .accessibilityLabel(NSLocalizedString("postItSaccades.audioReadout.accessibility", comment: "Audio readout accessibility"))
         }
         .padding(.horizontal)
     }
@@ -190,7 +206,7 @@ struct PostItSaccadesView: View {
     private var currentTargetDisplay: some View {
         VStack(spacing: 8) {
             if targets.isEmpty {
-                Text("Tap Generate Targets to start")
+                Text(NSLocalizedString("postItSaccades.tapToStart", comment: "Tap to start prompt"))
                     .font(.headline)
                     .foregroundStyle(.secondary)
             } else if currentIndex < targets.count {
@@ -202,12 +218,12 @@ struct PostItSaccadesView: View {
                         RoundedRectangle(cornerRadius: 20)
                             .fill(.ultraThinMaterial)
                     )
-                    .accessibilityLabel("Current target: \(targets[currentIndex])")
+                    .accessibilityLabel(String(format: NSLocalizedString("postItSaccades.currentTarget.accessibility", comment: "Current target accessibility"), targets[currentIndex]))
             } else {
-                Text("Sequence Complete!")
+                Text(NSLocalizedString("postItSaccades.sequenceComplete", comment: "Sequence complete label"))
                     .font(.title2.bold())
                     .foregroundStyle(.green)
-                    .accessibilityLabel("Target sequence complete")
+                    .accessibilityLabel(NSLocalizedString("postItSaccades.sequenceComplete.accessibility", comment: "Target sequence complete accessibility"))
             }
         }
     }
@@ -220,7 +236,7 @@ struct PostItSaccadesView: View {
                 VStack(spacing: 4) {
                     ProgressView(value: Double(currentIndex), total: Double(targets.count))
                         .tint(.blue)
-                        .accessibilityLabel("Progress: \(currentIndex) of \(targets.count) targets")
+                        .accessibilityLabel(String(format: NSLocalizedString("postItSaccades.progress.accessibility", comment: "Progress accessibility"), currentIndex, targets.count))
 
                     Text("\(currentIndex) / \(targets.count)")
                         .font(.caption.monospacedDigit())
@@ -236,35 +252,35 @@ struct PostItSaccadesView: View {
     private var controlButtons: some View {
         VStack(spacing: 10) {
             if !isRunning {
-                Button("Generate Targets") { generateAndStart() }
+                Button(NSLocalizedString("postItSaccades.generateTargets", comment: "Generate targets button")) { generateAndStart() }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
-                    .accessibilityLabel("Generate target sequence and start")
+                    .accessibilityLabel(NSLocalizedString("postItSaccades.generateTargets.accessibility", comment: "Generate target sequence accessibility"))
             } else {
                 HStack(spacing: 12) {
                     if speedMode == .manual {
                         Button {
                             advanceTarget()
                         } label: {
-                            Text("Next")
+                            Text(NSLocalizedString("postItSaccades.next", comment: "Next button"))
                                 .frame(maxWidth: .infinity)
                         }
                         .buttonStyle(.borderedProminent)
                         .controlSize(.large)
                         .disabled(currentIndex >= targets.count)
-                        .accessibilityLabel("Advance to next target")
+                        .accessibilityLabel(NSLocalizedString("postItSaccades.next.accessibility", comment: "Advance to next target accessibility"))
                     }
 
                     Button {
                         stopSession()
                     } label: {
-                        Text("Stop")
+                        Text(NSLocalizedString("postItSaccades.stop", comment: "Stop button"))
                             .frame(maxWidth: .infinity)
                     }
                     .buttonStyle(.borderedProminent)
                     .controlSize(.large)
                     .tint(.red)
-                    .accessibilityLabel("Stop exercise")
+                    .accessibilityLabel(NSLocalizedString("postItSaccades.stop.accessibility", comment: "Stop exercise accessibility"))
                 }
             }
         }

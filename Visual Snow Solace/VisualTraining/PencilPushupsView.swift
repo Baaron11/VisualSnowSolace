@@ -7,6 +7,7 @@
 // movement speed, and haptic feedback at the near endpoint.
 
 import SwiftUI
+import Foundation
 #if canImport(UIKit)
 import UIKit
 internal import Combine
@@ -20,6 +21,14 @@ enum PencilSpeed: String, CaseIterable, Identifiable {
     case fast = "Fast"
 
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .slow:   return NSLocalizedString("pencilPushups.speed.slow", comment: "Slow speed")
+        case .medium: return NSLocalizedString("pencilPushups.speed.medium", comment: "Medium speed")
+        case .fast:   return NSLocalizedString("pencilPushups.speed.fast", comment: "Fast speed")
+        }
+    }
 
     /// Duration in seconds for one full near→far cycle.
     var cycleDuration: Double {
@@ -83,17 +92,17 @@ struct PencilPushupsView: View {
             }
             .padding()
         }
-        .navigationTitle("Pencil Pushups")
+        .navigationTitle(NSLocalizedString("pencilPushups.title", comment: "Pencil Pushups navigation title"))
         .onDisappear { stop() }
         .onReceive(Timer.publish(every: 0.016, on: .main, in: .common).autoconnect()) { _ in
             guard isRunning else { return }
             tick()
         }
-        .alert("Take a Break", isPresented: $showBreakAlert) {
-            Button("Continue") {}
-            Button("Stop", role: .destructive) { stop() }
+        .alert(NSLocalizedString("pencilPushups.breakAlert.title", comment: "Break alert title"), isPresented: $showBreakAlert) {
+            Button(NSLocalizedString("pencilPushups.breakAlert.continue", comment: "Continue button")) {}
+            Button(NSLocalizedString("pencilPushups.breakAlert.stop", comment: "Stop button"), role: .destructive) { stop() }
         } message: {
-            Text("You have been exercising for 5 minutes. Consider resting your eyes.")
+            Text(NSLocalizedString("pencilPushups.breakAlert.message", comment: "Break alert message"))
         }
     }
 
@@ -101,10 +110,10 @@ struct PencilPushupsView: View {
 
     private var instructionsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Instructions")
+            Text(NSLocalizedString("pencilPushups.instructions.title", comment: "Instructions heading"))
                 .font(.headline)
 
-            Text("Hold a pencil at arm's length, tip pointing up, at eye level. Focus on the tip until you see it clearly as a single image. Slowly move it toward your nose, maintaining single clear focus. Stop when it doubles or blurs. Hold 2 seconds, then move it back out. Repeat 10–20 times per session.")
+            Text(NSLocalizedString("pencilPushups.instructions.body", comment: "Pencil pushups exercise instructions"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -119,7 +128,7 @@ struct PencilPushupsView: View {
                 drawPencil(context: context, size: canvasSize)
             }
             .accessibilityElement(children: .ignore)
-            .accessibilityLabel("Pencil pushup diagram. Pencil at \(Int(pencilProgress * 100)) percent distance. Rep \(currentRep) of \(repTarget)")
+            .accessibilityLabel(String(format: NSLocalizedString("pencilPushups.diagram.accessibility", comment: "Pencil pushup diagram accessibility"), Int(pencilProgress * 100), currentRep, repTarget))
             .onAppear { _ = size }
         }
         .clipShape(RoundedRectangle(cornerRadius: 12))
@@ -176,7 +185,7 @@ struct PencilPushupsView: View {
         context.fill(tipPath, with: .color(.gray))
 
         // "Stop here" label near the near endpoint
-        let labelText = Text("Stop here if it doubles")
+        let labelText = Text(NSLocalizedString("pencilPushups.diagram.stopHere", comment: "Stop here if it doubles label"))
             .font(.caption2)
             .foregroundColor(.secondary)
         context.draw(
@@ -186,7 +195,7 @@ struct PencilPushupsView: View {
         )
 
         // Far label
-        let farText = Text("Arm's length")
+        let farText = Text(NSLocalizedString("pencilPushups.diagram.armsLength", comment: "Arm's length label"))
             .font(.caption2)
             .foregroundColor(.secondary)
         context.draw(
@@ -199,10 +208,10 @@ struct PencilPushupsView: View {
     // MARK: - Rep Counter
 
     private var repCounter: some View {
-        Text("Rep \(currentRep) / \(repTarget)")
+        Text(String(format: NSLocalizedString("pencilPushups.rep", comment: "Rep counter"), currentRep, repTarget))
             .font(.title3.bold().monospacedDigit())
             .foregroundStyle(.primary)
-            .accessibilityLabel("Rep \(currentRep) of \(repTarget)")
+            .accessibilityLabel(String(format: NSLocalizedString("pencilPushups.rep.accessibility", comment: "Rep counter accessibility"), currentRep, repTarget))
     }
 
     // MARK: - Configuration
@@ -210,50 +219,50 @@ struct PencilPushupsView: View {
     private var configurationSection: some View {
         VStack(spacing: 12) {
             HStack {
-                Text("Reps")
+                Text(NSLocalizedString("pencilPushups.reps", comment: "Reps label"))
                     .font(.subheadline)
                 Spacer()
-                Picker("Rep target", selection: $repTarget) {
+                Picker(NSLocalizedString("pencilPushups.repPicker", comment: "Rep target picker label"), selection: $repTarget) {
                     Text("10").tag(10)
                     Text("15").tag(15)
                     Text("20").tag(20)
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 160)
-                .accessibilityLabel("Rep target picker")
+                .accessibilityLabel(NSLocalizedString("pencilPushups.repPicker.accessibility", comment: "Rep target picker accessibility"))
             }
 
             HStack {
-                Text("Speed")
+                Text(NSLocalizedString("pencilPushups.speedLabel", comment: "Speed label"))
                     .font(.subheadline)
                 Spacer()
-                Picker("Speed", selection: $speed) {
+                Picker(NSLocalizedString("pencilPushups.speedPicker", comment: "Speed picker label"), selection: $speed) {
                     ForEach(PencilSpeed.allCases) { s in
-                        Text(s.rawValue).tag(s)
+                        Text(s.localizedName).tag(s)
                     }
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 200)
-                .accessibilityLabel("Movement speed picker")
+                .accessibilityLabel(NSLocalizedString("pencilPushups.speedPicker.accessibility", comment: "Movement speed picker accessibility"))
             }
 
-            Toggle("Haptic at Near Point", isOn: $hapticEnabled)
+            Toggle(NSLocalizedString("pencilPushups.haptic", comment: "Haptic at near point toggle"), isOn: $hapticEnabled)
                 .font(.subheadline)
-                .accessibilityLabel("Enable haptic feedback at near endpoint")
+                .accessibilityLabel(NSLocalizedString("pencilPushups.haptic.accessibility", comment: "Enable haptic feedback at near endpoint accessibility"))
 
-            Toggle("Audio Cue", isOn: $audioCue)
+            Toggle(NSLocalizedString("pencilPushups.audioCue", comment: "Audio cue toggle"), isOn: $audioCue)
                 .font(.subheadline)
-                .accessibilityLabel("Enable audio cue")
+                .accessibilityLabel(NSLocalizedString("pencilPushups.audioCue.accessibility", comment: "Enable audio cue accessibility"))
         }
     }
 
     // MARK: - Session Timer
 
     private var sessionTimerLabel: some View {
-        Text("Session: \(formatTime(elapsed))")
+        Text(String(format: NSLocalizedString("pencilPushups.session", comment: "Session timer label"), formatTime(elapsed)))
             .font(.headline.monospacedDigit())
             .foregroundStyle(.secondary)
-            .accessibilityLabel("Session time: \(Int(elapsed)) seconds")
+            .accessibilityLabel(String(format: NSLocalizedString("pencilPushups.sessionTime.accessibility", comment: "Session time accessibility"), Int(elapsed)))
     }
 
     // MARK: - Start / Stop
@@ -262,13 +271,13 @@ struct PencilPushupsView: View {
         Button {
             if isRunning { stop() } else { start() }
         } label: {
-            Text(isRunning ? "Stop" : "Begin Exercise")
+            Text(isRunning ? NSLocalizedString("pencilPushups.stop", comment: "Stop button") : NSLocalizedString("pencilPushups.beginExercise", comment: "Begin exercise button"))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop pencil pushups exercise" : "Begin pencil pushups exercise")
+        .accessibilityLabel(isRunning ? NSLocalizedString("pencilPushups.stop.accessibility", comment: "Stop pencil pushups exercise accessibility") : NSLocalizedString("pencilPushups.begin.accessibility", comment: "Begin pencil pushups exercise accessibility"))
     }
 
     private func start() {

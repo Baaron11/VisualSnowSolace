@@ -6,6 +6,7 @@
 // and a configurable session timer.
 
 import SwiftUI
+import Foundation
 #if canImport(UIKit)
 import UIKit
 internal import Combine
@@ -53,17 +54,17 @@ struct BrockStringView: View {
             }
             .padding()
         }
-        .navigationTitle("Brock String")
+        .navigationTitle(NSLocalizedString("brockString.title", comment: "Brock String navigation title"))
         .onDisappear { stop() }
         .onReceive(Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()) { _ in
             guard isRunning else { return }
             tick()
         }
-        .alert("Take a Break", isPresented: $showBreakAlert) {
-            Button("Continue") {}
-            Button("Stop", role: .destructive) { stop() }
+        .alert(NSLocalizedString("brockString.breakAlert.title", comment: "Break alert title"), isPresented: $showBreakAlert) {
+            Button(NSLocalizedString("brockString.breakAlert.continue", comment: "Continue button")) {}
+            Button(NSLocalizedString("brockString.breakAlert.stop", comment: "Stop button"), role: .destructive) { stop() }
         } message: {
-            Text("You have been exercising for 5 minutes. Consider resting your eyes.")
+            Text(NSLocalizedString("brockString.breakAlert.message", comment: "Break alert message"))
         }
     }
 
@@ -71,10 +72,10 @@ struct BrockStringView: View {
 
     private var instructionsSection: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text("Instructions")
+            Text(NSLocalizedString("brockString.instructions.title", comment: "Instructions heading"))
                 .font(.headline)
 
-            Text("Attach a string (about 10 feet) to a fixed point at eye level. Place beads at 1 ft, 5 ft, and 9 ft. Hold the far end to your nose. Focus on the nearest bead — you should see two strings forming a V. Move focus to the middle bead (X shape), then the far bead (V pointing away). If you see only one string at any point, blink and refocus.")
+            Text(NSLocalizedString("brockString.instructions.body", comment: "Brock string exercise instructions"))
                 .font(.subheadline)
                 .foregroundStyle(.secondary)
         }
@@ -84,12 +85,12 @@ struct BrockStringView: View {
 
     private var brockStringImage: some View {
         Group {
-            Picker("Image", selection: $showExample) {
-                Text("Diagram").tag(false)
-                Text("Example").tag(true)
+            Picker(NSLocalizedString("brockString.imagePicker", comment: "Image picker label"), selection: $showExample) {
+                Text(NSLocalizedString("brockString.image.diagram", comment: "Diagram option")).tag(false)
+                Text(NSLocalizedString("brockString.image.example", comment: "Example option")).tag(true)
             }
             .pickerStyle(.segmented)
-            .accessibilityLabel("Brock String image type")
+            .accessibilityLabel(NSLocalizedString("brockString.imagePicker.accessibility", comment: "Brock String image type accessibility"))
 
             if showExample {
                 if UIImage(named: "brockstringexample") != nil {
@@ -104,7 +105,7 @@ struct BrockStringView: View {
                         .fill(Color.gray.opacity(0.2))
                         .frame(height: 200)
                         .overlay(
-                            Text("Brock String example")
+                            Text(NSLocalizedString("brockString.image.example.placeholder", comment: "Brock String example placeholder"))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         )
@@ -123,7 +124,7 @@ struct BrockStringView: View {
                         .fill(Color.gray.opacity(0.2))
                         .frame(height: 200)
                         .overlay(
-                            Text("Brock String diagram")
+                            Text(NSLocalizedString("brockString.image.diagram.placeholder", comment: "Brock String diagram placeholder"))
                                 .font(.caption)
                                 .foregroundStyle(.secondary)
                         )
@@ -139,51 +140,51 @@ struct BrockStringView: View {
         VStack(spacing: 12) {
             // Duration picker
             HStack {
-                Text("Duration")
+                Text(NSLocalizedString("brockString.duration", comment: "Duration label"))
                     .font(.subheadline)
                 Spacer()
-                Picker("Duration", selection: $durationMinutes) {
-                    Text("1 min").tag(1.0)
-                    Text("3 min").tag(3.0)
-                    Text("5 min").tag(5.0)
+                Picker(NSLocalizedString("brockString.durationPicker", comment: "Duration picker label"), selection: $durationMinutes) {
+                    Text(NSLocalizedString("brockString.duration.1min", comment: "1 minute duration")).tag(1.0)
+                    Text(NSLocalizedString("brockString.duration.3min", comment: "3 minute duration")).tag(3.0)
+                    Text(NSLocalizedString("brockString.duration.5min", comment: "5 minute duration")).tag(5.0)
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 200)
-                .accessibilityLabel("Session duration picker")
+                .accessibilityLabel(NSLocalizedString("brockString.durationPicker.accessibility", comment: "Session duration picker accessibility"))
             }
 
             // Pacing interval
             HStack {
-                Text("Pacing")
+                Text(NSLocalizedString("brockString.pacing", comment: "Pacing label"))
                     .font(.subheadline)
                 Spacer()
-                Picker("Pacing interval", selection: $pacingInterval) {
-                    Text("3s").tag(3.0)
-                    Text("5s").tag(5.0)
-                    Text("8s").tag(8.0)
+                Picker(NSLocalizedString("brockString.pacingPicker", comment: "Pacing interval picker label"), selection: $pacingInterval) {
+                    Text(NSLocalizedString("brockString.pacing.3s", comment: "3 second pacing")).tag(3.0)
+                    Text(NSLocalizedString("brockString.pacing.5s", comment: "5 second pacing")).tag(5.0)
+                    Text(NSLocalizedString("brockString.pacing.8s", comment: "8 second pacing")).tag(8.0)
                 }
                 .pickerStyle(.segmented)
                 .frame(width: 160)
-                .accessibilityLabel("Haptic pacing interval")
+                .accessibilityLabel(NSLocalizedString("brockString.pacingPicker.accessibility", comment: "Haptic pacing interval accessibility"))
             }
 
-            Toggle("Haptic Pacing", isOn: $hapticPacing)
+            Toggle(NSLocalizedString("brockString.hapticPacing", comment: "Haptic pacing toggle"), isOn: $hapticPacing)
                 .font(.subheadline)
-                .accessibilityLabel("Enable haptic pacing")
+                .accessibilityLabel(NSLocalizedString("brockString.hapticPacing.accessibility", comment: "Enable haptic pacing accessibility"))
 
-            Toggle("Audio Cue", isOn: $audioCue)
+            Toggle(NSLocalizedString("brockString.audioCue", comment: "Audio cue toggle"), isOn: $audioCue)
                 .font(.subheadline)
-                .accessibilityLabel("Enable audio cue on focus shift")
+                .accessibilityLabel(NSLocalizedString("brockString.audioCue.accessibility", comment: "Enable audio cue on focus shift accessibility"))
         }
     }
 
     // MARK: - Session Timer
 
     private var sessionTimerLabel: some View {
-        Text("Session: \(formatTime(elapsed))")
+        Text(String(format: NSLocalizedString("brockString.session", comment: "Session timer label"), formatTime(elapsed)))
             .font(.headline.monospacedDigit())
             .foregroundStyle(.secondary)
-            .accessibilityLabel("Session time: \(Int(elapsed)) seconds")
+            .accessibilityLabel(String(format: NSLocalizedString("brockString.sessionTime.accessibility", comment: "Session time accessibility"), Int(elapsed)))
     }
 
     // MARK: - Start / Stop
@@ -192,13 +193,13 @@ struct BrockStringView: View {
         Button {
             if isRunning { stop() } else { start() }
         } label: {
-            Text(isRunning ? "Stop" : "Begin Exercise")
+            Text(isRunning ? NSLocalizedString("brockString.stop", comment: "Stop button") : NSLocalizedString("brockString.beginExercise", comment: "Begin exercise button"))
                 .frame(maxWidth: .infinity)
         }
         .buttonStyle(.borderedProminent)
         .controlSize(.large)
         .tint(isRunning ? .red : .blue)
-        .accessibilityLabel(isRunning ? "Stop brock string exercise" : "Begin brock string exercise")
+        .accessibilityLabel(isRunning ? NSLocalizedString("brockString.stop.accessibility", comment: "Stop brock string exercise accessibility") : NSLocalizedString("brockString.begin.accessibility", comment: "Begin brock string exercise accessibility"))
     }
 
     // MARK: - Logic

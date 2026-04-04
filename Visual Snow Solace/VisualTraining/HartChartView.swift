@@ -11,6 +11,7 @@
 // Includes a session timer, shuffle control, and disclaimer footer.
 
 import SwiftUI
+import Foundation
 #if canImport(UIKit)
 import UIKit
 internal import Combine
@@ -24,6 +25,14 @@ enum HartChartMode: String, CaseIterable, Identifiable {
     case fourCornerColor = "4 Corner Color"
 
     var id: String { rawValue }
+
+    var localizedName: String {
+        switch self {
+        case .standard:        return NSLocalizedString("hartChart.mode.standard", comment: "Standard Hart Chart mode")
+        case .fourCornerBW:    return NSLocalizedString("hartChart.mode.fourCornerBW", comment: "4 Corner B&W mode")
+        case .fourCornerColor: return NSLocalizedString("hartChart.mode.fourCornerColor", comment: "4 Corner Color mode")
+        }
+    }
 }
 
 // MARK: - View
@@ -52,14 +61,14 @@ struct HartChartView: View {
         ScrollView {
             VStack(spacing: 16) {
             // Mode picker
-            Picker("Chart type", selection: $mode) {
+            Picker(NSLocalizedString("hartChart.chartTypePicker", comment: "Chart type picker label"), selection: $mode) {
                 ForEach(HartChartMode.allCases) { m in
-                    Text(m.rawValue).tag(m)
+                    Text(m.localizedName).tag(m)
                 }
             }
             .pickerStyle(.segmented)
             .padding(.horizontal)
-            .accessibilityLabel("Chart type")
+            .accessibilityLabel(NSLocalizedString("hartChart.chartType.accessibility", comment: "Accessibility label for chart type picker"))
 
             // Shuffle button – trailing-aligned
             HStack {
@@ -67,11 +76,11 @@ struct HartChartView: View {
                 Button {
                     generateAll()
                 } label: {
-                    Label("Shuffle", systemImage: "shuffle")
+                    Label(NSLocalizedString("hartChart.shuffle", comment: "Shuffle button label"), systemImage: "shuffle")
                 }
                 .buttonStyle(.bordered)
                 .controlSize(.small)
-                .accessibilityLabel("Generate new chart")
+                .accessibilityLabel(NSLocalizedString("hartChart.shuffle.accessibility", comment: "Accessibility label for generate new chart"))
             }
             .padding(.horizontal)
 
@@ -83,7 +92,7 @@ struct HartChartView: View {
                     }
                 } label: {
                     HStack {
-                        Text("Vision Wall Saccades")
+                        Text(NSLocalizedString("hartChart.saccades.title", comment: "Vision Wall Saccades section title"))
                             .font(.headline)
                             .foregroundStyle(.primary)
                         Spacer()
@@ -92,54 +101,54 @@ struct HartChartView: View {
                             .font(.footnote)
                     }
                 }
-                .accessibilityLabel(saccadeInstructionsExpanded ? "Collapse instructions" : "Expand instructions")
+                .accessibilityLabel(saccadeInstructionsExpanded ? NSLocalizedString("hartChart.saccades.collapse.accessibility", comment: "Accessibility label for collapse instructions") : NSLocalizedString("hartChart.saccades.expand.accessibility", comment: "Accessibility label for expand instructions"))
 
                 if saccadeInstructionsExpanded {
                     VStack(alignment: .leading, spacing: 10) {
-                        Text("How to use the Hart Chart for Wall Saccades")
+                        Text(NSLocalizedString("hartChart.saccades.howTo", comment: "How to use Hart Chart for Wall Saccades title"))
                             .font(.subheadline)
                             .fontWeight(.semibold)
 
-                        Text("Place this chart on a wall at distance (2–3 meters). Stand or sit comfortably with your head still. Make deliberate eye movements between targets — do not move your head.")
+                        Text(NSLocalizedString("hartChart.saccades.placement", comment: "Placement instructions for Hart Chart"))
                             .font(.body)
                             .foregroundStyle(.secondary)
 
                         Divider()
 
-                        Text("Standard — Sequential (1→10)")
+                        Text(NSLocalizedString("hartChart.saccades.sequential.title", comment: "Standard sequential saccades title"))
                             .font(.subheadline).fontWeight(.semibold)
-                        Text("Starting at 1, move your eyes to each number in order across the chart: 1, 2, 3… through 10. Call each number aloud as you land on it. Repeat for each row.")
+                        Text(NSLocalizedString("hartChart.saccades.sequential.body", comment: "Standard sequential saccades instructions"))
                             .font(.body).foregroundStyle(.secondary)
 
                         Divider()
 
-                        Text("Standard — Alternating (1–10, 2–9…)")
+                        Text(NSLocalizedString("hartChart.saccades.alternating.title", comment: "Standard alternating saccades title"))
                             .font(.subheadline).fontWeight(.semibold)
-                        Text("Begin at 1 on the left, then jump to 10 on the right. Then 2, then 9. Then 3, then 8 — continuing inward until you meet in the center. This trains larger amplitude saccades and symmetrical eye movement. Call each number or letter aloud as you land on it.")
+                        Text(NSLocalizedString("hartChart.saccades.alternating.body", comment: "Standard alternating saccades instructions"))
                             .font(.body).foregroundStyle(.secondary)
 
                         Divider()
 
-                        Text("4 Corner Color — Three calling modes")
+                        Text(NSLocalizedString("hartChart.saccades.colorModes.title", comment: "4 Corner Color calling modes title"))
                             .font(.subheadline).fontWeight(.semibold)
-                        Text("Use the 4 Corner Color chart on the wall. As you saccade to each target, call out:")
+                        Text(NSLocalizedString("hartChart.saccades.colorModes.intro", comment: "4 Corner Color calling modes introduction"))
                             .font(.body).foregroundStyle(.secondary)
 
                         VStack(alignment: .leading, spacing: 6) {
-                            Label("**Color only** — say the color of the letter (e.g. \"Red\", \"Blue\")", systemImage: "circle.fill")
+                            Label(NSLocalizedString("hartChart.saccades.colorModes.colorOnly", comment: "Color only calling mode description"), systemImage: "circle.fill")
                                 .font(.body).foregroundStyle(.secondary)
-                            Label("**Letter only** — say the letter itself (e.g. \"A\", \"7\")", systemImage: "textformat")
+                            Label(NSLocalizedString("hartChart.saccades.colorModes.letterOnly", comment: "Letter only calling mode description"), systemImage: "textformat")
                                 .font(.body).foregroundStyle(.secondary)
-                            Label("**Alternating** — alternate between calling the color and the letter on each successive target (e.g. \"Red\", \"B\", \"Green\", \"4\"…)", systemImage: "arrow.left.arrow.right")
+                            Label(NSLocalizedString("hartChart.saccades.colorModes.alternating", comment: "Alternating calling mode description"), systemImage: "arrow.left.arrow.right")
                                 .font(.body).foregroundStyle(.secondary)
                         }
                         .padding(.leading, 8)
 
                         Divider()
 
-                        Text("Tips")
+                        Text(NSLocalizedString("hartChart.saccades.tips.title", comment: "Tips section title"))
                             .font(.subheadline).fontWeight(.semibold)
-                        Text("Keep your head still throughout. Use the metronome below to pace your saccades — one beat per target. Take a break if you feel eye strain. Stop immediately if you feel dizzy or unwell.")
+                        Text(NSLocalizedString("hartChart.saccades.tips.body", comment: "Tips for saccade exercises"))
                             .font(.body).foregroundStyle(.secondary)
                     }
                     .padding(14)
@@ -169,16 +178,16 @@ struct HartChartView: View {
                         .font(.title3)
                         .scaleEffect(metronomePhase && metronomeActive ? 1.2 : 1.0)
                         .animation(.easeInOut(duration: 0.1), value: metronomePhase)
-                        .accessibilityLabel(metronomeActive ? "Metronome active" : "Metronome inactive")
+                        .accessibilityLabel(metronomeActive ? NSLocalizedString("hartChart.metronome.active.accessibility", comment: "Accessibility label for metronome active") : NSLocalizedString("hartChart.metronome.inactive.accessibility", comment: "Accessibility label for metronome inactive"))
 
-                    Text("\(Int(metronomeBPM)) BPM")
+                    Text(String(format: NSLocalizedString("hartChart.metronome.bpm", comment: "Metronome BPM display"), Int(metronomeBPM)))
                         .font(.subheadline.monospacedDigit())
                         .frame(width: 72, alignment: .leading)
 
                     Slider(value: $metronomeBPM, in: 20...120, step: 1)
-                        .accessibilityLabel("Metronome speed")
+                        .accessibilityLabel(NSLocalizedString("hartChart.metronome.speed.accessibility", comment: "Accessibility label for metronome speed slider"))
 
-                    Button(metronomeActive ? "Stop" : "Start") {
+                    Button(metronomeActive ? NSLocalizedString("hartChart.metronome.stop", comment: "Stop metronome button") : NSLocalizedString("hartChart.metronome.start", comment: "Start metronome button")) {
                         metronomeActive.toggle()
                         if metronomeActive {
                             lastBeatTime = Date()
@@ -186,7 +195,7 @@ struct HartChartView: View {
                     }
                     .buttonStyle(.bordered)
                     .controlSize(.small)
-                    .accessibilityLabel(metronomeActive ? "Stop metronome" : "Start metronome")
+                    .accessibilityLabel(metronomeActive ? NSLocalizedString("hartChart.metronome.stop.accessibility", comment: "Accessibility label for stop metronome") : NSLocalizedString("hartChart.metronome.start.accessibility", comment: "Accessibility label for start metronome"))
                 }
             }
             .padding(.horizontal)
@@ -205,20 +214,20 @@ struct HartChartView: View {
                     isRunning = true
                 }
             } label: {
-                Text(isRunning ? "Stop" : "Start")
+                Text(isRunning ? NSLocalizedString("hartChart.stop", comment: "Stop session button") : NSLocalizedString("hartChart.start", comment: "Start session button"))
                     .frame(maxWidth: .infinity)
             }
             .buttonStyle(.borderedProminent)
             .controlSize(.large)
             .tint(isRunning ? .red : .blue)
             .padding(.horizontal)
-            .accessibilityLabel(isRunning ? "Stop session" : "Start session")
+            .accessibilityLabel(isRunning ? NSLocalizedString("hartChart.stop.accessibility", comment: "Accessibility label for stop session") : NSLocalizedString("hartChart.start.accessibility", comment: "Accessibility label for start session"))
 
             DisclaimerFooter()
         }
         .padding(.vertical)
         } // ScrollView
-        .navigationTitle("Hart Chart")
+        .navigationTitle(NSLocalizedString("hartChart.title", comment: "Navigation title for Hart Chart"))
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -226,7 +235,7 @@ struct HartChartView: View {
                     showInfoDrawer = true
                 } label: {
                     Image(systemName: "info.circle")
-                        .accessibilityLabel("How to do this exercise")
+                        .accessibilityLabel(NSLocalizedString("hartChart.info.accessibility", comment: "Accessibility label for exercise info button"))
                 }
             }
         }
@@ -241,7 +250,7 @@ struct HartChartView: View {
                         HStack(alignment: .top, spacing: 10) {
                             Image(systemName: "exclamationmark.triangle.fill")
                                 .foregroundStyle(.orange)
-                            Text("Do not move your head during this exercise — move only your eyes.")
+                            Text(NSLocalizedString("hartChart.info.warning", comment: "Warning to not move head during exercise"))
                                 .font(.body.bold())
                         }
                         .padding(12)
@@ -250,7 +259,7 @@ struct HartChartView: View {
                         HStack(alignment: .top, spacing: 10) {
                             Image(systemName: "exclamationmark.triangle.fill")
                                 .foregroundStyle(.orange)
-                            Text("Do not move your head during this exercise — move only your eyes.")
+                            Text(NSLocalizedString("hartChart.info.warning", comment: "Warning to not move head during exercise"))
                                 .font(.body.bold())
                         }
                         .padding(12)
@@ -456,66 +465,22 @@ struct HartChartView: View {
 
     private var infoTitle: String {
         switch mode {
-        case .standard: return "Standard Hart Chart"
-        case .fourCornerBW: return "4 Corner B&W"
-        case .fourCornerColor: return "4 Corner Color"
+        case .standard: return NSLocalizedString("hartchart.info.standard.title", comment: "Standard Hart Chart info title")
+        case .fourCornerBW: return NSLocalizedString("hartchart.info.fourcornerBW.title", comment: "4 Corner B&W info title")
+        case .fourCornerColor: return NSLocalizedString("hartchart.info.fourcornerColor.title", comment: "4 Corner Color info title")
         }
     }
 
     private var infoBody: String {
         switch mode {
         case .standard:
-            return """
-            Set the metronome to 60 BPM to start.
-
-            Place this chart on a wall at distance. Cover one eye with a patch or your hand.
-
-            Starting from the top row:
-            • On the first beat — say the leftmost letter aloud
-            • On the next beat — say the rightmost letter aloud
-            • Then the second from the left, then the second from the right
-            • Continue inward until you reach the center of the row
-            • Move to the next row and repeat
-
-            One letter per beat. Say each letter out loud as your eyes land on it.
-
-            Do this for 2 minutes with one eye patched, then switch to the other eye for another 2 minutes. You can also do it with both eyes open.
-            """
+            return NSLocalizedString("hartchart.info.standard.body", comment: "Standard Hart Chart exercise instructions")
 
         case .fourCornerBW:
-            return """
-            Set the metronome to 60 BPM to start.
-
-            Place this chart on a wall at distance. Keep both eyes open.
-
-            Follow an S-motion — not a circle — through the four corner charts:
-            1. First letter, top-left chart (top-left corner of screen)
-            2. First letter, top-right chart
-            3. First letter, bottom-left chart
-            4. First letter, bottom-right chart
-
-            Then move to the second letter in each chart, following the same S-motion. Continue for 2 minutes.
-
-            One letter per beat. Say each letter aloud as your eyes land on it. Do not move your head — eyes only.
-            """
+            return NSLocalizedString("hartchart.info.fourcornerBW.body", comment: "4 Corner B&W exercise instructions")
 
         case .fourCornerColor:
-            return """
-            Set the metronome to 60 BPM to start.
-
-            Place this chart on a wall at distance. Keep both eyes open.
-
-            Follow the same S-motion as the B&W chart:
-            1. Top-left chart → top-right chart → bottom-left chart → bottom-right chart
-            2. Then move to the next letter in each chart and repeat
-
-            Alternate what you say on each beat:
-            • First target — say the letter or number aloud
-            • Next target — say the color of it aloud
-            • Continue alternating: letter, color, letter, color…
-
-            Do not move your head — eyes only.
-            """
+            return NSLocalizedString("hartchart.info.fourcornerColor.body", comment: "4 Corner Color exercise instructions")
         }
     }
 }
