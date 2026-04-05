@@ -533,3 +533,42 @@
 "wayne.summary.hitsValue" = "%d touches";
 "wayne.summary.done" = "Terminé";
 "wayne.summary.done.accessibility" = "Fermer le résumé";
+
+/* ── SymptomGalleryView ── */
+"symptoms.disclaimer" = "À des fins éducatives uniquement. Ceci n'est pas un outil de diagnostic. Consultez votre médecin.";
+"symptoms.section.visual" = "Symptômes visuels";
+"symptoms.section.nonVisual" = "Symptômes non visuels";
+"symptoms.addImage" = "Ajouter une image";
+"symptoms.visualSnow.title" = "Neige visuelle";
+"symptoms.visualSnow.description" = "La neige visuelle se manifeste par un scintillement persistant de parasites superposé à l'ensemble du champ visuel, semblable au bruit d'un ancien téléviseur. Elle est présente dans toutes les conditions d'éclairage et ne disparaît pas lorsque vous fermez les yeux. Pour certains, elle apparaît comme de fins points colorés ; pour d'autres, comme un grain dense en noir et blanc.";
+"symptoms.palinopsia.title" = "Palinopsie (images rémanentes)";
+"symptoms.palinopsia.description" = "La palinopsie fait persister ou réapparaître les images visuelles après la disparition du stimulus original. Cela inclut des images rémanentes qui suivent les objets en mouvement et des images statiques qui persistent après avoir regardé un objet brillant ou à fort contraste. Cela peut aller de léger (traînées brèves) à sévère (images fantômes prolongées).";
+"symptoms.doubleVision.title" = "Vision double (diplopie)";
+"symptoms.doubleVision.description" = "La diplopie fait apparaître un seul objet comme deux images superposées ou séparées. Dans le SVN, cela peut se manifester comme un symptôme persistant ou intermittent, et peut affecter un œil (monoculaire) ou les deux yeux (binoculaire). Cela peut rendre la lecture, l'utilisation d'écrans et la conduite considérablement plus difficiles.";
+"symptoms.photophobia.title" = "Photophobie (sensibilité à la lumière)";
+"symptoms.photophobia.description" = "La photophobie est une sensibilité ou une intolérance extrême à la lumière. L'éclairage intérieur ordinaire, les écrans ou la lumière du soleil peuvent sembler douloureux ou accablants. Les lumières vives peuvent déclencher ou aggraver d'autres symptômes du SVN. De nombreuses personnes atteintes du SVN trouvent l'éclairage fluorescent et LED particulièrement difficile.";
+"symptoms.nyctalopia.title" = "Nyctalopie (cécité nocturne / mauvaise vision nocturne)";
+"symptoms.nyctalopia.description" = "La nyctalopie dans le SVN désigne la difficulté à s'adapter aux environnements peu éclairés. L'effet de neige visuelle s'intensifie souvent considérablement dans l'obscurité, et la sensibilité aux contrastes est réduite. La conduite de nuit, les restaurants sombres et les pièces obscures peuvent être particulièrement difficiles.";
+"symptoms.entoptic.title" = "Phénomènes entoptiques (corps flottants)";
+"symptoms.entoptic.description" = "Les phénomènes entoptiques sont des effets visuels qui proviennent de l'intérieur de l'œil lui-même. Dans le SVN, cela inclut couramment les corps flottants (ombres ou fils en mouvement), le phénomène entoptique du champ bleu (minuscules points lumineux se déplaçant dans le champ visuel en lumière vive) et la lumière propre de l'œil (motifs visibles dans l'obscurité totale).";
+"symptoms.tinnitus.title" = "Acouphènes";
+"symptoms.tinnitus.description" = "Un bourdonnement, sifflement ou murmure persistant dans une ou les deux oreilles sans source externe. Les acouphènes sont signalés chez une proportion importante de personnes atteintes du SVN et peuvent aller d'un bruit de fond mineur à un son constant et pénible.";
+"symptoms.brainFog.title" = "Brouillard cérébral";
+"symptoms.brainFog.description" = "Difficulté à se concentrer, fatigue mentale, traitement lent et difficulté à trouver ses mots. Le brouillard cérébral dans le SVN peut rendre le travail, la lecture et la conversation considérablement plus difficiles, et s'aggrave souvent avec la fatigue ou la surstimulation.";
+"symptoms.anxiety.title" = "Anxiété, dépression et irritabilité";
+"symptoms.anxiety.description" = "Vivre avec des perturbations visuelles et sensorielles persistantes peut entraîner une tension émotionnelle importante. L'anxiété, la dépression et une irritabilité accrue sont couramment signalées aux côtés du SVN, et prendre soin de la santé mentale est un élément important de la prise en charge globale.";
+"symptoms.sleep.title" = "Troubles du sommeil";
+"symptoms.sleep.description" = "Difficulté à s'endormir, à rester endormi ou à se sentir reposé. La neige visuelle et les symptômes associés peuvent être plus perceptibles dans l'obscurité et le silence de la nuit, rendant la détente plus difficile. Certaines personnes signalent également des rêves vifs ou des images hypnagogiques.";
+"symptoms.dizziness.title" = "Étourdissements";
+"symptoms.dizziness.description" = "Une sensation de tête légère, d'instabilité ou de déséquilibre. Les étourdissements dans le SVN peuvent être déclenchés par des environnements visuellement chargés, des écrans ou des mouvements physiques, et peuvent compliquer les tâches quotidiennes.";
+"symptoms.vertigo.title" = "Vertige";
+"symptoms.vertigo.description" = "Une sensation de rotation, comme si la pièce bougeait. Le vertige diffère des étourdissements généraux et peut être épisodique ou persistant. Il peut accompagner ou chevaucher la migraine, qui est couramment associée au SVN.";
+"symptoms.dpdr.title" = "Dépersonnalisation-Déréalisation (DPDR)";
+"symptoms.dpdr.description" = "Un sentiment d'être détaché de ses propres pensées, de son corps ou de son environnement, ou que le monde semble irréel, onirique ou lointain. Le DPDR est signalé par de nombreuses personnes atteintes du SVN et peut être l'un des symptômes non visuels les plus pénibles.";
+
+/* ── RedGreenWordView ── */
+"redGreen.warning.title" = "Lunettes rouge/vert requises";
+"redGreen.warning.body" = "Cet exercice nécessite des lunettes anaglyphes rouge/vert — lentille rouge sur l'œil gauche, verte sur le droit. Sans elles, l'exercice ne fonctionnera pas comme prévu.\n\nVous pouvez les trouver en ligne ou auprès d'un thérapeute visuel.";
+"redGreen.warning.dismiss" = "Compris";
+"redGreen.warning.dismiss.accessibility" = "Fermer le rappel des lunettes";
+"redGreen.warning.icon.accessibility" = "Icône de lunettes";

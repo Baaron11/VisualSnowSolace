@@ -533,3 +533,42 @@
 "wayne.summary.hitsValue" = "%d Treffer";
 "wayne.summary.done" = "Fertig";
 "wayne.summary.done.accessibility" = "Zusammenfassung schließen";
+
+/* ── SymptomGalleryView ── */
+"symptoms.disclaimer" = "Nur zu Bildungszwecken. Kein Diagnosewerkzeug. Konsultieren Sie Ihren Arzt.";
+"symptoms.section.visual" = "Visuelle Symptome";
+"symptoms.section.nonVisual" = "Nicht-visuelle Symptome";
+"symptoms.addImage" = "Bild hinzufügen";
+"symptoms.visualSnow.title" = "Visueller Schnee";
+"symptoms.visualSnow.description" = "Visueller Schnee erscheint als anhaltendes flimmerndes Rauschen, das sich über das gesamte Sichtfeld legt — ähnlich dem Bildrauschen eines alten Fernsehers. Er ist unter allen Lichtbedingungen vorhanden und verschwindet nicht, wenn man die Augen schließt. Bei manchen erscheint er als feine farbige Punkte; bei anderen als dichtes Schwarz-Weiß-Korn.";
+"symptoms.palinopsia.title" = "Palinopsie (Nachbilder)";
+"symptoms.palinopsia.description" = "Palinopsie bewirkt, dass visuelle Bilder bestehen bleiben oder wiederkehren, nachdem der ursprüngliche Reiz verschwunden ist. Dies umfasst nachlaufende Nachbilder, die bewegten Objekten folgen, und statische Nachbilder, die nach dem Betrachten eines hellen oder kontrastreichen Objekts verbleiben. Sie kann von leicht (kurzes Nachziehen) bis schwer (langanhaltende Geisterbilder) reichen.";
+"symptoms.doubleVision.title" = "Doppeltsehen (Diplopie)";
+"symptoms.doubleVision.description" = "Diplopie lässt ein einzelnes Objekt als zwei überlagerte oder getrennte Bilder erscheinen. Beim VSS kann dies als dauerhaftes oder intermittierendes Symptom auftreten und kann ein Auge (monokular) oder beide Augen (binokular) betreffen. Es kann das Lesen, die Bildschirmnutzung und das Autofahren erheblich erschweren.";
+"symptoms.photophobia.title" = "Photophobie (Lichtempfindlichkeit)";
+"symptoms.photophobia.description" = "Photophobie ist eine extreme Empfindlichkeit oder Unverträglichkeit gegenüber Licht. Normale Innenbeleuchtung, Bildschirme oder Sonnenlicht können schmerzhaft oder überwältigend wirken. Helles Licht kann andere VSS-Symptome auslösen oder verschlimmern. Viele Menschen mit VSS empfinden Leuchtstoff- und LED-Beleuchtung als besonders belastend.";
+"symptoms.nyctalopia.title" = "Nyktalopie (Nachtblindheit / schlechtes Nachtsehen)";
+"symptoms.nyctalopia.description" = "Nyktalopie beim VSS bezeichnet die Schwierigkeit, sich an lichtschwache Umgebungen anzupassen. Der visuelle Schnee-Effekt verstärkt sich in der Dunkelheit oft erheblich, und die Kontrastempfindlichkeit ist vermindert. Nachtfahrten, schwach beleuchtete Restaurants und dunkle Räume können besonders herausfordernd sein.";
+"symptoms.entoptic.title" = "Entoptische Phänomene (Mouches volantes)";
+"symptoms.entoptic.description" = "Entoptische Phänomene sind visuelle Effekte, die im Auge selbst entstehen. Beim VSS umfasst dies häufig Mouches volantes (sich bewegende Schatten oder Fäden), das entoptische Blaufeldphänomen (winzige helle Punkte, die bei hellem Licht durch das Sichtfeld huschen) und das Eigenleuchten des Auges (Muster, die in völliger Dunkelheit sichtbar sind).";
+"symptoms.tinnitus.title" = "Tinnitus";
+"symptoms.tinnitus.description" = "Ein anhaltendes Klingeln, Summen, Zischen oder Brummen in einem oder beiden Ohren ohne externe Quelle. Tinnitus wird bei einem erheblichen Anteil von Menschen mit VSS berichtet und kann von einem geringfügigen Hintergrundgeräusch bis zu einem ständigen, belastenden Ton reichen.";
+"symptoms.brainFog.title" = "Gehirnnebel";
+"symptoms.brainFog.description" = "Konzentrationsschwierigkeiten, geistige Erschöpfung, langsame Verarbeitung und Wortfindungsprobleme. Gehirnnebel beim VSS kann Arbeit, Lesen und Gespräche erheblich erschweren und verschlimmert sich oft bei Müdigkeit oder Reizüberflutung.";
+"symptoms.anxiety.title" = "Angst, Depression und Reizbarkeit";
+"symptoms.anxiety.description" = "Das Leben mit anhaltenden visuellen und sensorischen Störungen kann zu erheblicher emotionaler Belastung führen. Angst, Depression und erhöhte Reizbarkeit werden häufig zusammen mit VSS berichtet, und die Beachtung der psychischen Gesundheit ist ein wichtiger Teil des Gesamtmanagements.";
+"symptoms.sleep.title" = "Schlafstörungen";
+"symptoms.sleep.description" = "Schwierigkeiten beim Einschlafen, Durchschlafen oder Erholt-Aufwachen. Visueller Schnee und verwandte Symptome können in der Dunkelheit und Stille der Nacht stärker wahrnehmbar sein und das Abschalten erschweren. Manche Menschen berichten auch von lebhaften Träumen oder hypnagogen Bildern.";
+"symptoms.dizziness.title" = "Schwindel";
+"symptoms.dizziness.description" = "Ein Gefühl von Benommenheit, Unsicherheit oder Gleichgewichtsverlust. Schwindel beim VSS kann durch visuell belebte Umgebungen, Bildschirme oder körperliche Bewegung ausgelöst werden und kann alltägliche Aufgaben erschweren.";
+"symptoms.vertigo.title" = "Vertigo";
+"symptoms.vertigo.description" = "Ein Dreh- oder Rotationsgefühl, als ob sich der Raum bewegen würde. Vertigo unterscheidet sich von allgemeinem Schwindel und kann episodisch oder anhaltend sein. Es kann mit Migräne einhergehen oder sich überschneiden, die häufig mit VSS assoziiert wird.";
+"symptoms.dpdr.title" = "Depersonalisation-Derealisation (DPDR)";
+"symptoms.dpdr.description" = "Ein Gefühl, von den eigenen Gedanken, dem Körper oder der Umgebung losgelöst zu sein, oder dass die Welt unwirklich, traumhaft oder weit entfernt erscheint. DPDR wird von vielen Menschen mit VSS berichtet und kann eines der belastendsten nicht-visuellen Symptome sein.";
+
+/* ── RedGreenWordView ── */
+"redGreen.warning.title" = "Rot/Grün-Brille erforderlich";
+"redGreen.warning.body" = "Diese Übung erfordert eine rot/grüne Anaglyphenbrille — rote Linse auf dem linken Auge, grüne auf dem rechten. Ohne sie funktioniert die Übung nicht wie vorgesehen.\n\nSie können diese online oder über einen Visualtherapeuten finden.";
+"redGreen.warning.dismiss" = "Verstanden";
+"redGreen.warning.dismiss.accessibility" = "Brillen-Erinnerung schließen";
+"redGreen.warning.icon.accessibility" = "Brillensymbol";

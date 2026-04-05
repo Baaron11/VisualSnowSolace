@@ -533,3 +533,42 @@
 "wayne.summary.hitsValue" = "%d acertos";
 "wayne.summary.done" = "Concluído";
 "wayne.summary.done.accessibility" = "Fechar resumo";
+
+/* ── SymptomGalleryView ── */
+"symptoms.disclaimer" = "Apenas para fins educacionais. Não é uma ferramenta de diagnóstico. Consulte seu médico.";
+"symptoms.section.visual" = "Sintomas visuais";
+"symptoms.section.nonVisual" = "Sintomas não visuais";
+"symptoms.addImage" = "Adicionar imagem";
+"symptoms.visualSnow.title" = "Neve visual";
+"symptoms.visualSnow.description" = "A neve visual aparece como uma cintilação persistente de estática sobreposta a todo o campo visual — semelhante ao ruído de uma televisão antiga. Está presente em todas as condições de iluminação e não desaparece quando você fecha os olhos. Para alguns, aparece como pontos coloridos finos; para outros, como um grão denso em preto e branco.";
+"symptoms.palinopsia.title" = "Palinopsia (pós-imagens)";
+"symptoms.palinopsia.description" = "A palinopsia faz com que imagens visuais persistam ou reapareçam após o estímulo original ter desaparecido. Isso inclui pós-imagens que seguem objetos em movimento e imagens estáticas que permanecem após olhar para um objeto brilhante ou de alto contraste. Pode variar de leve (rastros breves) a grave (imagens fantasma prolongadas).";
+"symptoms.doubleVision.title" = "Visão dupla (diplopia)";
+"symptoms.doubleVision.description" = "A diplopia faz com que um único objeto apareça como duas imagens sobrepostas ou separadas. Na SVN, isso pode ocorrer como um sintoma persistente ou intermitente, e pode afetar um olho (monocular) ou ambos os olhos (binocular). Pode dificultar significativamente a leitura, o uso de telas e a direção.";
+"symptoms.photophobia.title" = "Fotofobia (sensibilidade à luz)";
+"symptoms.photophobia.description" = "A fotofobia é uma sensibilidade ou intolerância extrema à luz. Iluminação interna comum, telas ou luz solar podem parecer dolorosas ou avassaladoras. Luzes brilhantes podem desencadear ou piorar outros sintomas da SVN. Muitas pessoas com SVN consideram a iluminação fluorescente e LED particularmente difícil.";
+"symptoms.nyctalopia.title" = "Nictalopia (cegueira noturna / visão noturna ruim)";
+"symptoms.nyctalopia.description" = "A nictalopia na SVN refere-se à dificuldade de adaptação a ambientes com pouca luz. O efeito de neve visual frequentemente se intensifica significativamente no escuro, e a sensibilidade ao contraste é reduzida. Dirigir à noite, restaurantes escuros e quartos escuros podem ser especialmente desafiadores.";
+"symptoms.entoptic.title" = "Fenômenos entópticos (moscas volantes)";
+"symptoms.entoptic.description" = "Fenômenos entópticos são efeitos visuais que se originam dentro do próprio olho. Na SVN, isso comumente inclui moscas volantes (sombras ou fios em movimento), o fenômeno entóptico do campo azul (pequenos pontos brilhantes que se movem pelo campo visual em luz forte) e a luz própria do olho (padrões vistos na escuridão total).";
+"symptoms.tinnitus.title" = "Zumbido";
+"symptoms.tinnitus.description" = "Um zumbido, chiado, silvo ou murmúrio persistente em um ou ambos os ouvidos sem fonte externa. O zumbido é relatado em uma proporção significativa de pessoas com SVN e pode variar de um ruído de fundo leve a um som constante e angustiante.";
+"symptoms.brainFog.title" = "Névoa cerebral";
+"symptoms.brainFog.description" = "Dificuldade de concentração, fadiga mental, processamento lento e dificuldade para encontrar palavras. A névoa cerebral na SVN pode tornar o trabalho, a leitura e a conversa significativamente mais difíceis, e frequentemente piora com fadiga ou superestimulação.";
+"symptoms.anxiety.title" = "Ansiedade, depressão e irritabilidade";
+"symptoms.anxiety.description" = "Viver com distúrbios visuais e sensoriais persistentes pode gerar uma tensão emocional significativa. Ansiedade, depressão e irritabilidade aumentada são comumente relatadas juntamente com a SVN, e cuidar da saúde mental é uma parte importante do manejo geral.";
+"symptoms.sleep.title" = "Dificuldades de sono";
+"symptoms.sleep.description" = "Dificuldade para adormecer, manter o sono ou sentir-se descansado. A neve visual e sintomas relacionados podem ser mais perceptíveis na escuridão e silêncio da noite, dificultando o relaxamento. Algumas pessoas também relatam sonhos vívidos ou imagens hipnagógicas.";
+"symptoms.dizziness.title" = "Tontura";
+"symptoms.dizziness.description" = "Uma sensação de cabeça leve, instabilidade ou desequilíbrio. A tontura na SVN pode ser provocada por ambientes visualmente carregados, telas ou movimento físico, e pode dificultar tarefas do dia a dia.";
+"symptoms.vertigo.title" = "Vertigem";
+"symptoms.vertigo.description" = "Uma sensação de giro ou rotação, como se o ambiente estivesse se movendo. A vertigem difere da tontura geral e pode ser episódica ou persistente. Pode acompanhar ou sobrepor-se à enxaqueca, que é comumente associada à SVN.";
+"symptoms.dpdr.title" = "Despersonalização-Desrealização (DPDR)";
+"symptoms.dpdr.description" = "Uma sensação de estar desconectado dos próprios pensamentos, corpo ou arredores, ou de que o mundo parece irreal, onírico ou distante. O DPDR é relatado por muitas pessoas com SVN e pode ser um dos sintomas não visuais mais angustiantes.";
+
+/* ── RedGreenWordView ── */
+"redGreen.warning.title" = "Óculos vermelho/verde necessários";
+"redGreen.warning.body" = "Este exercício requer óculos anaglíficos vermelho/verde — lente vermelha no olho esquerdo, verde no direito. Sem eles, o exercício não funcionará como esperado.\n\nVocê pode encontrá-los online ou através de um terapeuta visual.";
+"redGreen.warning.dismiss" = "Entendi";
+"redGreen.warning.dismiss.accessibility" = "Fechar lembrete dos óculos";
+"redGreen.warning.icon.accessibility" = "Ícone de óculos";

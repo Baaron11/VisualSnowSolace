@@ -533,3 +533,42 @@
 "wayne.summary.hitsValue" = "%d aciertos";
 "wayne.summary.done" = "Listo";
 "wayne.summary.done.accessibility" = "Cerrar resumen";
+
+/* ── SymptomGalleryView ── */
+"symptoms.disclaimer" = "Solo con fines educativos. No es una herramienta de diagnóstico. Consulte a su médico.";
+"symptoms.section.visual" = "Síntomas visuales";
+"symptoms.section.nonVisual" = "Síntomas no visuales";
+"symptoms.addImage" = "Agregar imagen";
+"symptoms.visualSnow.title" = "Nieve visual";
+"symptoms.visualSnow.description" = "La nieve visual aparece como un parpadeo persistente de estática superpuesto a todo el campo visual, similar al ruido de un televisor antiguo. Está presente en todas las condiciones de iluminación y no desaparece al cerrar los ojos. Para algunos, aparece como puntos de colores finos; para otros, como un grano denso en blanco y negro.";
+"symptoms.palinopsia.title" = "Palinopsia (imágenes residuales)";
+"symptoms.palinopsia.description" = "La palinopsia hace que las imágenes visuales persistan o se repitan después de que el estímulo original ha desaparecido. Esto incluye imágenes residuales que siguen a los objetos en movimiento e imágenes estáticas que permanecen después de mirar un objeto brillante o de alto contraste. Puede variar de leve (trazas breves) a grave (imágenes fantasma prolongadas).";
+"symptoms.doubleVision.title" = "Visión doble (diplopía)";
+"symptoms.doubleVision.description" = "La diplopía hace que un solo objeto aparezca como dos imágenes superpuestas o separadas. En el SVV esto puede ocurrir como un síntoma persistente o intermitente, y puede afectar a un ojo (monocular) o a ambos ojos (binocular). Puede dificultar considerablemente la lectura, el uso de pantallas y la conducción.";
+"symptoms.photophobia.title" = "Fotofobia (sensibilidad a la luz)";
+"symptoms.photophobia.description" = "La fotofobia es una sensibilidad o intolerancia extrema a la luz. La iluminación interior normal, las pantallas o la luz solar pueden resultar dolorosas o abrumadoras. Las luces brillantes pueden desencadenar o empeorar otros síntomas del SVV. Muchas personas con SVV encuentran la iluminación fluorescente y LED particularmente difícil.";
+"symptoms.nyctalopia.title" = "Nictalopía (ceguera nocturna / mala visión nocturna)";
+"symptoms.nyctalopia.description" = "La nictalopía en el SVV se refiere a la dificultad para adaptarse a entornos con poca luz. El efecto de nieve visual a menudo se intensifica significativamente en la oscuridad y la sensibilidad al contraste se reduce. Conducir de noche, los restaurantes con poca luz y las habitaciones oscuras pueden ser especialmente difíciles.";
+"symptoms.entoptic.title" = "Fenómenos entópticos (moscas volantes)";
+"symptoms.entoptic.description" = "Los fenómenos entópticos son efectos visuales que se originan dentro del propio ojo. En el SVV esto comúnmente incluye moscas volantes (sombras o hilos en movimiento), el fenómeno entóptico del campo azul (pequeños puntos brillantes que se mueven por el campo visual con luz brillante) y la luz propia del ojo (patrones vistos en la oscuridad total).";
+"symptoms.tinnitus.title" = "Tinnitus";
+"symptoms.tinnitus.description" = "Un zumbido, silbido o murmullo persistente en uno o ambos oídos sin una fuente externa. El tinnitus se reporta en una proporción significativa de personas con SVV y puede variar desde un ruido de fondo menor hasta un sonido constante y angustiante.";
+"symptoms.brainFog.title" = "Niebla mental";
+"symptoms.brainFog.description" = "Dificultad para concentrarse, fatiga mental, procesamiento lento y problemas para encontrar palabras. La niebla mental en el SVV puede hacer que el trabajo, la lectura y la conversación sean significativamente más difíciles, y a menudo empeora con la fatiga o la sobreestimulación.";
+"symptoms.anxiety.title" = "Ansiedad, depresión e irritabilidad";
+"symptoms.anxiety.description" = "Vivir con alteraciones visuales y sensoriales persistentes puede generar una tensión emocional significativa. La ansiedad, la depresión y la irritabilidad aumentada se reportan comúnmente junto con el SVV, y abordar la salud mental es una parte importante del manejo general.";
+"symptoms.sleep.title" = "Dificultades del sueño";
+"symptoms.sleep.description" = "Problemas para conciliar el sueño, mantenerlo o sentirse descansado. La nieve visual y los síntomas relacionados pueden ser más notorios en la oscuridad y la quietud de la noche, dificultando la relajación. Algunas personas también reportan sueños vívidos o imágenes hipnagógicas.";
+"symptoms.dizziness.title" = "Mareos";
+"symptoms.dizziness.description" = "Una sensación de aturdimiento, inestabilidad o desequilibrio. Los mareos en el SVV pueden ser provocados por entornos visualmente cargados, pantallas o movimiento físico, y pueden dificultar las tareas cotidianas.";
+"symptoms.vertigo.title" = "Vértigo";
+"symptoms.vertigo.description" = "Una sensación de giro o rotación, como si la habitación se moviera. El vértigo difiere del mareo general y puede ser episódico o persistente. Puede acompañar o superponerse con la migraña, que se asocia comúnmente con el SVV.";
+"symptoms.dpdr.title" = "Despersonalización-Desrealización (DPDR)";
+"symptoms.dpdr.description" = "Una sensación de estar separado de sus propios pensamientos, cuerpo o entorno, o de que el mundo parece irreal, onírico o lejano. El DPDR es reportado por muchas personas con SVV y puede ser uno de los síntomas no visuales más angustiantes.";
+
+/* ── RedGreenWordView ── */
+"redGreen.warning.title" = "Se requieren gafas rojo/verde";
+"redGreen.warning.body" = "Este ejercicio requiere gafas anaglíficas rojo/verde — lente roja en el ojo izquierdo, verde en el derecho. Sin ellas, el ejercicio no funcionará como se espera.\n\nPuede encontrarlas en línea o a través de un terapeuta visual.";
+"redGreen.warning.dismiss" = "Entendido";
+"redGreen.warning.dismiss.accessibility" = "Cerrar recordatorio de gafas";
+"redGreen.warning.icon.accessibility" = "Icono de gafas";

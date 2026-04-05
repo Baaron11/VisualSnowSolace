@@ -533,3 +533,42 @@
 "wayne.summary.hitsValue" = "%d treffers";
 "wayne.summary.done" = "Klaar";
 "wayne.summary.done.accessibility" = "Samenvatting sluiten";
+
+/* ── SymptomGalleryView ── */
+"symptoms.disclaimer" = "Alleen voor educatieve doeleinden. Geen diagnostisch hulpmiddel. Raadpleeg uw arts.";
+"symptoms.section.visual" = "Visuele symptomen";
+"symptoms.section.nonVisual" = "Niet-visuele symptomen";
+"symptoms.addImage" = "Afbeelding toevoegen";
+"symptoms.visualSnow.title" = "Visuele sneeuw";
+"symptoms.visualSnow.description" = "Visuele sneeuw verschijnt als een aanhoudend flikkerend ruis over het hele gezichtsveld — vergelijkbaar met de ruis op een oude televisie. Het is aanwezig bij alle lichtomstandigheden en verdwijnt niet wanneer u uw ogen sluit. Voor sommigen verschijnt het als fijne gekleurde puntjes; voor anderen als een dichte zwart-witkorreling.";
+"symptoms.palinopsia.title" = "Palinopsie (nabeelden)";
+"symptoms.palinopsia.description" = "Palinopsie zorgt ervoor dat visuele beelden aanhouden of terugkeren nadat de oorspronkelijke stimulus is verdwenen. Dit omvat nabeelden die bewegende objecten volgen en statische nabeelden die achterblijven na het kijken naar een helder of contrastrijk object. Het kan variëren van mild (korte sporen) tot ernstig (langdurige schaduwbeelden).";
+"symptoms.doubleVision.title" = "Dubbelzien (diplopie)";
+"symptoms.doubleVision.description" = "Diplopie zorgt ervoor dat een enkel object verschijnt als twee overlappende of gescheiden beelden. Bij VSS kan dit optreden als een aanhoudend of intermitterend symptoom, en kan het één oog (monoculair) of beide ogen (binoculair) treffen. Het kan lezen, schermgebruik en autorijden aanzienlijk bemoeilijken.";
+"symptoms.photophobia.title" = "Fotofobie (lichtgevoeligheid)";
+"symptoms.photophobia.description" = "Fotofobie is een extreme gevoeligheid of intolerantie voor licht. Gewone binnenverlichting, schermen of zonlicht kunnen pijnlijk of overweldigend aanvoelen. Fel licht kan andere VSS-symptomen veroorzaken of verergeren. Veel mensen met VSS vinden fluorescentie- en LED-verlichting bijzonder lastig.";
+"symptoms.nyctalopia.title" = "Nyctalopie (nachtblindheid / slecht nachtzicht)";
+"symptoms.nyctalopia.description" = "Nyctalopie bij VSS verwijst naar moeite met aanpassen aan omgevingen met weinig licht. Het visuele sneeuw-effect wordt vaak aanzienlijk sterker in het donker en de contrastgevoeligheid is verminderd. Nachtelijk rijden, slecht verlichte restaurants en donkere kamers kunnen bijzonder uitdagend zijn.";
+"symptoms.entoptic.title" = "Entoptische verschijnselen (vliegende vlekjes)";
+"symptoms.entoptic.description" = "Entoptische verschijnselen zijn visuele effecten die ontstaan in het oog zelf. Bij VSS omvat dit veelal vliegende vlekjes (bewegende schaduwen of draden), het entoptische blauwveldverschijnsel (kleine heldere stipjes die bij fel licht door het gezichtsveld schieten) en het eigenlicht van het oog (patronen die in volledige duisternis zichtbaar zijn).";
+"symptoms.tinnitus.title" = "Tinnitus";
+"symptoms.tinnitus.description" = "Een aanhoudend rinkelend, zoemend, sissend of brommend geluid in één of beide oren zonder externe bron. Tinnitus wordt gemeld bij een aanzienlijk deel van de mensen met VSS en kan variëren van een gering achtergrondgeluid tot een constant, verontrustend geluid.";
+"symptoms.brainFog.title" = "Hersenmist";
+"symptoms.brainFog.description" = "Moeite met concentreren, mentale vermoeidheid, trage verwerking en moeite met het vinden van woorden. Hersenmist bij VSS kan werk, lezen en gesprekken aanzienlijk bemoeilijken, en verergert vaak bij vermoeidheid of overstimulatie.";
+"symptoms.anxiety.title" = "Angst, depressie en prikkelbaarheid";
+"symptoms.anxiety.description" = "Leven met aanhoudende visuele en zintuiglijke stoornissen kan leiden tot aanzienlijke emotionele belasting. Angst, depressie en verhoogde prikkelbaarheid worden veelvuldig gemeld naast VSS, en aandacht voor de geestelijke gezondheid is een belangrijk onderdeel van het algehele beheer.";
+"symptoms.sleep.title" = "Slaapproblemen";
+"symptoms.sleep.description" = "Moeite met inslapen, doorslapen of uitgerust wakker worden. Visuele sneeuw en gerelateerde symptomen kunnen meer opvallen in de duisternis en stilte van de nacht, waardoor het moeilijker is om tot rust te komen. Sommige mensen melden ook levendige dromen of hypnagoge beelden.";
+"symptoms.dizziness.title" = "Duizeligheid";
+"symptoms.dizziness.description" = "Een gevoel van licht in het hoofd, onvastheid of onevenwichtigheid. Duizeligheid bij VSS kan worden veroorzaakt door visueel drukke omgevingen, schermen of fysieke beweging, en kan dagelijkse taken bemoeilijken.";
+"symptoms.vertigo.title" = "Vertigo";
+"symptoms.vertigo.description" = "Een draaiend of roterend gevoel, alsof de kamer beweegt. Vertigo verschilt van algemene duizeligheid en kan episodisch of aanhoudend zijn. Het kan gepaard gaan met of overlappen met migraine, die vaak geassocieerd wordt met VSS.";
+"symptoms.dpdr.title" = "Depersonalisatie-Derealisatie (DPDR)";
+"symptoms.dpdr.description" = "Een gevoel van onthechting van uw eigen gedachten, lichaam of omgeving, of dat de wereld onwerkelijk, droomachtig of ver weg lijkt. DPDR wordt gemeld door veel mensen met VSS en kan een van de meest verontrustende niet-visuele symptomen zijn.";
+
+/* ── RedGreenWordView ── */
+"redGreen.warning.title" = "Rood/groene bril vereist";
+"redGreen.warning.body" = "Deze oefening vereist een rood/groene anagliefbril — rode lens op het linkeroog, groene op het rechteroog. Zonder deze bril werkt de oefening niet zoals bedoeld.\n\nU kunt deze online vinden of via een visueel therapeut.";
+"redGreen.warning.dismiss" = "Begrepen";
+"redGreen.warning.dismiss.accessibility" = "Brillenherinnering sluiten";
+"redGreen.warning.icon.accessibility" = "Brilpictogram";
