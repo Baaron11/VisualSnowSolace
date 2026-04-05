@@ -533,3 +533,35 @@
 "wayne.summary.hitsValue" = "%d hits";
 "wayne.summary.done" = "Done";
 "wayne.summary.done.accessibility" = "Dismiss summary";
+
+/* ── SymptomGalleryView ── */
+"symptoms.disclaimer" = "For educational purposes only. Not a diagnostic tool. Consult your clinician.";
+"symptoms.section.visual" = "Visual Symptoms";
+"symptoms.section.nonVisual" = "Non-Visual Symptoms";
+"symptoms.visualSnow.title" = "Visual Snow";
+"symptoms.visualSnow.description" = "Visual snow appears as a persistent flickering static overlaid on your entire visual field — similar to the noise on an old television. It is present in all lighting conditions and does not go away when you close your eyes. For some, it appears as fine colored dots; for others, as a dense black-and-white grain.";
+"symptoms.palinopsia.title" = "Palinopsia (Afterimages)";
+"symptoms.palinopsia.description" = "Palinopsia causes visual images to persist or recur after the original stimulus is gone. This includes trailing afterimages that follow moving objects, and static afterimages that linger after looking at a bright or high-contrast object. It can range from mild (brief trailing) to severe (prolonged ghost images).";
+"symptoms.doubleVision.title" = "Double Vision (Diplopia)";
+"symptoms.doubleVision.description" = "Diplopia causes a single object to appear as two overlapping or separated images. In VSS this may occur as a persistent or intermittent symptom, and can affect one eye (monocular) or both eyes together (binocular). It can make reading, screen use, and driving significantly more difficult.";
+"symptoms.photophobia.title" = "Photophobia (Light Sensitivity)";
+"symptoms.photophobia.description" = "Photophobia is an extreme sensitivity or intolerance to light. Ordinary indoor lighting, screens, or sunlight may feel painful or overwhelming. Bright lights can trigger or worsen other VSS symptoms. Many people with VSS find fluorescent and LED lighting particularly difficult.";
+"symptoms.nyctalopia.title" = "Nyctalopia (Night Blindness / Poor Night Vision)";
+"symptoms.nyctalopia.description" = "Nyctalopia in VSS refers to difficulty adapting to low-light environments. The visual snow effect often intensifies significantly in darkness, and contrast sensitivity is reduced. Night driving, dim restaurants, and dark rooms can be especially challenging.";
+"symptoms.entopticPhenomena.title" = "Entoptic Phenomena (Floaters)";
+"symptoms.entopticPhenomena.description" = "Entoptic phenomena are visual effects that originate within the eye itself. In VSS this commonly includes floaters (moving shadows or threads), blue field entoptic phenomenon (tiny bright dots darting along the visual field in bright light), and self-light of the eye (patterns seen in complete darkness).";
+"symptoms.tinnitus.title" = "Tinnitus";
+"symptoms.tinnitus.description" = "A persistent ringing, buzzing, hissing, or humming sound in one or both ears with no external source. Tinnitus is reported in a significant portion of people with VSS and can range from a minor background noise to a constant, distressing sound.";
+"symptoms.brainFog.title" = "Brain Fog";
+"symptoms.brainFog.description" = "Difficulty concentrating, mental fatigue, slow processing, and trouble finding words. Brain fog in VSS can make work, reading, and conversation significantly harder, and often worsens with fatigue or overstimulation.";
+"symptoms.anxietyDepression.title" = "Anxiety, Depression & Irritability";
+"symptoms.anxietyDepression.description" = "Living with persistent visual and sensory disturbances can lead to significant emotional strain. Anxiety, depression, and heightened irritability are commonly reported alongside VSS, and addressing mental health is an important part of overall management.";
+"symptoms.sleepDifficulties.title" = "Sleep Difficulties";
+"symptoms.sleepDifficulties.description" = "Trouble falling asleep, staying asleep, or feeling rested. Visual snow and related symptoms can be more noticeable in the dark and quiet of night, making it harder to wind down. Some people also report vivid dreams or hypnagogic imagery.";
+"symptoms.dizziness.title" = "Dizziness";
+"symptoms.dizziness.description" = "A sense of lightheadedness, unsteadiness, or feeling off-balance. Dizziness in VSS may be triggered by busy visual environments, screens, or physical movement, and can contribute to difficulty with everyday tasks.";
+"symptoms.vertigo.title" = "Vertigo";
+"symptoms.vertigo.description" = "A spinning or rotational sensation, as if the room is moving. Vertigo differs from general dizziness and can be episodic or persistent. It may accompany or overlap with migraine, which is commonly associated with VSS.";
+"symptoms.dpdr.title" = "Depersonalization-Derealization (DPDR)";
+"symptoms.dpdr.description" = "A feeling of being detached from your own thoughts, body, or surroundings, or of the world seeming unreal, dreamlike, or far away. DPDR is reported by many with VSS and can be one of the most distressing non-visual symptoms.";
+"symptoms.addImage" = "Add image";
