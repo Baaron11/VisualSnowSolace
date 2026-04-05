@@ -565,3 +565,10 @@
 "symptoms.dpdr.title" = "Depersonalization-Derealization (DPDR)";
 "symptoms.dpdr.description" = "A feeling of being detached from your own thoughts, body, or surroundings, or of the world seeming unreal, dreamlike, or far away. DPDR is reported by many with VSS and can be one of the most distressing non-visual symptoms.";
 "symptoms.addImage" = "Add image";
+
+/* ── RedGreenWordView ── */
+"redGreen.warning.title" = "Red/Green Glasses Required";
+"redGreen.warning.body" = "This exercise requires red/green anaglyphic glasses — red lens on the left eye, green on the right. Without them the exercise will not work as intended.\n\nYou can find these online or through a vision therapist.";
+"redGreen.warning.dismiss" = "Got it";
+"redGreen.warning.dismiss.accessibility" = "Dismiss glasses reminder";
+"redGreen.warning.icon.accessibility" = "Eyeglasses icon";

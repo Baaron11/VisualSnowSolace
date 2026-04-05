@@ -132,19 +132,20 @@ struct RedGreenWordView: View {
                 Image(systemName: "eyeglasses")
                     .font(.system(size: 48))
                     .foregroundStyle(.primary)
-                Text("Red/Green Glasses Required")
+                    .accessibilityLabel(NSLocalizedString("redGreen.warning.icon.accessibility", comment: ""))
+                Text(NSLocalizedString("redGreen.warning.title", comment: ""))
                     .font(.title2.bold())
                     .multilineTextAlignment(.center)
-                Text("This exercise requires red/green anaglyphic glasses — red lens on the left eye, green on the right. Without them the exercise will not work as intended.\n\nYou can find these online or through a vision therapist.")
+                Text(NSLocalizedString("redGreen.warning.body", comment: ""))
                     .font(.body)
                     .foregroundStyle(.secondary)
                     .multilineTextAlignment(.center)
-                Button("Got it") {
+                Button(NSLocalizedString("redGreen.warning.dismiss", comment: "")) {
                     lensWarningShown = true
                 }
                 .buttonStyle(.borderedProminent)
                 .controlSize(.large)
-                .accessibilityLabel("Dismiss glasses reminder")
+                .accessibilityLabel(NSLocalizedString("redGreen.warning.dismiss.accessibility", comment: ""))
             }
             .padding(32)
             .presentationDetents([.medium])
